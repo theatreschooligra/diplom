@@ -1,0 +1,143 @@
+@extends('layouts.app')
+
+
+@section('content')
+
+    <div class="page-wrapper"> <!-- content -->
+        <div class="content container-fluid">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-lg-7 col-md-12 col-sm-12 col-12">
+                        <h5 class="text-uppercase">Добавить группу</h5>
+                    </div>
+                    <div class="col-lg-5 col-md-12 col-sm-12 col-12">
+                        <ul class="list-inline breadcrumb float-right">
+                            <li class="list-inline-item"><a href="/">Главная</a></li>
+                            <li class="list-inline-item"><a href="{{ route('admin.groups.index') }}">Группы</a></li>
+                            <li class="list-inline-item">Добавить группу</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="{{ route('admin.groups.store') }}" method="POST" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <input type="hidden" id="students_id" name="students_id">
+                            <div class="card-box">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <h4 class="card-title">Данные группы</h4><br>
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Имя:</label>
+                                            <div class="col-lg-9">
+                                                <input type="text" class="form-control" name="name" id="name" required>
+                                                @if ($errors->has('name'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('name') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Ученики:</label>
+                                            <div class="col-lg-9 custom-mt-form-group">
+                                                <select id="selectStudent">
+                                                    <option id="student-in-selection" value="0">Список учеников</option>
+                                                    @foreach(Dict::studentsForGroup() as $row)
+                                                        <option id="student-in-selection-{{ $row->user_id }}" value="{{ $row->user_id }}">{{ $row->surname .' '. $row->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right" style="margin-top: 11px">
+                                        <button type="button" class="btn btn-light" id="addStudents">Добавить</button>
+                                    </div>
+                                </div>
+                                <div class="container">
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Фамилия</th>
+                                                    <th scope="col">Имя</th>
+                                                    <th scope="col">Email</th>
+                                                    <th scope="col">Действия</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="list-of-students">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <button class="btn btn-primary">Отправить</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('footer-content')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+    <script>
+        function onFileSelected(event) {
+            var selectedFile = event.target.files[0];
+            var reader = new FileReader();
+
+            var imgtag = document.getElementById("myimage");
+            imgtag.title = selectedFile.name;
+
+            reader.onload = function(event) {
+                imgtag.src = event.target.result;
+            };
+
+            reader.readAsDataURL(selectedFile);
+        }
+        $(document).ready(function() {
+            $('input[name="phone_number"]').mask('0 (000) 000 00-00');
+        });
+
+        var arrayOfSelectedStudents = [];
+
+        $('#addStudents').on('click', function () {
+            var id = $('#selectStudent').val();
+            if (id != 0) {
+                arrayOfSelectedStudents.push(id);
+
+                $.ajax({
+                    url: "/api/users/"+ id,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#list-of-students').append('<tr class="student-'+ id +'">');
+                        $('#list-of-students').append('<td>'+ arrayOfSelectedStudents.length +'</td>');
+                        $('#list-of-students').append('<td>' + data.data.surname + '</td>');
+                        $('#list-of-students').append('<td>' + data.data.name + '</td>');
+                        $('#list-of-students').append('<td>' + data.data.email + '</td>');
+                        $('#list-of-students').append('<td><button type="button" id="asd" class="delete-modal btn btn-danger btn-sm" data-id="' + data.data.id + '">Удалить</button></td>');
+                        $('#list-of-students').append('</tr>');
+                        $('#students_id').val(arrayOfSelectedStudents);
+                        $('#student-in-selection-' + data.data.id).remove();
+                    }, error: function (error) {
+                        console.log("ERRROR: "+ error);
+                    }
+                });
+            }
+        });
+    </script>
+@endsection
