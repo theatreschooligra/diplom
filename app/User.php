@@ -44,9 +44,11 @@ class User extends Authenticatable
     {
         if ($this->role_id == 3)        return $this->hasOne(StudentsField::class);
         if ($this->role_id == 2)        return $this->hasOne(TeachersField::class);
-        dd($this->role_id);
+    }
 
-        return null;
+    public function students()
+    {
+        return $this->hasOne(StudentsField::class, 'user_id');
     }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

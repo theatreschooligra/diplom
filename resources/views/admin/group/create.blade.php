@@ -32,7 +32,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Имя:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" class="form-control" name="name" id="name" required>
+                                                <input type="text" class="form-control" name="name" required>
                                                 @if ($errors->has('name'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('name') }}</strong>
@@ -49,7 +49,7 @@
                                             <div class="col-lg-9 custom-mt-form-group">
                                                 <select id="selectStudent">
                                                     <option id="student-in-selection" value="0">Список учеников</option>
-                                                    @foreach(Dict::studentsForGroup() as $row)
+                                                    @foreach(Dict::listOfStudentsNotIncludedGroup() as $row)
                                                         <option id="student-in-selection-{{ $row->user_id }}" value="{{ $row->user_id }}">{{ $row->surname .' '. $row->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -65,13 +65,13 @@
                                         <div class="col-md-12">
                                             <table class="table">
                                                 <thead>
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Фамилия</th>
-                                                    <th scope="col">Имя</th>
-                                                    <th scope="col">Email</th>
-                                                    <th scope="col">Действия</th>
-                                                </tr>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Фамилия</th>
+                                                        <th scope="col">Имя</th>
+                                                        <th scope="col">Email</th>
+                                                        <th scope="col">Действия</th>
+                                                    </tr>
                                                 </thead>
                                                 <tbody id="list-of-students">
                                                 </tbody>
@@ -124,13 +124,13 @@
                     method: 'GET',
                     dataType: 'json',
                     success: function (data) {
-                        $('#list-of-students').append('<tr class="student-'+ id +'">');
-                        $('#list-of-students').append('<td>'+ arrayOfSelectedStudents.length +'</td>');
-                        $('#list-of-students').append('<td>' + data.data.surname + '</td>');
-                        $('#list-of-students').append('<td>' + data.data.name + '</td>');
-                        $('#list-of-students').append('<td>' + data.data.email + '</td>');
-                        $('#list-of-students').append('<td><button type="button" id="asd" class="delete-modal btn btn-danger btn-sm" data-id="' + data.data.id + '">Удалить</button></td>');
-                        $('#list-of-students').append('</tr>');
+                        $('#list-of-students').append('<tr class="student-'+ data.data.id +'">' +
+                                '<td>'+ arrayOfSelectedStudents.length +'</td>' +
+                                '<td>' + data.data.surname + '</td>' +
+                                '<td>' + data.data.name + '</td>' +
+                                '<td>' + data.data.email + '</td>' +
+                                '<td><button type="button" class="delete-modal btn btn-danger btn-sm" value="' + data.data.id + '">Удалить</button></td>' +
+                            '</tr>');
                         $('#students_id').val(arrayOfSelectedStudents);
                         $('#student-in-selection-' + data.data.id).remove();
                     }, error: function (error) {
@@ -139,5 +139,9 @@
                 });
             }
         });
+
+        $('.delete-modal').on('click', function () {
+            console.log('delete-link');
+        })
     </script>
 @endsection

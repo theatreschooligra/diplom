@@ -13,14 +13,14 @@ class Dict
         return Group::all();
     }
 
-    public static function studentsForGroup()
+    public static function listOfStudentsNotIncludedGroup()
     {
         return StudentsField::query()->where('group_id', null)->get();
     }
 
-    public static function studentsIncludedToGroup($id)
+    public static function listOfStudentsIncludedGroup($id = null)
     {
-        return User::query()->where('role_id', 3)->whereHas('fields', function ($query) use ($id) {
+        return User::query()->where('role_id', 3)->whereHas('students', function ($query) use ($id) {
             $query->where('group_id', $id);
         })->get();
     }

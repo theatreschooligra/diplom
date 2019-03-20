@@ -42,13 +42,12 @@ class GroupsController extends Controller
     {
         $student_id = explode(',', $request->students_id);
 
-
         $group = Group::create([
             'name'      => $request->name
         ]);
 
         foreach ($student_id as $key => $value)
-            $user = User::find($value)->fields->update([
+            User::find($value)->fields->update([
                 'group_id' => $group->id
             ]);
 
@@ -69,12 +68,12 @@ class GroupsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Group $group
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Group $group)
     {
-        //
+        return view('admin.group.edit', compact('group'));
     }
 
     /**
@@ -84,8 +83,16 @@ class GroupsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(GroupRequest $request, Group $group)
     {
+        $student_id = explode(',', $request->students_id);
+
+        $group->update($request->only('name'));
+
+        foreach ($student_id as $key => $value)
+            User::find($value)->fields->update([
+                'group_id' => $group->id
+            ]);
 
         return redirect()->route('admin.groups.index');
     }
