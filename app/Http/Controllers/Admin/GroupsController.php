@@ -51,7 +51,7 @@ class GroupsController extends Controller
                 'group_id' => $group->id
             ]);
 
-        return redirect()->route('admin.groups.index');
+        return redirect()->route('admin.group.index');
     }
 
     /**
@@ -94,7 +94,7 @@ class GroupsController extends Controller
                 'group_id' => $group->id
             ]);
 
-        return redirect()->route('admin.groups.index');
+        return redirect()->route('admin.group.index');
     }
 
     /**
@@ -107,6 +107,6 @@ class GroupsController extends Controller
     {
         dd($group);
         $group->delete();
-        return redirect()->route('admin.groups.index');
+        return redirect()->route('admin.group.index');
     }
 }

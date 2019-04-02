@@ -27,10 +27,10 @@
                 <div class="col-sm-4 col-3">
                 </div>
                 <div class="col-sm-8 col-9 text-right m-b-20">
-                    <a href="{{ route('admin.users.create', ['role' => $role->id]) }}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Student</a>
+                    <a href="{{ route('admin.user.create', ['role' => $role->id]) }}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Student</a>
                     <div class="view-icons">
-                        <a href="{{ route('admin.users.index', ['view' => 2, 'role' => $role->id]) }}" class="grid-view btn btn-link active"><i class="fa fa-th"></i></a>
-                        <a href="{{ route('admin.users.index', ['view' => 1, 'role' => $role->id]) }}) }}" class="list-view btn btn-link"><i class="fa fa-bars"></i></a>
+                        <a href="{{ route('admin.user.index', ['view' => 2, 'role' => $role->id]) }}" class="grid-view btn btn-link active"><i class="fa fa-th"></i></a>
+                        <a href="{{ route('admin.user.index', ['view' => 1, 'role' => $role->id]) }}) }}" class="list-view btn btn-link"><i class="fa fa-bars"></i></a>
                     </div>
                 </div>
             </div>
@@ -76,8 +76,8 @@
                                 <div class="dropdown profile-action">
                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="{{ route('admin.users.edit', $user->id) }}"><i class="fa fa-pencil m-r-5"></i> Редактировать</a>
-                                        <a class="dropdown-item" href="{{ route('admin.users.destroy', $user->id) }}" data-toggle="modal" data-target="#delete_employee"><i class="fa fa-trash-o m-r-5"></i> Удалить</a>
+                                        <a class="dropdown-item" href="{{ route('admin.user.edit', $user->id) }}"><i class="fa fa-pencil m-r-5"></i> Редактировать</a>
+                                        <a class="dropdown-item" href="{{ route('admin.user.destroy', $user->id) }}" data-toggle="modal" data-target="#delete_employee"><i class="fa fa-trash-o m-r-5"></i> Удалить</a>
                                     </div>
                                     <div id="delete_employee" class="modal" role="dialog">
                                         <div class="modal-dialog">
@@ -85,7 +85,7 @@
                                                 <div class="modal-header">
                                                     <h4 class="modal-title">Удалить пользователя</h4>
                                                 </div>
-                                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
+                                                <form action="{{ route('admin.user.destroy', $user->id) }}" method="POST">
                                                     {{ method_field('DELETE') }}
                                                     <div class="modal-body card-box">
                                                         <p>Вы точно хотите удалить {{ $user->fields->surname .' '. $user->fields->name }}</p>

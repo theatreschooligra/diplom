@@ -7,9 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 class Lesson extends Model
 {
     protected $fillable = [
-        'group_id', 'time', 'room'
+        'name', 'group_id', 'time', 'room'
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

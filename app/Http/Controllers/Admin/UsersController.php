@@ -29,9 +29,9 @@ class UsersController extends Controller
         $role = Role::find($role_id);
 
         if ($request->view == 2)
-            return view('admin.users.index2', compact('users', 'role'));
+            return view('admin.user.index2', compact('users', 'role'));
 
-        return view('admin.users.index', compact('users', 'role'));
+        return view('admin.user.index', compact('users', 'role'));
     }
 
     /**
@@ -44,7 +44,7 @@ class UsersController extends Controller
         $role_id = ($request->role == null) ? 3 : $request->role;
         $role = Role::find($role_id);
 
-        return view('admin.users.create', compact('role'));
+        return view('admin.user.create', compact('role'));
     }
 
     /**
@@ -96,7 +96,7 @@ class UsersController extends Controller
             TeachersField::create($user_fields);
         }
 
-        return redirect()->route('admin.users.index', ['role' => $request->role_id]);
+        return redirect()->route('admin.user.index', ['role' => $request->role_id]);
     }
 
     /**
@@ -121,7 +121,7 @@ class UsersController extends Controller
         $role = Role::find($role_id);
 
 
-        return view('admin.users.edit', compact('role', 'user'));
+        return view('admin.user.edit', compact('role', 'user'));
     }
 
     /**
@@ -173,7 +173,7 @@ class UsersController extends Controller
         $user->fields->update($user_fields);
 
 
-        return redirect()->route('admin.users.index', ['role' => $user->role_id]);
+        return redirect()->route('admin.user.index', ['role' => $user->role_id]);
     }
 
     /**
@@ -184,6 +184,6 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('admin.users.index', ['role' => $user->role_id]);
+        return redirect()->route('admin.user.index', ['role' => $user->role_id]);
     }
 }

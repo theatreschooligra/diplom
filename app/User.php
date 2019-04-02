@@ -46,10 +46,16 @@ class User extends Authenticatable
         if ($this->role_id == 2)        return $this->hasOne(TeachersField::class);
     }
 
-    public function students()
+    public function student()
     {
         return $this->hasOne(StudentsField::class, 'user_id');
     }
+
+    public function teacher()
+    {
+        return $this->hasOne(TeachersField::class, 'user_id');
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

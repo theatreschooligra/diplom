@@ -18,7 +18,7 @@
                     <div class="col-lg-5 col-md-12 col-sm-12 col-12">
                         <ul class="list-inline breadcrumb float-right">
                             <li class="list-inline-item"><a href="/admin">Главная</a></li>
-                            <li class="list-inline-item">Группы</li>
+                            <li class="list-inline-item">Занятия</li>
                         </ul>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
 
                 </div>
                 <div class="col-sm-8 col-9 text-right m-b-20">
-                    <a href="{{ route('admin.group.create') }}" class="btn btn-primary float-right btn-rounded"><i class="fa fa-plus">Добавить группу</i></a>
+                    <a href="{{ route('admin.lesson.create') }}" class="btn btn-primary float-right btn-rounded"><i class="fa fa-plus">Добавить занятие</i></a>
                 </div>
             </div>
             <div class="content-page">
@@ -38,44 +38,42 @@
                             <table class="table table-striped custom-table datatable" id="example">
                                 <thead>
                                 <tr>
-                                    <th style="width:20%;">Имя </th>
-                                    <th>Тип курса</th>
-                                    <th>Количество учеников</th>
+                                    <th>Имя </th>
+                                    <th>Группа</th>
+                                    <th>Преподаватель</th>
+                                    <th>Зал</th>
+                                    <th>Время</th>
                                     <th class="text-right" style="width:15%;">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($groups as $group)
+                                    @foreach($lessons as $lesson)
                                         <tr>
                                             <td>
-                                                <h2><a href="#">{{ $group->name }}<span></span></a></h2>
+                                                <h2>{{ $lesson->name }}</h2>
                                             </td>
-                                            @if ($group->course_type == 1)
-                                                <td>Коммуникативный курс</td>
-                                            @elseif ($group->course_type == 2)
-                                                <td>Актерский курс</td>
-                                            @else
-                                                <td>Спец. курс</td>
-                                            @endif
-                                            <td>{{ $group->studentsFields->count() }}</td>
+                                            <td>{{ $lesson->group->name }}</td>
+                                            <td>{{ $lesson->teacher->teacher->name }}</td>
+                                            <td>{{ $lesson->room }}</td>
+                                            <td>{{ \Carbon\Carbon::create($lesson->time)->format('Do MMMMM') }}</td>
                                             <td class="text-right">
-                                                <a href="{{ route('admin.group.edit', $group->id) }}" class="btn btn-primary btn-sm mb-1">
+                                                <a href="{{ route('admin.lesson.edit', $lesson->id) }}" class="btn btn-primary btn-sm mb-1">
                                                     Редактировать
                                                 </a>
-                                                <button type="submit" data-toggle="modal" data-target="#delete_employee-{{ $group->id }}" class="btn btn-danger btn-sm mb-1">
+                                                <button type="submit" data-toggle="modal" data-target="#delete_employee-{{ $lesson->id }}" class="btn btn-danger btn-sm mb-1">
                                                     Удалить
                                                 </button>
                                             </td>
-                                            <div id="delete_employee-{{ $group->id }}" class="modal" role="dialog">
+                                            <div id="delete_employee-{{ $lesson->id }}" class="modal" role="dialog">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content modal-md">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title">Удалить группу</h4>
+                                                            <h4 class="modal-title">Удалить занятие</h4>
                                                         </div>
-                                                        <form action="{{ route('admin.group.destroy', $group->id) }}" method="post">
+                                                        <form action="{{ route('admin.lesson.destroy', $lesson->id) }}" method="post">
                                                             {{ method_field('DELETE') }}
                                                             <div class="modal-body card-box">
-                                                                <p>Вы точно хотите удалить {{ $group->name  }}</p>
+                                                                <p>Вы точно хотите удалить {{ $lesson->name  }}</p>
                                                                 <div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Закрыть</a>
                                                                     <button type="submit" class="btn btn-danger">Удалить</button>
                                                                 </div>

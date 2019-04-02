@@ -13,7 +13,7 @@
                     <div class="col-lg-5 col-md-12 col-sm-12 col-12">
                         <ul class="list-inline breadcrumb float-right">
                             <li class="list-inline-item"><a href="/">Главная</a></li>
-                            <li class="list-inline-item"><a href="{{ route('admin.groups.index') }}">Группы</a></li>
+                            <li class="list-inline-item"><a href="{{ route('admin.group.index') }}">Группы</a></li>
                             <li class="list-inline-item">Добавить группу</li>
                         </ul>
                     </div>
@@ -22,7 +22,7 @@
             <div class="page-content">
                 <div class="row">
                     <div class="col-md-12">
-                        <form action="{{ route('admin.groups.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.group.store') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <input type="hidden" id="students_id" name="students_id">
                             <div class="card-box">

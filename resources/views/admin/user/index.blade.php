@@ -34,10 +34,10 @@
 
                 </div>
                 <div class="col-sm-8 col-9 text-right m-b-20">
-                    <a href="{{ route('admin.users.create', ['role' => $role->id]) }}" class="btn btn-primary float-right btn-rounded"><i class="fa fa-plus">Добавить пользователя</i></a>
+                    <a href="{{ route('admin.user.create', ['role' => $role->id]) }}" class="btn btn-primary float-right btn-rounded"><i class="fa fa-plus">Добавить пользователя</i></a>
                     <div class="view-icons">
-                        <a href="{{ route('admin.users.index', ['view' => 2, 'role' => $role->id]) }}" class="grid-view btn btn-link"><i class="fa fa-th"></i></a>
-                        <a href="{{ route('admin.users.index', ['view' => 1, 'role' => $role->id]) }}" class="list-view btn btn-link active"><i class="fa fa-bars"></i></a>
+                        <a href="{{ route('admin.user.index', ['view' => 2, 'role' => $role->id]) }}" class="grid-view btn btn-link"><i class="fa fa-th"></i></a>
+                        <a href="{{ route('admin.user.index', ['view' => 1, 'role' => $role->id]) }}" class="list-view btn btn-link active"><i class="fa fa-bars"></i></a>
                     </div>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                                             <td>{{ (\Carbon\Carbon::createFromFormat('Y-m-d', $user->fields->birthday))->format('d/m/Y') }}</td>
                                             <td>{{ $user->fields->mobile }}</td>
                                             <td class="text-right">
-                                                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary btn-sm mb-1">
+                                                <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-primary btn-sm mb-1">
                                                     Edit
                                                 </a>
                                                 <button type="submit" data-toggle="modal" data-target="#delete_employee" class="btn btn-danger btn-sm mb-1">
@@ -93,7 +93,7 @@
                                                         <div class="modal-header">
                                                             <h4 class="modal-title">Удалить пользователя</h4>
                                                         </div>
-                                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="post">
+                                                        <form action="{{ route('admin.user.destroy', $user->id) }}" method="post">
                                                             {{ method_field('DELETE') }}
                                                             <div class="modal-body card-box">
                                                                 <p>Вы точно хотите удалить {{ $user->fields->surname .' '. $user->fields->name }}</p>

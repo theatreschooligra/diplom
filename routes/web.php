@@ -17,9 +17,13 @@ Route::group([
     'as'            => 'admin.'
 ], function () {
 
-    Route::resource('users', 'UsersController');
-    Route::resource('groups', 'GroupsController');
+    Route::resource('user',    'UsersController');
+    Route::resource('group',   'GroupsController');
+    Route::resource('lesson',  'LessonsController');
 
+    Route::group(['prefix' => 'api', 'as' => 'api'], function () {
+        Route::get('group', 'HomeController@group')->name('group');
+    });
 });
 
 

@@ -9,13 +9,16 @@
                 <li class="submenu">
                     <a href="#"><i class="fa fa-user" aria-hidden="true"></i> <span> Пользователи</span> <span class="menu-arrow"></span></a>
                     <ul class="list-unstyled" style="display: none;">
-                        <li><a href="{{ route('admin.users.index', ['role' => '1']) }}">Админ</a></li>
-                        <li><a href="{{ route('admin.users.index', ['role' => '2']) }}">Преподаватели</a></li>
-                        <li><a href="{{ route('admin.users.index', ['role' => '3']) }}">Ученики</a></li>
+                        <li><a href="{{ route('admin.user.index', ['role' => '1']) }}">Админ</a></li>
+                        <li><a href="{{ route('admin.user.index', ['role' => '2']) }}">Преподаватели</a></li>
+                        <li><a href="{{ route('admin.user.index', ['role' => '3']) }}">Ученики</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="{{ route('admin.groups.index') }}" style="width: 80%; display: inline-block;"><i class="fa fa-calendar" aria-hidden="true"></i> Группа</a>
+                    <a href="{{ route('admin.group.index') }}" style="width: 80%; display: inline-block;"><i class="fa fa-calendar" aria-hidden="true"></i> Группа</a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.lesson.index') }}" style="width: 80%; display: inline-block;"><i class="fa fa-calendar" aria-hidden="true"></i> Занятия</a>
                 </li>
                 {{--<li>
                     <a href="calendar.html" style="width: 80%; display: inline-block;"><i class="fa fa-calendar" aria-hidden="true"></i> Calendar</a>
