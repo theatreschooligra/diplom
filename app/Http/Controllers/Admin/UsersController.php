@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Group;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Mail\SendMail;
 use App\Role;
 use App\StudentsField;
 use App\TeachersField;
@@ -13,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
 {
@@ -54,6 +56,7 @@ class UsersController extends Controller
     public function store(CreateUserRequest $request)
     {
         $img = null;
+        $password = str_random(8);
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -66,7 +69,7 @@ class UsersController extends Controller
         $user = User::create([
             'role_id'       => $request->role_id,
             'email'         => $request->email,
-            'password'      => bcrypt($request->password),
+            'password'      => bcrypt($password),
             'image'         => $img
         ]);
 
@@ -95,6 +98,8 @@ class UsersController extends Controller
 
             TeachersField::create($user_fields);
         }
+
+        Mail::send(new SendMail($user, $password));
 
         return redirect()->route('admin.user.index', ['role' => $request->role_id]);
     }
@@ -183,6 +188,7 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
+        dd("asd");
         $user->delete();
         return redirect()->route('admin.user.index', ['role' => $user->role_id]);
     }

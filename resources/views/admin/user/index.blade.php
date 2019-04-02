@@ -78,33 +78,18 @@
                                             <td>{{ $user->getGender() }}</td>
                                             <td>{{ $user->fields->address }}</td>
                                             <td>{{ (\Carbon\Carbon::createFromFormat('Y-m-d', $user->fields->birthday))->format('d/m/Y') }}</td>
-                                            <td>{{ $user->fields->mobile }}</td>
+                                            <td>{{ $user->fields->phone_number }}</td>
                                             <td class="text-right">
                                                 <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-primary btn-sm mb-1">
                                                     Edit
                                                 </a>
-                                                <button type="submit" data-toggle="modal" data-target="#delete_employee" class="btn btn-danger btn-sm mb-1">
-                                                    Delete
-                                                </button>
+                                                <form action="{{ route('admin.user.destroy', $user->id) }}" method="POST">
+                                                    {{ method_field('DELETE') }}
+                                                    <button type="submit" class="btn btn-danger btn-sm mb-1">
+                                                        Delete
+                                                    </button>
+                                                </form>
                                             </td>
-                                            <div id="delete_employee" class="modal" role="dialog">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content modal-md">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Удалить пользователя</h4>
-                                                        </div>
-                                                        <form action="{{ route('admin.user.destroy', $user->id) }}" method="post">
-                                                            {{ method_field('DELETE') }}
-                                                            <div class="modal-body card-box">
-                                                                <p>Вы точно хотите удалить {{ $user->fields->surname .' '. $user->fields->name }}</p>
-                                                                <div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Закрыть</a>
-                                                                    <button type="submit" class="btn btn-danger">Удалить</button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </tr>
                                     @endforeach
                                 </tbody>

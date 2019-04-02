@@ -12,6 +12,7 @@
 */
 
 Route::group([
+    'middleware'    => 'admin',
     'prefix'        => 'admin',
     'namespace'     => 'Admin',
     'as'            => 'admin.'
@@ -21,9 +22,9 @@ Route::group([
     Route::resource('group',   'GroupsController');
     Route::resource('lesson',  'LessonsController');
 
-    Route::group(['prefix' => 'api', 'as' => 'api'], function () {
-        Route::get('group', 'HomeController@group')->name('group');
-    });
+//    Route::group(['prefix' => 'api', 'as' => 'api'], function () {
+//        Route::get('group', 'HomeController@group')->name('group');
+//    });
 });
 
 
