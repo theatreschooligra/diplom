@@ -47,21 +47,55 @@
                         <div class="table-responsive">
                             <table class="table table-striped custom-table datatable" id="example">
                                 <thead>
-                                <tr>
-                                    <th style="width:20%;">Имя </th>
-                                    <th>Email</th>
-                                    @if ($role->id == 3)
-                                        <th>Имя родителя</th>
-                                        <th>Группа</th>
-                                    @endif
-                                    <th>Пол</th>
-                                    <th>Адрес</th>
-                                    <th>День рождение</th>
-                                    <th>Телефонный номер</th>
-                                    <th class="text-right" style="width:15%;">Action</th>
-                                </tr>
+                                    <tr>
+                                        <th style="width:20%;">Имя </th>
+                                        <th>Email</th>
+                                        @if ($role->id == 3)
+                                            <th>Имя родителя</th>
+                                            <th>Группа</th>
+                                        @endif
+                                        <th>Пол</th>
+                                        <th>Адрес</th>
+                                        <th>День рождение</th>
+                                        <th>Телефонный номер</th>
+                                        <th class="text-right" style="width:15%;">Action</th>
+                                    </tr>
+                                    <tr>
+                                        <td><input id="name_search" class="form-control column-search"></td>
+                                        <td><input id="email_search" class="form-control column-search"></td>
+                                        <td><input id="parent_name_search" class="form-control column-search"></td>
+                                        <td>
+                                            <select id="group_search" class="form-control column-search">
+                                                <option selected value="0">Выбрать...</option>
+                                                @foreach(Dict::groups() as $group)
+                                                    <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="gender_search" class="form-control column-search">
+                                                <option value="" selected="selected">Выбрать...</option>
+                                                <option value="1">Парень</option>
+                                                <option value="0">Девушка</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input id="address_search" class="form-control column-search">
+                                        </td>
+                                        <td>
+                                            <input id="birthday_from_search" class="form-control column-search datetimepicker" placeholder="с">
+                                            <input id="birthday_to_search" class="form-control column-search datetimepicker" placeholder="по">
+                                        </td>
+                                        <td>
+                                            <input id="phone_number_search" class="form-control column-search">
+                                        </td>
+                                        <td class="text-right">
+                                            <button type="submit" onclick="ResetSearchFields()">Сбросить</button>
+                                        </td>
+                                    </tr>
                                 </thead>
                                 <tbody>
+
                                     @foreach($users as $user)
                                         <tr>
                                             <td>
@@ -80,13 +114,14 @@
                                             <td>{{ (\Carbon\Carbon::createFromFormat('Y-m-d', $user->fields->birthday))->format('d/m/Y') }}</td>
                                             <td>{{ $user->fields->phone_number }}</td>
                                             <td class="text-right">
-                                                <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-primary btn-sm mb-1">
-                                                    Edit
-                                                </a>
                                                 <form action="{{ route('admin.user.destroy', $user->id) }}" method="POST">
-                                                    {{ method_field('DELETE') }}
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-primary btn-sm mb-1">
+                                                        Редактировать
+                                                    </a>
                                                     <button type="submit" class="btn btn-danger btn-sm mb-1">
-                                                        Delete
+                                                        Удалить
                                                     </button>
                                                 </form>
                                             </td>
@@ -101,15 +136,30 @@
         </div>
     </div>
 
-
 @endsection
 
 @section('footer-content')
     <script type="text/javascript" src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#example').DataTable();
         });
+
+        $('#phone_number_search').mask('0 (000) 000 00-00');
+
+        function ResetSearchFields() {
+            $('#name_search').val('');
+            $('#email_search').val('');
+            $('#parent_name_search').val('');
+            $('#group_search').val('0');
+            $("#gender_search").val('');
+            $('#address_search').val('');
+            $('#birthday_from_search').val('');
+            $('#birthday_to_search').val('');
+            $('#phone_number_search').val('');
+        }
     </script>
 @endsection
