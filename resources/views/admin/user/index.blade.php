@@ -1,9 +1,16 @@
 @extends('layouts.app')
 
 @section('head-content')
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+        table td, th {
+            min-width: 110px;
+        }
+        .column-search {
+            font-size: 15px;
+        }
+    </style>
 @endsection
 
 
@@ -48,17 +55,17 @@
                             <table class="table table-striped custom-table datatable" id="example">
                                 <thead>
                                     <tr>
-                                        <th style="width:20%;">Имя </th>
+                                        <th style="width:15%;">Имя </th>
                                         <th>Email</th>
                                         @if ($role->id == 3)
-                                            <th>Имя родителя</th>
+                                            <th style="width:15%;">Имя родителя</th>
                                             <th>Группа</th>
                                         @endif
                                         <th>Пол</th>
                                         <th>Адрес</th>
                                         <th>День рождение</th>
                                         <th>Телефонный номер</th>
-                                        <th class="text-right" style="width:15%;">Action</th>
+                                        <th class="text-right" style="width:13%;">Action</th>
                                     </tr>
                                     <tr>
                                         <td><input id="name_search" class="form-control column-search"></td>
@@ -94,15 +101,14 @@
                                         </td>
                                     </tr>
                                 </thead>
-                                <tbody>
-
+                                <tbody id="list-of-users">
                                     @foreach($users as $user)
                                         <tr>
                                             <td>
-                                                <a href="profile.html" class="avatar">
+                                                <a href="#" class="avatar">
                                                     {!! ($user->fields->image == null) ? $user->fields->name[0] : '<img src="'. asset('img/'. $user->fields->image) .'">' !!}
                                                 </a>
-                                                <h2><a href="profile.html">{{ $user->fields->surname .' '. $user->fields->name }}<span></span></a></h2>
+                                                <h2><a href="#">{{ $user->fields->surname .' '. $user->fields->name }}<span></span></a></h2>
                                             </td>
                                             <td>{{ $user->email }}</td>
                                             @if ($role->id != null)
@@ -139,16 +145,27 @@
 @endsection
 
 @section('footer-content')
-    <script type="text/javascript" src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#example').DataTable();
-        });
+            $('#example').DataTable({
+                "pagingType"    : "first_last_numbers",
+                "searching"     : false,
+                "stateSave"     : true,
+                "scrollX"       : true,
+                "orderCellsTop" : true
+            });
+            $('#phone_number_search').mask('0 (000) 000 00-00');
 
-        $('#phone_number_search').mask('0 (000) 000 00-00');
+            $('.column-search').on('change', function () {
+                search();
+            });
+        });
 
         function ResetSearchFields() {
             $('#name_search').val('');
@@ -160,6 +177,64 @@
             $('#birthday_from_search').val('');
             $('#birthday_to_search').val('');
             $('#phone_number_search').val('');
+
+            search();
+        }
+
+        function search() {
+            $.ajax({
+                url: "{{ route('admin.search.users') }}",
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    '_token'        : $('input[name="_token"]').val(),
+                    'name'          : $('#name_search').val(),
+                    'email'         : $('#email_search').val(),
+                    'parent_name'   : $('#parent_name_search').val(),
+                    'group_id'      : $('#group_search').val(),
+                    'gender'        : $('#gender_search').val(),
+                    'birthday_from' : $('#birthday_from_search').val(),
+                    'birthday_to'   : $('#birthday_to_search').val(),
+                    'phone_number'  : $('#phone_number_search').val()
+                },
+                success: function (data) {
+                    $('#list-of-users').html('');
+                    for (var i = 0; i < data.length; i++) {
+                        var img = data[i].student.name[0];
+                        if (data[i].student.image != null)
+                            img = '<img src="/img/'+ data[i].student.image +'">';
+                        $('#list-of-users').append('<tr>' +
+                            '<td>' +
+                            '<a href="#" class="avatar">'+ img +'</a>' +
+                            '<h2>' +
+                            '<a href="#">'+ data[i].student.surname +' '+ data[i].student.name +'<span></span></a>' +
+                            '</h2>' +
+                            '</td>' +
+                            '<td>'+ data[i].email +'</td>' +
+                            '<td>'+ data[i].student.parent_surname +' '+ data[i].student.parent_name +'</td>' +
+                            '<td>'+ ((data[i].student.group == null) ? '' : data[i].student.group.name +'</td>') +
+                            '<td>'+ ((data[i].student.gender) ? 'Male' : 'Female') +'</td>' +
+                            '<td>'+ data[i].student.address +'</td>' +
+                            '<td>{{ (\Carbon\Carbon::createFromFormat('Y-m-d', $user->fields->birthday))->format('d/m/Y') }}</td>' +
+                            '<td>'+ data[i].student.phone_number +'</td>' +
+                            '<td class="text-right">' +
+                            '<form action="/admin/user/'+ data[i].id +'" method="POST">' +
+                            '{{ csrf_field() }}' +
+                            '{{ method_field('DELETE') }}' +
+                            '<a href="/admin/user/'+ data[i].id +'/edit" class="btn btn-primary btn-sm mb-1">' +
+                            'Редактировать' +
+                            '</a>' +
+                            '<button type="submit" class="btn btn-danger btn-sm mb-1">' +
+                            'Удалить' +
+                            '</button>' +
+                            '</form>' +
+                            '</td>' +
+                            '</tr>');
+                    }
+                }, error: function (data) {
+                    console.log(data.toString());
+                }
+            });
         }
     </script>
 @endsection

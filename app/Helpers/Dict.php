@@ -35,7 +35,7 @@ class Dict
 
     public static function listOfStudentsIncludedGroup($id = null)
     {
-        return User::query()->where('role_id', 3)->whereHas('students', function ($query) use ($id) {
+        return User::query()->where('role_id', 3)->whereHas('student', function ($query) use ($id) {
             $query->where('group_id', $id);
         })->get();
     }

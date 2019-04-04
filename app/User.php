@@ -61,7 +61,7 @@ class User extends Authenticatable
      */
     public function group()
     {
-        return $this->fields->belongsTo(Group::class);
+        return $this->student->belongsTo(Group::class);
     }
 
     /**

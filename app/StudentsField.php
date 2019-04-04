@@ -18,4 +18,9 @@ class StudentsField extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
 }

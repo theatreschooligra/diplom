@@ -188,6 +188,7 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
+        dd("asd");
         $user->delete();
         return redirect()->route('admin.user.index', ['role' => $user->role_id]);
     }

@@ -241,10 +241,12 @@
             $('input[name="phone_number"]').mask('0 (000) 000 00-00');
         });
 
-        ClassicEditor
-            .create( document.querySelector( '#editor' ) )
-            .catch( error => {
-                console.error( error );
-            } );
+        @if ($role->id == 2)
+            ClassicEditor
+                .create( document.querySelector( '#editor' ) )
+                .catch( error => {
+                    console.error( error );
+                } );
+        @endif
     </script>
 @endsection
