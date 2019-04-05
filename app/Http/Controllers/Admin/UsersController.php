@@ -155,12 +155,11 @@ class UsersController extends Controller
             $img = time() . '.' . $image->getClientOriginalExtension();
             $destinationPath = public_path('/img');
             $image->move($destinationPath, $img);
-            if (File::exists('img/' . $user->image)) {
-                File::delete('img/' . $user->image);
+            if (File::exists('img/' . $user->fields->image)) {
+                File::delete('img/'. $user->fields->image);
             }
             $user_fields['image'] = $img;
         }
-
 
         if ($user->role_id == 3) {
 

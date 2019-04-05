@@ -16,7 +16,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
+//        return ReminderResource::collection(Reminder::paginate(10));
     }
 
     /**

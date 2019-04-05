@@ -7,7 +7,7 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-lg-7 col-md-12 col-sm-12 col-12">
-                        <h5 class="text-uppercase">All Students</h5>
+                        <h5 class="text-uppercase">Все пользователи</h5>
                     </div>
                     <div class="col-lg-5 col-md-12 col-sm-12 col-12">
                         <ul class="list-inline breadcrumb float-right">
@@ -30,7 +30,7 @@
                     <a href="{{ route('admin.user.create', ['role' => $role->id, 'view' => '2']) }}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Добавить пользователя</a>
                     <div class="view-icons">
                         <a href="{{ route('admin.user.index', ['view' => 2, 'role' => $role->id]) }}" class="grid-view btn btn-link active"><i class="fa fa-th"></i></a>
-                        <a href="{{ route('admin.user.index', ['view' => 1, 'role' => $role->id]) }}) }}" class="list-view btn btn-link"><i class="fa fa-bars"></i></a>
+                        <a href="{{ route('admin.user.index', ['view' => 1, 'role' => $role->id]) }}" class="list-view btn btn-link"><i class="fa fa-bars"></i></a>
                     </div>
                 </div>
             </div>
@@ -109,19 +109,19 @@
                         'group_id'      : $('#group_search').val(),
                     },
                     success: function (data) {
-                        console.log("success");
-                        $('#list-of-users').html('');
-                        for (var i = 0; i < data.length; i++) {
 
-                            var img = data[i].student.name[0];
-                            if (data[i].student.image != null)
-                                img = '<img src="/img/'+ data[i].student.image +'">';
+                        $('#list-of-users').html('');
+                        for (var i = 0; i < data.data.length; i++) {
+
+                            var img = data.data[i].image;
+                            if (data.data[i].image.length > 1)
+                                img = '<img src="'+ data.data[i].image +'">';
 
                             var group = '';
-                            if (data[i].role_id == 3 && data[i].student.group_id != null && data[i].student.group_id != 0) {
-                                group = '<div class="small text-muted">'+ data[i].student.group.name + '</div>';
+                            if (data.data[i].role.id == 3 && data.data[i].group != null) {
+                                group = '<div class="small text-muted">'+ data.data[i].group.name + '</div>';
                             }
-                            console.log(group);
+
                             $('#list-of-users').append('<div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">' +
                                 '<div class="profile-widget">' +
                                     '<div class="profile-img">' +
@@ -130,17 +130,17 @@
                                     '<div class="dropdown profile-action">' +
                                         '<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>' +
                                         '<div class="dropdown-menu dropdown-menu-right">' +
-                                            '<form action="/admin/user/'+ data[i].id +'" method="POST">' +
+                                            '<form action="/admin/user/'+ data.data[i].id +'" method="POST">' +
                                                 '@csrf' +
                                                 '@method('DELETE')' +
                                                 '<input type="hidden" name="view" value="2">' +
-                                                '<a class="dropdown-item" href="/admin/user/'+ data[i].id +'/edit?view=2">' +
+                                                '<a class="dropdown-item" href="/admin/user/'+ data.data[i].id +'/edit?view=2">' +
                                                 '<i class="fa fa-pencil m-r-5"></i> Редактировать</a>' +
                                                 '<button type="submit" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Удалить</button>' +
                                             '</form>' +
                                         '</div>' +
                                     '</div>' +
-                                    '<h4 class="user-name m-t-10 m-b-0 text-ellipsis"><a href="#">'+ data[i].student.surname +' '+ data[i].student.name +'</a></h4>' +
+                                    '<h4 class="user-name m-t-10 m-b-0 text-ellipsis"><a href="#">'+ data.data[i].surname +' '+ data.data[i].name +'</a></h4>' +
                                     group +
                                 '</div>' +
                                 '</div>');

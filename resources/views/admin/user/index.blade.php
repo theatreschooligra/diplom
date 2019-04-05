@@ -20,7 +20,7 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-lg-7 col-md-12 col-sm-12 col-12">
-                        <h5 class="text-uppercase">students List</h5>
+                        <h5 class="text-uppercase">Все пользователи</h5>
                     </div>
                     <div class="col-lg-5 col-md-12 col-sm-12 col-12">
                         <ul class="list-inline breadcrumb float-right">
@@ -199,29 +199,38 @@
                 },
                 success: function (data) {
                     $('#list-of-users').html('');
-                    for (var i = 0; i < data.length; i++) {
-                        var img = data[i].student.name[0];
-                        if (data[i].student.image != null)
-                            img = '<img src="/img/'+ data[i].student.image +'">';
+
+                    for (var i = 0; i < data.data.length; i++) {
+
+                        var img = data.data[i].image;
+                        var group = '';
+
+                        if (data.data[i].image.length > 1)
+                            img = '<img src="'+ data.data[i].image +'">';
+
+                        if (data.data[i].role.id == 3 && data.data[i].group != null) {
+                            group = data.data[i].group.name;
+                        }
+
                         $('#list-of-users').append('<tr>' +
                             '<td>' +
-                            '<a href="#" class="avatar">'+ img +'</a>' +
-                            '<h2>' +
-                            '<a href="#">'+ data[i].student.surname +' '+ data[i].student.name +'<span></span></a>' +
-                            '</h2>' +
+                                '<a href="#" class="avatar">'+ img +'</a>' +
+                                '<h2>' +
+                                    '<a href="#">'+ data.data[i].surname +' '+ data.data[i].name +'<span></span></a>' +
+                                '</h2>' +
                             '</td>' +
-                            '<td>'+ data[i].email +'</td>' +
-                            '<td>'+ data[i].student.parent_surname +' '+ data[i].student.parent_name +'</td>' +
-                            '<td>'+ (data[i].student.group == null) ? '' : data[i].student.group.name +'</td>' +
-                            '<td>'+ (data[i].student.gender) ? 'Male' : 'Female' +'</td>' +
-                            '<td>'+ data[i].student.address +'</td>' +
-                            '<td>{{ (\Carbon\Carbon::createFromFormat('Y-m-d', $user->fields->birthday))->format('d/m/Y') }}</td>' +
-                            '<td>'+ data[i].student.phone_number +'</td>' +
+                            '<td>'+ data.data[i].email +'</td>' +
+                            '<td>'+ data.data[i].parent_surname +' '+ data.data[i].parent_name +'</td>' +
+                            '<td>'+ group +'</td>' +
+                            '<td>'+ ((data.data[i].gender) ? 'Male' : 'Female') +'</td>' +
+                            '<td>'+ data.data[i].address +'</td>' +
+                            '<td>'+ data.data[i].birthday +'</td>' +
+                            '<td>'+ data.data[i].phone_number +'</td>' +
                             '<td class="text-right">' +
-                            '<form action="/admin/user/'+ data[i].id +'" method="POST">' +
+                            '<form action="/admin/user/'+ data.data[i].id +'" method="POST">' +
                             '{{ csrf_field() }}' +
                             '{{ method_field('DELETE') }}' +
-                            '<a href="/admin/user/'+ data[i].id +'/edit" class="btn btn-primary btn-sm mb-1">' +
+                            '<a href="/admin/user/'+ data.data[i].id +'/edit" class="btn btn-primary btn-sm mb-1">' +
                             'Редактировать' +
                             '</a>' +
                             '<button type="submit" class="btn btn-danger btn-sm mb-1">' +
