@@ -15,7 +15,7 @@ class Dict
 
     public static function teachers()
     {
-        return User::query()->where('role_id', 3)->get();
+        return User::query()->where('role_id', 2)->get();
     }
 
     public static function rooms()
