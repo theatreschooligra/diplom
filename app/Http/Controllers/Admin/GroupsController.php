@@ -35,7 +35,7 @@ class GroupsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  GroupRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(GroupRequest $request)
@@ -57,8 +57,7 @@ class GroupsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
      */
     public function show($id)
     {
@@ -79,20 +78,13 @@ class GroupsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  GroupRequest  $request
+     * @param  Group $group
      * @return \Illuminate\Http\Response
      */
     public function update(GroupRequest $request, Group $group)
     {
-        $student_id = explode(',', $request->students_id);
-
         $group->update($request->only('name'));
-
-        foreach ($student_id as $key => $value)
-            User::find($value)->fields->update([
-                'group_id' => $group->id
-            ]);
 
         return redirect()->route('admin.group.index');
     }
@@ -100,12 +92,12 @@ class GroupsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Group $group
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(Group $group)
     {
-        dd($group);
         $group->delete();
         return redirect()->route('admin.group.index');
     }

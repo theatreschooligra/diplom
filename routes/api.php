@@ -17,6 +17,6 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 
-Route::group(['uses' => 'Api'], function () {
-    Route::apiResource('users',     'UsersController')->except(['store', 'index', 'update']);
-});
+Route::apiResource('users',         'Api\UsersController')->except('store', 'index', 'update');
+Route::apiResource('group-user',    'Api\GroupUserController')->only('update');
+

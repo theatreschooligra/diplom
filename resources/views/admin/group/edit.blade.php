@@ -24,8 +24,7 @@
                         <form action="{{ route('admin.group.update', $group->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            <input type="hidden" id="students_id" name="students_id"
-                                   value="{{ implode(",", Dict::listOfStudentsIncludedGroup($group->id)->pluck('id')->toArray()) }}">
+                            <input type="hidden" name="group_id" value="{{ $group->id }}">
                             <div class="card-box">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -50,8 +49,8 @@
                                             <div class="col-lg-9 custom-mt-form-group">
                                                 <select id="selectStudent">
                                                     <option id="student-in-selection" value="0">Список учеников</option>
-                                                    @foreach(Dict::listOfStudentsNotIncludedGroup() as $row)
-                                                        <option id="student-in-selection-{{ $row->user_id }}" value="{{ $row->user_id }}">{{ $row->surname .' '. $row->name }}</option>
+                                                    @foreach(Dict::listOfStudentsToGroup() as $row)
+                                                        <option id="student-in-selection-{{ $row->id }}" value="{{ $row->id }}">{{ $row->fields->surname .' '. $row->fields->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -75,13 +74,13 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody id="list-of-students">
-                                                    @foreach(Dict::listOfStudentsIncludedGroup($group->id) as $row)
+                                                    @foreach(Dict::listOfStudentsToGroup($group->id) as $row)
                                                         <tr class="student-{{ $row->id }}">
                                                             <td>{{ $loop->index+1 }}</td>
                                                             <td>{{ $row->fields->surname }}</td>
                                                             <td>{{ $row->fields->name }}</td>
                                                             <td>{{ $row->email }}</td>
-                                                            <td><button type="button" class="delete-modal btn btn-danger btn-sm" value="{{ $row->id }}">Удалить</button></td>
+                                                            <td><button type="button" class="delete-modal btn btn-danger btn-sm" onclick="groupUser({{ $row->id }}, 0)">Удалить</button></td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -102,57 +101,65 @@
 @endsection
 
 @section('footer-content')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
     <script>
-        function onFileSelected(event) {
-            var selectedFile = event.target.files[0];
-            var reader = new FileReader();
-
-            var imgtag = document.getElementById("myimage");
-            imgtag.title = selectedFile.name;
-
-            reader.onload = function(event) {
-                imgtag.src = event.target.result;
-            };
-
-            reader.readAsDataURL(selectedFile);
-        }
-        $(document).ready(function() {
-            $('input[name="phone_number"]').mask('0 (000) 000 00-00');
-        });
-
-        var arrayOfSelectedStudents = $('#students_id').val().split(',');
-
         $('#addStudents').on('click', function () {
-            console.log(arrayOfSelectedStudents);
             var id = $('#selectStudent').val();
             if (id != 0) {
-                arrayOfSelectedStudents.push(id);
-
-                $.ajax({
-                    url: "/api/users/"+ id,
-                    method: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        $('#list-of-students').append('<tr class="student-'+ data.data.id +'">' +
-                            '<td>'+ arrayOfSelectedStudents.length +'</td>' +
-                            '<td>' + data.data.surname + '</td>' +
-                            '<td>' + data.data.name + '</td>' +
-                            '<td>' + data.data.email + '</td>' +
-                            '<td><button type="button" class="delete-modal btn btn-danger btn-sm" value="' + data.data.id + '">Удалить</button></td>' +
-                            '</tr>');
-                        $('#students_id').val(arrayOfSelectedStudents);
-                        $('#student-in-selection-' + data.data.id).remove();
-                    }, error: function (error) {
-                        console.log("ERRROR: "+ error);
-                    }
-                });
+                groupUser(id, $('input[name="group_id"]').val());
             }
         });
 
-        $('.delete-modal').on('click', function () {
-            console.log('delete-link');
-        })
+        function listOfStudentsInSelection() {
+            $('#selectStudent').html('<option id="student-in-selection" value="0">Список учеников</option>');
+            $.ajax({
+                url: '/api/users?group_id='+ null,
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+
+                    for (var i = 0; i < data.data.length; i++) {
+                        $('#selectStudent').append('<option id="student-in-selection-'+ data.data[i].id +'" value="'+ data.data[i].id +'">' +
+                            data.data[i].surname +' '+ data.data[i].name +
+                            '</option>')
+                    }
+                }
+            });
+        }
+
+        function listOfStudentsInTable() {
+            $('#list-of-students').html('');
+            $.ajax({
+                url: "/api/users?group_id={{ $group->id }}",
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        $('#list-of-students').append('<tr class="student-'+ data.data.id +'">' +
+                            '<td>'+ (i+1) +'</td>' +
+                            '<td>' + data.data[i].surname + '</td>' +
+                            '<td>' + data.data[i].name + '</td>' +
+                            '<td>' + data.data[i].email + '</td>' +
+                            '<td><button type="button" class="btn btn-danger btn-sm" onclick="groupUser('+ data.data[i].id +', 0)">Удалить</button></td>' +
+                            '</tr>');
+                    }
+                }
+            });
+        }
+
+        function groupUser(user_id, group_id) {
+            $.ajax({
+                url: "/api/group-user/"+ user_id,
+                method: 'PUT',
+                data: {
+                    '_token'    : $('input[name="_token"]').val(),
+                    'group_id'  : group_id
+                },
+                dataType: 'json',
+                success: function (data) {
+                    listOfStudentsInSelection();
+                    listOfStudentsInTable();
+                }
+            });
+        }
     </script>
 @endsection

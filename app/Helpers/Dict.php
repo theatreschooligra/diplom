@@ -28,15 +28,13 @@ class Dict
         ];
     }
 
-    public static function listOfStudentsNotIncludedGroup()
-    {
-        return StudentsField::query()->where('group_id', null)->get();
-    }
-
-    public static function listOfStudentsIncludedGroup($id = null)
+    public static function listOfStudentsToGroup($id = null)
     {
         return User::query()->where('role_id', 3)->whereHas('student', function ($query) use ($id) {
             $query->where('group_id', $id);
-        })->get();
+        })->get()
+            ->sortBy(function ($query) {
+                return $query->student->surname;
+            });
     }
 }

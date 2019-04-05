@@ -22,12 +22,10 @@ Route::group([
     Route::resource('group',   'GroupsController');
     Route::resource('lesson',  'LessonsController');
 
+
     Route::group(['prefix' => 'search', 'as' => 'search.'], function () {
         Route::post('users', 'HomeController@user_search')->name('users');
     });
-//    Route::group(['prefix' => 'api', 'as' => 'api'], function () {
-//        Route::get('group', 'HomeController@group')->name('group');
-//    });
 });
 
 

@@ -49,8 +49,8 @@
                                             <div class="col-lg-9 custom-mt-form-group">
                                                 <select id="selectStudent">
                                                     <option id="student-in-selection" value="0">Список учеников</option>
-                                                    @foreach(Dict::listOfStudentsNotIncludedGroup() as $row)
-                                                        <option id="student-in-selection-{{ $row->user_id }}" value="{{ $row->user_id }}">{{ $row->surname .' '. $row->name }}</option>
+                                                    @foreach(Dict::listOfStudentsToGroup() as $row)
+                                                        <option id="student-in-selection-{{ $row->id }}" value="{{ $row->id }}">{{ $row->fields->surname .' '. $row->fields->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -95,44 +95,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
     <script>
-        function onFileSelected(event) {
-            var selectedFile = event.target.files[0];
-            var reader = new FileReader();
-
-            var imgtag = document.getElementById("myimage");
-            imgtag.title = selectedFile.name;
-
-            reader.onload = function(event) {
-                imgtag.src = event.target.result;
-            };
-
-            reader.readAsDataURL(selectedFile);
-        }
-        $(document).ready(function() {
-            $('input[name="phone_number"]').mask('0 (000) 000 00-00');
-        });
-
         var arrayOfSelectedStudents = [];
 
         $('#addStudents').on('click', function () {
             var id = $('#selectStudent').val();
             if (id != 0) {
-                arrayOfSelectedStudents.push(id);
+
+                arrayOfSelectedStudents.push(parseInt(id, 10));
 
                 $.ajax({
                     url: "/api/users/"+ id,
                     method: 'GET',
                     dataType: 'json',
                     success: function (data) {
+
                         $('#list-of-students').append('<tr class="student-'+ data.data.id +'">' +
                                 '<td>'+ arrayOfSelectedStudents.length +'</td>' +
                                 '<td>' + data.data.surname + '</td>' +
                                 '<td>' + data.data.name + '</td>' +
                                 '<td>' + data.data.email + '</td>' +
-                                '<td><button type="button" class="delete-modal btn btn-danger btn-sm" value="' + data.data.id + '">Удалить</button></td>' +
+                                '<td>' +
+                                    '<button type="button" class="btn btn-danger btn-sm" onclick="RemoveUser('+ data.data.id +')">Удалить</button>' +
+                                '</td>' +
                             '</tr>');
+
                         $('#students_id').val(arrayOfSelectedStudents);
-                        $('#student-in-selection-' + data.data.id).remove();
+                        $('#student-in-selection-' + data.data.id).hide();
+                        $('#selectStudent').val(0);
+
                     }, error: function (error) {
                         console.log("ERRROR: "+ error);
                     }
@@ -140,8 +130,12 @@
             }
         });
 
-        $('.delete-modal').on('click', function () {
-            console.log('delete-link');
-        })
+        function RemoveUser(id) {
+            $('.student-'+ id).remove();
+            $('#student-in-selection-' + id).show();
+            var index = arrayOfSelectedStudents.indexOf(id);
+            if (index > -1)
+                arrayOfSelectedStudents.splice(index, 1);
+        }
     </script>
 @endsection
