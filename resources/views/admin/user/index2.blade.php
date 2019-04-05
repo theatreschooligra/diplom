@@ -27,7 +27,7 @@
                 <div class="col-sm-4 col-3">
                 </div>
                 <div class="col-sm-8 col-9 text-right m-b-20">
-                    <a href="{{ route('admin.user.create', ['role' => $role->id]) }}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Student</a>
+                    <a href="{{ route('admin.user.create', ['role' => $role->id, 'view' => '2']) }}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Добавить пользователя</a>
                     <div class="view-icons">
                         <a href="{{ route('admin.user.index', ['view' => 2, 'role' => $role->id]) }}" class="grid-view btn btn-link active"><i class="fa fa-th"></i></a>
                         <a href="{{ route('admin.user.index', ['view' => 1, 'role' => $role->id]) }}) }}" class="list-view btn btn-link"><i class="fa fa-bars"></i></a>
@@ -38,67 +38,48 @@
                 <div class="row filter-row">
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group custom-mt-form-group">
-                            <input type="text"  />
-                            <label class="control-label">Student Name</label><i class="bar"></i>
+                            <input type="text" id="name_search" class="column-search"/>
+                            <label class="control-label">Имя</label><i class="bar"></i>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-3">
-                        <div class="form-group custom-mt-form-group">
-                            <select >
-                                <option>Select class</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option>8</option>
-                                <option>9</option>
-                                <option>10</option>
-                            </select>
-                            <label class="control-label">Class</label><i class="bar"></i>
+                    @if ($role->id == 3)
+                        <div class="col-sm-6 col-md-3">
+                            <div class="form-group custom-mt-form-group">
+                                <select id="group_search" class="column-search">
+                                    <option value="0">Выбрать...</option>
+                                    @foreach(Dict::groups() as $group)
+                                        <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                    @endforeach
+                                </select>
+                                <label class="control-label">Группа</label><i class="bar"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                        <a href="#" class="btn btn-success btn-block mt-3 mb-2"> Search </a>
-                    </div>
+                    @endif
                 </div>
-                <div class="row staff-grid-row">
+                <div class="row staff-grid-row" id="list-of-users">
                     @foreach($users as $user)
                         <div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">
                             <div class="profile-widget">
                                 <div class="profile-img">
-                                    <a href="student-profile.html" class="avatar">
+                                    <a href="#" class="avatar">
                                         {!! ($user->fields->image == null) ? $user->fields->name[0] : '<img src="'. asset('img/'. $user->fields->image) .'">' !!}
                                     </a>
                                 </div>
                                 <div class="dropdown profile-action">
                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="{{ route('admin.user.edit', $user->id) }}"><i class="fa fa-pencil m-r-5"></i> Редактировать</a>
-                                        <a class="dropdown-item" href="{{ route('admin.user.destroy', $user->id) }}" data-toggle="modal" data-target="#delete_employee"><i class="fa fa-trash-o m-r-5"></i> Удалить</a>
-                                    </div>
-                                    <div id="delete_employee" class="modal" role="dialog">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content modal-md">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Удалить пользователя</h4>
-                                                </div>
-                                                <form action="{{ route('admin.user.destroy', $user->id) }}" method="POST">
-                                                    {{ method_field('DELETE') }}
-                                                    <div class="modal-body card-box">
-                                                        <p>Вы точно хотите удалить {{ $user->fields->surname .' '. $user->fields->name }}</p>
-                                                        <div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Закрыть</a>
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
+                                        <form action="{{ route('admin.user.destroy', $user->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="view" value="2">
+                                            <a class="dropdown-item" href="{{ route('admin.user.edit', ['id' => $user->id, 'view' => 2]) }}">
+                                                <i class="fa fa-pencil m-r-5"></i> Редактировать</a>
+                                            <button type="submit" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Удалить</button>
+                                        </form>
+
                                     </div>
                                 </div>
-                                <h4 class="user-name m-t-10 m-b-0 text-ellipsis"><a href="student-profile.html">{{ $user->fields->surname .' '. $user->fields->name }}</a></h4>
+                                <h4 class="user-name m-t-10 m-b-0 text-ellipsis"><a href="#">{{ $user->fields->surname .' '. $user->fields->name }}</a></h4>
                                 @if ($role->id == 3)
                                     <div class="small text-muted">{{ ($user->fields->group_id != null) ? $user->group->name : '' }}</div>
                                 @endif
@@ -110,5 +91,65 @@
         </div>
     </div>
 
+@endsection
 
+@section('footer-content')
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('.column-search').on('change', function () {
+                $.ajax({
+                    url: "{{ route('admin.search.users') }}",
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        '_token'        : $('input[name="_token"]').val(),
+                        'name'          : $('#name_search').val(),
+                        'group_id'      : $('#group_search').val(),
+                    },
+                    success: function (data) {
+                        console.log("success");
+                        $('#list-of-users').html('');
+                        for (var i = 0; i < data.length; i++) {
+
+                            var img = data[i].student.name[0];
+                            if (data[i].student.image != null)
+                                img = '<img src="/img/'+ data[i].student.image +'">';
+
+                            var group = '';
+                            if (data[i].role_id == 3 && data[i].student.group_id != null && data[i].student.group_id != 0) {
+                                group = '<div class="small text-muted">'+ data[i].student.group.name + '</div>';
+                            }
+                            console.log(group);
+                            $('#list-of-users').append('<div class="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3">' +
+                                '<div class="profile-widget">' +
+                                    '<div class="profile-img">' +
+                                        '<a href="#" class="avatar">'+ img +'</a>' +
+                                    '</div>' +
+                                    '<div class="dropdown profile-action">' +
+                                        '<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>' +
+                                        '<div class="dropdown-menu dropdown-menu-right">' +
+                                            '<form action="/admin/user/'+ data[i].id +'" method="POST">' +
+                                                '@csrf' +
+                                                '@method('DELETE')' +
+                                                '<input type="hidden" name="view" value="2">' +
+                                                '<a class="dropdown-item" href="/admin/user/'+ data[i].id +'/edit?view=2">' +
+                                                '<i class="fa fa-pencil m-r-5"></i> Редактировать</a>' +
+                                                '<button type="submit" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Удалить</button>' +
+                                            '</form>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<h4 class="user-name m-t-10 m-b-0 text-ellipsis"><a href="#">'+ data[i].student.surname +' '+ data[i].student.name +'</a></h4>' +
+                                    group +
+                                '</div>' +
+                                '</div>');
+                        }
+                    }, error: function (data) {
+                        console.log(data.toString());
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

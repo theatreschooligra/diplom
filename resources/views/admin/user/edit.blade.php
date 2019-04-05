@@ -58,7 +58,7 @@
                                             <div class="col-lg-9">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <input type="text" placeholder="Фамилия" class="form-control" name="surname"  value="{{ $user->fields->name }}" required>
+                                                        <input type="text" placeholder="Фамилия" class="form-control" name="surname"  value="{{ $user->fields->surname }}" required>
                                                         @if ($errors->has('surname'))
                                                             <span class="help-block">
                                                                 <strong>{{ $errors->first('surname') }}</strong>
@@ -211,6 +211,7 @@
                                     <button type="submit" class="btn btn-primary">Отправить</button>
                                 </div>
                             </div>
+                            <input type="hidden" name="view" value="{{ $view }}">
                         </form>
                     </div>
                 </div>

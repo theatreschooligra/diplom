@@ -206,6 +206,7 @@
                                         @endif
                                     </div>
                                     <input type="hidden" name="role_id" value="{{ $role->id }}">
+                                    <input type="hidden" name="view" value="{{ $view }}">
                                 </div>
                                 <div class="text-right">
                                     <button type="submit" class="btn btn-primary">Отправить</button>

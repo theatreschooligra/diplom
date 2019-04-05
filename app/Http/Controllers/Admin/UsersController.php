@@ -43,10 +43,11 @@ class UsersController extends Controller
      */
     public function create(Request $request)
     {
+        $view = ($request->view == null) ? 1 : $request->view;
         $role_id = ($request->role == null) ? 3 : $request->role;
         $role = Role::find($role_id);
 
-        return view('admin.user.create', compact('role'));
+        return view('admin.user.create', compact('role', 'view'));
     }
 
     /**
@@ -99,9 +100,9 @@ class UsersController extends Controller
             TeachersField::create($user_fields);
         }
 
-        Mail::send(new SendMail($user, $password));
+//        Mail::send(new SendMail($user, $password));
 
-        return redirect()->route('admin.user.index', ['role' => $request->role_id]);
+        return redirect()->route('admin.user.index', ['role' => $request->role_id, 'view' => $request->view]);
     }
 
     /**
@@ -122,11 +123,12 @@ class UsersController extends Controller
      */
     public function edit(Request $request, User $user)
     {
+        $view = ($request->view == null) ? 1 : $request->view;
         $role_id = ($request->role == null) ? 3 : $request->role;
         $role = Role::find($role_id);
 
 
-        return view('admin.user.edit', compact('role', 'user'));
+        return view('admin.user.edit', compact('role', 'user', 'view'));
     }
 
     /**
@@ -154,7 +156,6 @@ class UsersController extends Controller
             $destinationPath = public_path('/img');
             $image->move($destinationPath, $img);
             if (File::exists('img/' . $user->image)) {
-                unlink(public_path('img/' . $user->image));
                 File::delete('img/' . $user->image);
             }
             $user_fields['image'] = $img;
@@ -178,18 +179,18 @@ class UsersController extends Controller
         $user->fields->update($user_fields);
 
 
-        return redirect()->route('admin.user.index', ['role' => $user->role_id]);
+        return redirect()->route('admin.user.index', ['role' => $user->role_id, 'view' => $request->view]);
     }
 
     /**
+     * @param Request $request
      * @param User $user
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
-        dd("asd");
         $user->delete();
-        return redirect()->route('admin.user.index', ['role' => $user->role_id]);
+        return redirect()->route('admin.user.index', ['role' => $user->role_id, 'view' => $request->view]);
     }
 }

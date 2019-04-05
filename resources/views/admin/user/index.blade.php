@@ -212,8 +212,8 @@
                             '</td>' +
                             '<td>'+ data[i].email +'</td>' +
                             '<td>'+ data[i].student.parent_surname +' '+ data[i].student.parent_name +'</td>' +
-                            '<td>'+ ((data[i].student.group == null) ? '' : data[i].student.group.name +'</td>') +
-                            '<td>'+ ((data[i].student.gender) ? 'Male' : 'Female') +'</td>' +
+                            '<td>'+ (data[i].student.group == null) ? '' : data[i].student.group.name +'</td>' +
+                            '<td>'+ (data[i].student.gender) ? 'Male' : 'Female' +'</td>' +
                             '<td>'+ data[i].student.address +'</td>' +
                             '<td>{{ (\Carbon\Carbon::createFromFormat('Y-m-d', $user->fields->birthday))->format('d/m/Y') }}</td>' +
                             '<td>'+ data[i].student.phone_number +'</td>' +
