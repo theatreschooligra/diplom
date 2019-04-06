@@ -19,7 +19,7 @@ class CreateTeachersFieldsTable extends Migration
             $table->string('surname');
             $table->string('name');
             $table->boolean('gender');                  // 1 => male, 0 => female
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->string('image')->nullable();
             $table->date('birthday')->nullable();
             $table->string('phone_number')->nullable();

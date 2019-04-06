@@ -70,15 +70,17 @@
                                     <tr>
                                         <td><input id="name_search" class="form-control column-search"></td>
                                         <td><input id="email_search" class="form-control column-search"></td>
-                                        <td><input id="parent_name_search" class="form-control column-search"></td>
-                                        <td>
-                                            <select id="group_search" class="form-control column-search">
-                                                <option selected value="0">Выбрать...</option>
-                                                @foreach(Dict::groups() as $group)
-                                                    <option value="{{ $group->id }}">{{ $group->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
+                                        @if ($role->id == 3)
+                                            <td><input id="parent_name_search" class="form-control column-search"></td>
+                                            <td>
+                                                <select id="group_search" class="form-control column-search">
+                                                    <option selected value="0">Выбрать...</option>
+                                                    @foreach(Dict::groups() as $group)
+                                                        <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                        @endif
                                         <td>
                                             <select id="gender_search" class="form-control column-search">
                                                 <option value="" selected="selected">Выбрать...</option>
@@ -111,19 +113,19 @@
                                                 <h2><a href="#">{{ $user->fields->surname .' '. $user->fields->name }}<span></span></a></h2>
                                             </td>
                                             <td>{{ $user->email }}</td>
-                                            @if ($role->id != null)
+                                            @if ($role->id == 3)
                                                 <td>{{ $user->fields->parent_surname .' '. $user->fields->parent_name }}</td>
                                                 <td>{{ ($user->fields->group_id != null) ? $user->group->name : ''}}</td>
                                             @endif
                                             <td>{{ $user->getGender() }}</td>
                                             <td>{{ $user->fields->address }}</td>
-                                            <td>{{ (\Carbon\Carbon::createFromFormat('Y-m-d', $user->fields->birthday))->format('d/m/Y') }}</td>
+                                            <td>{{ ($user->fields->birthday == null) ? '' : (\Carbon\Carbon::createFromFormat('Y-m-d', $user->fields->birthday))->format('d/m/Y') }}</td>
                                             <td>{{ $user->fields->phone_number }}</td>
                                             <td class="text-right">
-                                                <form action="{{ route('admin.user.destroy', $user->id) }}" method="POST">
+                                                <form action="{{ route('admin.user.destroy', ['id' => $user->id, 'view' => 1]) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-primary btn-sm mb-1">
+                                                    <a href="{{ route('admin.user.edit', ['id' => $user->id, 'view' => 1]) }}" class="btn btn-primary btn-sm mb-1">
                                                         Редактировать
                                                     </a>
                                                     <button type="submit" class="btn btn-danger btn-sm mb-1">
@@ -195,9 +197,11 @@
                     'gender'        : $('#gender_search').val(),
                     'birthday_from' : $('#birthday_from_search').val(),
                     'birthday_to'   : $('#birthday_to_search').val(),
-                    'phone_number'  : $('#phone_number_search').val()
+                    'phone_number'  : $('#phone_number_search').val(),
+                    'role_id'       : "{{ $role->id }}"
                 },
                 success: function (data) {
+                    console.log('success');
                     $('#list-of-users').html('');
 
                     for (var i = 0; i < data.data.length; i++) {
@@ -212,17 +216,19 @@
                             group = data.data[i].group.name;
                         }
 
-                        $('#list-of-users').append('<tr>' +
+                        var str = '<tr>' +
                             '<td>' +
                                 '<a href="#" class="avatar">'+ img +'</a>' +
                                 '<h2>' +
                                     '<a href="#">'+ data.data[i].surname +' '+ data.data[i].name +'<span></span></a>' +
                                 '</h2>' +
                             '</td>' +
-                            '<td>'+ data.data[i].email +'</td>' +
-                            '<td>'+ data.data[i].parent_surname +' '+ data.data[i].parent_name +'</td>' +
-                            '<td>'+ group +'</td>' +
-                            '<td>'+ ((data.data[i].gender) ? 'Male' : 'Female') +'</td>' +
+                            '<td>'+ data.data[i].email +'</td>';
+
+                        if (data.data[i].role.id == 3)
+                            str += '<td>'+ data.data[i].parent_surname +' '+ data.data[i].parent_name +'</td><td>'+ group +'</td>';
+
+                        str += '<td>'+ ((data.data[i].gender) ? 'Male' : 'Female') +'</td>' +
                             '<td>'+ data.data[i].address +'</td>' +
                             '<td>'+ data.data[i].birthday +'</td>' +
                             '<td>'+ data.data[i].phone_number +'</td>' +
@@ -238,7 +244,9 @@
                             '</button>' +
                             '</form>' +
                             '</td>' +
-                            '</tr>');
+                            '</tr>';
+
+                        $('#list-of-users').append(str);
                     }
                 }, error: function (data) {
                     console.log(data.toString());

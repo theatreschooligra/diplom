@@ -78,7 +78,7 @@ class UsersController extends Controller
             'user_id'       => $user->id,
             'surname'       => $request->surname,
             'name'          => $request->name,
-            'birthday'      => Carbon::createFromFormat('d/m/Y', $request->birthday),
+            'birthday'      => ($request->birthday == null) ? null : Carbon::createFromFormat('d/m/Y', $request->birthday),
             'gender'        => $request->gender,
             'phone_number'  => $request->phone_number,
             'address'       => $request->address,
@@ -124,11 +124,8 @@ class UsersController extends Controller
     public function edit(Request $request, User $user)
     {
         $view = ($request->view == null) ? 1 : $request->view;
-        $role_id = ($request->role == null) ? 3 : $request->role;
-        $role = Role::find($role_id);
 
-
-        return view('admin.user.edit', compact('role', 'user', 'view'));
+        return view('admin.user.edit', compact('user', 'view'));
     }
 
     /**
@@ -143,7 +140,7 @@ class UsersController extends Controller
         $user_fields = [
             'surname'       => $request->surname,
             'name'          => $request->name,
-            'birthday'      => Carbon::createFromFormat('d/m/Y', $request->birthday),
+            'birthday'      => ($request->birthday == null) ? null : Carbon::createFromFormat('d/m/Y', $request->birthday),
             'gender'        => $request->gender,
             'phone_number'  => $request->phone_number,
             'address'       => $request->address,

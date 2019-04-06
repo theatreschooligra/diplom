@@ -107,6 +107,7 @@
                         '_token'        : $('input[name="_token"]').val(),
                         'name'          : $('#name_search').val(),
                         'group_id'      : $('#group_search').val(),
+                        'role_id'       : "{{ $role->id }}"
                     },
                     success: function (data) {
 

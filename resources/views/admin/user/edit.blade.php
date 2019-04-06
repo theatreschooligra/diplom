@@ -7,12 +7,12 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-lg-7 col-md-12 col-sm-12 col-12">
-                        <h5 class="text-uppercase">Добавить {{ ($role->id == 3) ? 'ученика' : 'преподавателя'}}</h5>
+                        <h5 class="text-uppercase">Добавить {{ ($user->role_id == 3) ? 'ученика' : 'преподавателя'}}</h5>
                     </div>
                     <div class="col-lg-5 col-md-12 col-sm-12 col-12">
                         <ul class="list-inline breadcrumb float-right">
                             <li class="list-inline-item"><a href="/">Главная</a></li>
-                            <li class="list-inline-item"><a href="{{ route('admin.user.index', ['role' => $role->id]) }}">{{ ($role->id == 3) ? 'Ученики' : 'Преподаватель'}}</a></li>
+                            <li class="list-inline-item"><a href="{{ route('admin.user.index', ['role' => $user->role_id]) }}">{{ ($user->role_id == 3) ? 'Ученики' : 'Преподаватель'}}</a></li>
                             <li class="list-inline-item">Редактировать пользователя</li>
                         </ul>
                     </div>
@@ -79,7 +79,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">День рождения:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" value="{{ (\Carbon\Carbon::createFromFormat('Y-m-d', $user->fields->birthday))->format('d/m/Y') }}"
+                                                <input type="text" value="{{ ($user->fields->birthday == null) ? '' : (\Carbon\Carbon::createFromFormat('Y-m-d', $user->fields->birthday))->format('d/m/Y') }}"
                                                        class="datetimepicker form-control" class="form-control" name="birthday">
                                                 @if ($errors->has('birthday'))
                                                     <span class="help-block">
@@ -88,7 +88,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        @if ($role->id == 3)
+                                        @if ($user->role_id == 3)
                                             <div class="form-group row">
                                                 <label class="col-lg-3 col-form-label">Имя родителя:</label>
                                                 <div class="col-lg-9">
@@ -157,7 +157,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        @if ($role->id == 3)
+                                        @if ($user->role_id == 3)
                                             <div class="form-group row">
                                                 <label class="col-lg-3 col-form-label">Группа:</label>
                                                 <div class="col-lg-9">
@@ -170,7 +170,7 @@
                                                 </div>
                                             </div>
                                         @endif
-                                        @if ($role->id == 2)
+                                        @if ($user->role_id == 2)
                                             <div class="form-group row">
                                                 <label class="col-lg-3 col-form-label">Стаж:</label>
                                                 <div class="col-lg-9">
@@ -196,7 +196,7 @@
                                             <div class="form-group row">
                                                 <label class="col-lg-3 col-form-label">О себе:</label>
                                                 <div class="col-lg-9">
-                                                    <textarea name="about" id="editor">$user->fields->about }}</textarea>
+                                                    <textarea name="about" id="editor">{{ $user->fields->about }}</textarea>
                                                     @if ($errors->has('about'))
                                                         <span class="help-block">
                                                             <strong>{{ $errors->first('about') }}</strong>
@@ -223,6 +223,7 @@
 @section('footer-content')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
     <script type="text/javascript">
         function onFileSelected(event) {
             var selectedFile = event.target.files[0];
@@ -241,10 +242,12 @@
             $('input[name="phone_number"]').mask('0 (000) 000 00-00');
         });
 
+        @if ($user->role_id == 2)
         ClassicEditor
             .create( document.querySelector( '#editor' ) )
             .catch( error => {
                 console.error( error );
             } );
+        @endif
     </script>
 @endsection

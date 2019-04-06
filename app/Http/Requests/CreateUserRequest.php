@@ -41,7 +41,7 @@ class CreateUserRequest extends FormRequest
         } else if ($this->role_id == 2) {
             $rule['experience'] = 'nullable|string';
             $rule['profession'] = 'nullable|string';
-            $rule['about']      = 'nullable|integer|min:0';
+            $rule['about']      = 'nullable|string';
         }
 
         return $rule;

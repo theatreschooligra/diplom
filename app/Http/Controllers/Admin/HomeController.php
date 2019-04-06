@@ -12,13 +12,17 @@ class HomeController extends Controller
 {
     public function user_search(Request $request)
     {
-        $user = User::query()->where('role_id', 3);
+        $user = User::query()->where('role_id', $request->role_id);
+        $role = '';
+
+        if ($request->role_id == 3)     $role = 'student';
+        if ($request->role_id == 2)     $role = 'teacher';
 
         if ($request->email != null && $request->email != '')
             $user = $user->where('email', 'LIKE', '%'. $request->email .'%');
 
 
-        $user = $user->whereHas('student',
+        $user = $user->whereHas($role,
             function ($query) use ($request) {
 
             if ($request->name != null && $request->name != '')
