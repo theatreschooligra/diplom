@@ -15,7 +15,10 @@ class Dict
 
     public static function teachers()
     {
-        return User::query()->where('role_id', 2)->get();
+        return User::where('role_id', 2)->get()
+            ->sortBy(function ($query) {
+                return $query->teacher->surname;
+            });
     }
 
     public static function rooms()

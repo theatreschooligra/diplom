@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class GroupRequest extends FormRequest
+class UpdateGroupRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class GroupRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Auth::check();
     }
 
     /**
@@ -24,7 +25,7 @@ class GroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => 'required|string|unique:groups,name',
+            'name'          => 'required|string|unique:groups,name,'. $this->group->id,
             'teachers'      => 'required|array',
             'teachers.*'    => 'required|integer|min:1'
         ];

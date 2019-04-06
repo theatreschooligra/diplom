@@ -26,7 +26,10 @@ class UsersController extends Controller
     {
         $role_id = ($request->role == null) ? 3 : $request->role;
 
-        $users = User::where('role_id', $role_id)->get();
+        $users = User::where('role_id', $role_id)->get()
+            ->sortBy(function ($query) {
+                $query->fields->surname;
+            });
 
         $role = Role::find($role_id);
 

@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('header-content')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+@endsection
 
 @section('content')
 
@@ -36,6 +39,21 @@
                                                 @if ($errors->has('name'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('name') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Преподаватели:</label>
+                                            <div class="col-lg-9 custom-mt-form-group">
+                                                <select id="selectTeacher" name="teachers[]" multiple="multiple">
+                                                    @foreach(Dict::teachers() as $row)
+                                                        <option id="student-in-selection-{{ $row->id }}" value="{{ $row->id }}">{{ $row->fields->surname .' '. $row->fields->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if ($errors->has('teachers'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('teachers') }}</strong>
                                                     </span>
                                                 @endif
                                             </div>
@@ -92,9 +110,13 @@
 @endsection
 
 @section('footer-content')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
+
+        $(document).ready(function() {
+            $('#selectTeacher').select2();
+        });
+
         var arrayOfSelectedStudents = [];
 
         $('#addStudents').on('click', function () {

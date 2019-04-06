@@ -48,6 +48,11 @@ class HomeController extends Controller
 
         });
 
-        return UserResource::collection($user->get());
+        return UserResource::collection(
+            $user->get()
+                ->sortBy(function ($query) {
+                    $query->fields->surname;
+                })
+        );
     }
 }

@@ -14,7 +14,7 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-lg-7 col-md-12 col-sm-12 col-12">
-                        <h5 class="text-uppercase">Группы</h5>
+                        <h5 class="text-uppercase">Список групп</h5>
                     </div>
                     <div class="col-lg-5 col-md-12 col-sm-12 col-12">
                         <ul class="list-inline breadcrumb float-right">
@@ -60,31 +60,17 @@
                                             @endif
                                             <td>{{ $group->studentsFields->count() }}</td>
                                             <td class="text-right">
-                                                <a href="{{ route('admin.group.edit', $group->id) }}" class="btn btn-primary btn-sm mb-1">
-                                                    Редактировать
-                                                </a>
-                                                <button type="submit" data-toggle="modal" data-target="#delete_employee-{{ $group->id }}" class="btn btn-danger btn-sm mb-1">
-                                                    Удалить
-                                                </button>
+                                                <form action="{{ route('admin.group.destroy', $group->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <a href="{{ route('admin.group.edit', $group->id) }}" class="btn btn-primary btn-sm mb-1">
+                                                        Редактировать
+                                                    </a>
+                                                    <button type="submit" class="btn btn-danger btn-sm mb-1">
+                                                        Удалить
+                                                    </button>
+                                                </form>
                                             </td>
-                                            <div id="delete_employee-{{ $group->id }}" class="modal" role="dialog">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content modal-md">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Удалить группу</h4>
-                                                        </div>
-                                                        <form action="{{ route('admin.group.destroy', $group->id) }}" method="post">
-                                                            {{ method_field('DELETE') }}
-                                                            <div class="modal-body card-box">
-                                                                <p>Вы точно хотите удалить {{ $group->name  }}</p>
-                                                                <div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Закрыть</a>
-                                                                    <button type="submit" class="btn btn-danger">Удалить</button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Group;
-use App\Helpers\Dict;
 use App\Http\Requests\GroupRequest;
+use App\Http\Requests\UpdateGroupRequest;
 use App\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class GroupsController extends Controller
@@ -51,6 +50,8 @@ class GroupsController extends Controller
                 'group_id' => $group->id
             ]);
 
+        $group->users()->sync($request->teachers);
+
         return redirect()->route('admin.group.index');
     }
 
@@ -78,13 +79,15 @@ class GroupsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  GroupRequest  $request
+     * @param  UpdateGroupRequest  $request
      * @param  Group $group
      * @return \Illuminate\Http\Response
      */
-    public function update(GroupRequest $request, Group $group)
+    public function update(UpdateGroupRequest $request, Group $group)
     {
         $group->update($request->only('name'));
+
+        $group->users()->sync($request->teachers);
 
         return redirect()->route('admin.group.index');
     }

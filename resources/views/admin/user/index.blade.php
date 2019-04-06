@@ -114,13 +114,15 @@
                                             </td>
                                             <td>{{ $user->email }}</td>
                                             @if ($role->id == 3)
-                                                <td>{{ $user->fields->parent_surname .' '. $user->fields->parent_name }}</td>
+                                                <td>{{ ($user->fields->parent_surname == null) ? '' : $user->fields->parent_surnam
+                                                                    .' '.
+                                                         ($user->fields->parent_name == null) ? '' : $user->fields->parent_name }}</td>
                                                 <td>{{ ($user->fields->group_id != null) ? $user->group->name : ''}}</td>
                                             @endif
                                             <td>{{ $user->getGender() }}</td>
-                                            <td>{{ $user->fields->address }}</td>
+                                            <td>{{ ($user->fields->address == null) ? '' : $user->fields->address }}</td>
                                             <td>{{ ($user->fields->birthday == null) ? '' : (\Carbon\Carbon::createFromFormat('Y-m-d', $user->fields->birthday))->format('d/m/Y') }}</td>
-                                            <td>{{ $user->fields->phone_number }}</td>
+                                            <td>{{ ($user->fields->phone_number == null) ? '' : $user->fields->phone_number }}</td>
                                             <td class="text-right">
                                                 <form action="{{ route('admin.user.destroy', ['id' => $user->id, 'view' => 1]) }}" method="POST">
                                                     @csrf
@@ -201,7 +203,7 @@
                     'role_id'       : "{{ $role->id }}"
                 },
                 success: function (data) {
-                    console.log('success');
+
                     $('#list-of-users').html('');
 
                     for (var i = 0; i < data.data.length; i++) {
@@ -229,9 +231,9 @@
                             str += '<td>'+ data.data[i].parent_surname +' '+ data.data[i].parent_name +'</td><td>'+ group +'</td>';
 
                         str += '<td>'+ ((data.data[i].gender) ? 'Male' : 'Female') +'</td>' +
-                            '<td>'+ data.data[i].address +'</td>' +
-                            '<td>'+ data.data[i].birthday +'</td>' +
-                            '<td>'+ data.data[i].phone_number +'</td>' +
+                            '<td>'+ ((data.data[i].address == null) ? "" : data.data[i].address) +'</td>' +
+                            '<td>'+ ((data.data[i].birthday == null) ? "" : data.data[i].birthday) +'</td>' +
+                            '<td>'+ ((data.data[i].phone_number == null) ? "" : data.data[i].phone_number) +'</td>' +
                             '<td class="text-right">' +
                             '<form action="/admin/user/'+ data.data[i].id +'" method="POST">' +
                             '{{ csrf_field() }}' +

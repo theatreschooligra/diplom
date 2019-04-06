@@ -40,6 +40,22 @@
                                                 @endif
                                             </div>
                                         </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Преподаватели:</label>
+                                            <div class="col-lg-9 custom-mt-form-group">
+                                                <select id="selectTeacher" name="teachers[]" multiple="multiple">
+                                                    @foreach(Dict::teachers() as $row)
+                                                        <option {{ (in_array($row->id, $group->users->pluck('id')->toArray())) ? 'selected' : '' }}
+                                                                id="student-in-selection-{{ $row->id }}" value="{{ $row->id }}">{{ $row->fields->surname .' '. $row->fields->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if ($errors->has('teachers'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('teachers') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -101,7 +117,13 @@
 @endsection
 
 @section('footer-content')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
+
+        $(document).ready(function() {
+            $('#selectTeacher').select2();
+        });
+
         $('#addStudents').on('click', function () {
             var id = $('#selectStudent').val();
             if (id != 0) {
