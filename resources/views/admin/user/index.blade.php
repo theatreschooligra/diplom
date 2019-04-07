@@ -99,7 +99,9 @@
                                             <input id="phone_number_search" class="form-control column-search">
                                         </td>
                                         <td class="text-right">
-                                            <button type="submit" onclick="ResetSearchFields()">Сбросить</button>
+                                            <button type="submit" onclick="ResetSearchFields()" class="btn btn-primary reset-btn">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                                Сбросить</button>
                                         </td>
                                     </tr>
                                 </thead>

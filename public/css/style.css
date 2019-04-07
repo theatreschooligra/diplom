@@ -183,6 +183,7 @@ div.dataTables_wrapper div.dataTables_paginate {text-align: right;}
 .btn-warning.active.focus, .btn-warning.active:focus, .btn-warning.active:hover, .btn-warning.focus:active, .btn-warning:active:focus, .btn-warning:active:hover, .open > .dropdown-toggle.btn-warning.focus, .open > .dropdown-toggle.btn-warning:focus, .open > .dropdown-toggle.btn-warning:hover {background: #e9ab2e;border: 1px solid #e9ab2e}
 .btn-danger {background: #f62d51;border: 1px solid #f62d51}
 .btn-danger:hover, .btn-danger:focus {background-color: #e6294b;border: 1px solid #e6294b}
+.btn.reset-btn{background: #F08080; border: none;}
 .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {background-color: #01c0c8;border-color: #01c0c8;}
 .pagination > li > a, .pagination > li > span {color: #01c0c8;}
 .page-item.active .page-link {background-color: #01c0c8;border-color: #01c0c8;}
@@ -671,9 +672,10 @@ table.dataTable tbody td.patient-img { padding: 2px;}
 .chat-left .chat-body{margin-right:0;margin-left:30px;padding-right: 20px;}
 .chat-left .chat-content {background-color: #fff;border: 1px solid #eaeaea;color: #888;float: left;position:relative;padding:8px 15px;border-radius:2px 20px 20px 2px;max-width: 60%;}
 .avatar {background-color: #8944d7;border-radius: 50%;color: #fff;display: inline-block;font-weight: 500;height: 38px;line-height: 38px;margin: 0 10px 0 0;overflow: hidden;text-align: center;text-decoration: none;text-transform: uppercase;vertical-align: middle;width: 38px;position:relative;white-space:nowrap;float: left;}
-.avatar-big {background-color: #8944d7;border-radius: 50%;color: #fff;display: inline-block;font-weight: 500;height: 200px;line-height: 38px;margin: 0 10px 0 0;overflow: hidden;text-align: center;text-decoration: none;text-transform: uppercase;vertical-align: middle;width: 200px;position:relative;white-space:nowrap;float: left;}
+.avatar-big {background-color: #8944d7;border-radius: 50%;color: #fff;display: inline-block;font-weight: 500;height: 100%;line-height: 38px;margin: 0 10px 0 0;overflow: hidden;text-align: center;text-decoration: none;text-transform: uppercase;vertical-align: middle;width: 100%;object-fit:cover; object-position: center center; position:relative;white-space:nowrap;float: left;}
+.offset-md-3{width: 200px; height: 200px;}
 .avatar:hover {color:#fff;}
-.avatar > img {width: 100%;display:block;}
+.avatar > img {width: 100%;display:block; height: 100%; object-fit: cover;}
 .chat.chat-left .chat-bubble:first-child .chat-content {border-top-left-radius: 20px;margin-top: 0;}
 .chat.chat-left .chat-bubble:last-child .chat-content {border-bottom-left-radius: 20px;}
 .chat-left .chat-time{color:#a3afb7}
@@ -1326,6 +1328,9 @@ blockquote p {font-style: italic;font-weight: 400;}
 /*------------------------------------------------------------------
 [46. Gallery]
 */
+div.dataTables_wrapper div.dataTables_length select{
+ width: 65px !important;
+}
 
 .lg-backdrop {z-index: 1041;}
 #lightgallery .img-thumbnail {box-shadow: 0 6px 15px rgba(36, 37, 38, 0.08);height: 250px;object-fit: cover;}
