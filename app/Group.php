@@ -23,7 +23,7 @@ class Group extends Model
         return $this->hasMany(Lesson::class);
     }
 
-    public function users()
+    public function teachers()
     {
         return $this->belongsToMany(User::class, 'group_teacher')->withTimestamps();
     }

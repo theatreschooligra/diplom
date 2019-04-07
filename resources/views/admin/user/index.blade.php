@@ -116,7 +116,7 @@
                                             </td>
                                             <td>{{ $user->email }}</td>
                                             @if ($role->id == 3)
-                                                <td>{{ ($user->fields->parent_surname == null) ? '' : $user->fields->parent_surnam
+                                                <td>{{ ($user->fields->parent_surname == null) ? '' : $user->fields->parent_surname
                                                                     .' '.
                                                          ($user->fields->parent_name == null) ? '' : $user->fields->parent_name }}</td>
                                                 <td>{{ ($user->fields->group_id != null) ? $user->group->name : ''}}</td>
@@ -230,7 +230,8 @@
                             '<td>'+ data.data[i].email +'</td>';
 
                         if (data.data[i].role.id == 3)
-                            str += '<td>'+ data.data[i].parent_surname +' '+ data.data[i].parent_name +'</td><td>'+ group +'</td>';
+                            str += '<td>'+ ((data.data[i].parent_surname == null) ? '' : data.data[i].parent_surname) +' '+
+                                ((data.data[i].parent_name == null) ? '' : data.data[i].parent_name) +'</td><td>'+ group +'</td>';
 
                         str += '<td>'+ ((data.data[i].gender) ? 'Male' : 'Female') +'</td>' +
                             '<td>'+ ((data.data[i].address == null) ? "" : data.data[i].address) +'</td>' +

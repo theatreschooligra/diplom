@@ -19,7 +19,7 @@ class GroupUserController extends Controller
     {
         if ($request->has('group_id')) {
             $group = Group::find($request->group_id);
-            return UserResource::collection($group->users);
+            return UserResource::collection($group->teachers);
         }
     }
 

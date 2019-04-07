@@ -29,6 +29,9 @@ class CreateStudentsFieldsTable extends Migration
             $table->string('parent_surname')->nullable();
             $table->string('parent_name')->nullable();
 
+            $table->boolean('is_trial')->default(1);
+            $table->date('payment_date')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
 

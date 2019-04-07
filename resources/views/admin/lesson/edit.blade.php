@@ -55,7 +55,7 @@
                                             <div class="col-lg-9 custom-mt-form-group">
                                                 <select name="teacher_id" id="teacher">
                                                     <option value="0">Выбрать ...</option>
-                                                    @foreach($lesson->group->users as $row)
+                                                    @foreach($lesson->group->teachers as $row)
                                                         <option {{ ($lesson->teacher_id == $row->id) ? 'selected' : '' }} value="{{ $row->id }}">{{ $row->teacher->surname .' '. $row->teacher->name }}</option>
                                                     @endforeach
                                                 </select>

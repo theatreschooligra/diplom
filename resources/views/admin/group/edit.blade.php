@@ -45,7 +45,7 @@
                                             <div class="col-lg-9 custom-mt-form-group">
                                                 <select id="selectTeacher" name="teachers[]" multiple="multiple">
                                                     @foreach(Dict::teachers() as $row)
-                                                        <option {{ (in_array($row->id, $group->users->pluck('id')->toArray())) ? 'selected' : '' }}
+                                                        <option {{ (in_array($row->id, $group->teachers->pluck('id')->toArray())) ? 'selected' : '' }}
                                                                 id="student-in-selection-{{ $row->id }}" value="{{ $row->id }}">{{ $row->fields->surname .' '. $row->fields->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -86,6 +86,7 @@
                                                     <th scope="col">Фамилия</th>
                                                     <th scope="col">Имя</th>
                                                     <th scope="col">Email</th>
+                                                    <th scope="col">Пробный</th>
                                                     <th scope="col">Действия</th>
                                                 </tr>
                                                 </thead>
@@ -96,6 +97,7 @@
                                                             <td>{{ $row->fields->surname }}</td>
                                                             <td>{{ $row->fields->name }}</td>
                                                             <td>{{ $row->email }}</td>
+                                                            <td><input type="checkbox" {{ ($row->fields->is_trial) ? 'checked' : 'disable' }}></td>
                                                             <td><button type="button" class="delete-modal btn btn-danger btn-sm" onclick="groupUser({{ $row->id }}, 0)">Удалить</button></td>
                                                         </tr>
                                                     @endforeach

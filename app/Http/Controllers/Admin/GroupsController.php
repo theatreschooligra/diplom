@@ -50,7 +50,7 @@ class GroupsController extends Controller
                 'group_id' => $group->id
             ]);
 
-        $group->users()->sync($request->teachers);
+        $group->teachers()->sync($request->teachers);
 
         return redirect()->route('admin.group.index');
     }
@@ -87,7 +87,7 @@ class GroupsController extends Controller
     {
         $group->update($request->only('name'));
 
-        $group->users()->sync($request->teachers);
+        $group->teachers()->sync($request->teachers);
 
         return redirect()->route('admin.group.index');
     }
