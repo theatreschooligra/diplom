@@ -7,13 +7,13 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-lg-7 col-md-12 col-sm-12 col-12">
-                        <h5 class="text-uppercase">Редактировать ученика</h5>
+                        <h5 class="text-uppercase">Редактировать данные занятии</h5>
                     </div>
                     <div class="col-lg-5 col-md-12 col-sm-12 col-12">
                         <ul class="list-inline breadcrumb float-right">
                             <li class="list-inline-item"><a href="/">Главная</a></li>
-                            <li class="list-inline-item"><a href="{{ route('admin.group.index') }}">Группы</a></li>
-                            <li class="list-inline-item">Редактировать группу</li>
+                            <li class="list-inline-item"><a href="{{ route('admin.lesson.index') }}">Занятие</a></li>
+                            <li class="list-inline-item">Редактировать занятие</li>
                         </ul>
                     </div>
                 </div>
@@ -21,19 +21,17 @@
             <div class="page-content">
                 <div class="row">
                     <div class="col-md-12">
-                        <form action="{{ route('admin.group.update', $group->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.lesson.update', $lesson->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            <input type="hidden" id="students_id" name="students_id"
-                                   value="{{ implode(",", Dict::listOfStudentsIncludedGroup($group->id)->pluck('id')->toArray()) }}">
                             <div class="card-box">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <h4 class="card-title">Данные группы</h4><br>
+                                        <h4 class="card-title">Данные занятии</h4><br>
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Имя:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" class="form-control" name="name" value="{{ $group->name }}" required>
+                                                <input type="text" class="form-control" name="name" value="{{ $lesson->name }}" required>
                                                 @if ($errors->has('name'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('name') }}</strong>
@@ -41,51 +39,75 @@
                                                 @endif
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                         <div class="form-group row">
-                                            <label class="col-lg-3 col-form-label">Ученики:</label>
-                                            <div class="col-lg-9 custom-mt-form-group">
-                                                <select id="selectStudent">
-                                                    <option id="student-in-selection" value="0">Список учеников</option>
-                                                    @foreach(Dict::listOfStudentsNotIncludedGroup() as $row)
-                                                        <option id="student-in-selection-{{ $row->user_id }}" value="{{ $row->user_id }}">{{ $row->surname .' '. $row->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                            <label class="col-lg-3 col-form-label">Группа:</label>
+                                            <div class="col-lg-9">
+                                                <input class="form-control" name="group_id" value="{{ $lesson->group->name }}" readonly>
+                                                @if ($errors->has('group_id'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('group_id') }}</strong>
+                                                    </span>
+                                                @endif
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="text-right" style="margin-top: 11px">
-                                        <button type="button" class="btn btn-light" id="addStudents">Добавить</button>
-                                    </div>
-                                </div>
-                                <div class="container">
-                                    <div class="form-group row">
-                                        <div class="col-md-12">
-                                            <table class="table">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Фамилия</th>
-                                                    <th scope="col">Имя</th>
-                                                    <th scope="col">Email</th>
-                                                    <th scope="col">Действия</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody id="list-of-students">
-                                                    @foreach(Dict::listOfStudentsIncludedGroup($group->id) as $row)
-                                                        <tr class="student-{{ $row->id }}">
-                                                            <td>{{ $loop->index+1 }}</td>
-                                                            <td>{{ $row->fields->surname }}</td>
-                                                            <td>{{ $row->fields->name }}</td>
-                                                            <td>{{ $row->email }}</td>
-                                                            <td><button type="button" class="delete-modal btn btn-danger btn-sm" value="{{ $row->id }}">Удалить</button></td>
-                                                        </tr>
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Преподаватель:</label>
+                                            <div class="col-lg-9 custom-mt-form-group">
+                                                <select name="teacher_id" id="teacher">
+                                                    <option value="0">Выбрать ...</option>
+                                                    @foreach($lesson->group->users as $row)
+                                                        <option {{ ($lesson->teacher_id == $row->id) ? 'selected' : '' }} value="{{ $row->id }}">{{ $row->teacher->surname .' '. $row->teacher->name }}</option>
                                                     @endforeach
-                                                </tbody>
-                                            </table>
+                                                </select>
+                                                @if ($errors->has('teacher'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('teacher') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">День провидения:</label>
+                                            <div class="col-lg-9">
+                                                <input type="text" class="form-control lesson_date_time" id="lesson_date" name="lesson_date" value="{{ (\Carbon\Carbon::createFromFormat('Y-m-d', $lesson->lesson_date))->format('d/m/Y') }}" required>
+                                                @if ($errors->has('lesson_date'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('lesson_date') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Время проведения:</label>
+                                            <div class="col-lg-9 custom-mt-form-group">
+                                                <select name="lesson_time" id="lesson_time" class="lesson_date_time">
+                                                    <option value="0">Выбрать ...</option>
+                                                    @foreach(Dict::lesson_times() as $key => $value)
+                                                        <option {{ ($lesson->lesson_time == $key) ? 'selected' : '' }} value="{{ $key }}">{{ $value }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if ($errors->has('lesson_name'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('lesson_time') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Зал:</label>
+                                            <div class="col-lg-9 custom-mt-form-group">
+                                                <select name="room" id="room">
+                                                    <option value="0">Выбрать ...</option>
+                                                    @foreach($rooms as $key => $value)
+                                                        <option {{ ($lesson->room == $key) ? 'selected' : '' }} value="{{ $key }}">{{ $value }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if ($errors->has('room'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('room') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -105,54 +127,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
     <script>
-        function onFileSelected(event) {
-            var selectedFile = event.target.files[0];
-            var reader = new FileReader();
+        $(document).ready( function () {
 
-            var imgtag = document.getElementById("myimage");
-            imgtag.title = selectedFile.name;
-
-            reader.onload = function(event) {
-                imgtag.src = event.target.result;
-            };
-
-            reader.readAsDataURL(selectedFile);
-        }
-        $(document).ready(function() {
-            $('input[name="phone_number"]').mask('0 (000) 000 00-00');
+            $('.lesson_date_time').on('change', function () {
+                var lesson_date = $('#lesson_date').val();
+                var lesson_time = $('#lesson_time').val();
+                if (lesson_date != null && lesson_date != '' && lesson_time != null && lesson_time != 0) {
+                    $.ajax({
+                        url: "/admin/api/get-rooms",
+                        method: "POST",
+                        dataType: 'json',
+                        data: {
+                            '_token'      : $('input[name="_token"]').val(),
+                            'lesson_date' : lesson_date,
+                            'lesson_time' : lesson_time
+                        },
+                        success: function (data) {
+                            $('#room').html('<option value="0">Выбрать ...</option>');
+                            for (const [key, value] of Object.entries(data)) {
+                                $('#room').append('<option value="'+ key +'">'+ value +'</option>');
+                            }
+                        }
+                    });
+                }
+            });
         });
-
-        var arrayOfSelectedStudents = $('#students_id').val().split(',');
-
-        $('#addStudents').on('click', function () {
-            console.log(arrayOfSelectedStudents);
-            var id = $('#selectStudent').val();
-            if (id != 0) {
-                arrayOfSelectedStudents.push(id);
-
-                $.ajax({
-                    url: "/api/users/"+ id,
-                    method: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        $('#list-of-students').append('<tr class="student-'+ data.data.id +'">' +
-                            '<td>'+ arrayOfSelectedStudents.length +'</td>' +
-                            '<td>' + data.data.surname + '</td>' +
-                            '<td>' + data.data.name + '</td>' +
-                            '<td>' + data.data.email + '</td>' +
-                            '<td><button type="button" class="delete-modal btn btn-danger btn-sm" value="' + data.data.id + '">Удалить</button></td>' +
-                            '</tr>');
-                        $('#students_id').val(arrayOfSelectedStudents);
-                        $('#student-in-selection-' + data.data.id).remove();
-                    }, error: function (error) {
-                        console.log("ERRROR: "+ error);
-                    }
-                });
-            }
-        });
-
-        $('.delete-modal').on('click', function () {
-            console.log('delete-link');
-        })
     </script>
 @endsection

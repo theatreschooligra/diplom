@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Dict;
+use App\Http\Requests\CreateLessonRequest;
+use App\Http\Requests\UpdateLessonRequest;
 use App\Lesson;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -35,9 +39,16 @@ class LessonsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateLessonRequest $request)
     {
-
+        Lesson::create([
+            'name'          => $request->name,
+            'group_id'      => $request->group_id,
+            'lesson_date'   => Carbon::createFromFormat('d/m/Y', $request->lesson_date),
+            'lesson_time'   => $request->lesson_time,
+            'room'          => $request->room,
+            'teacher_id'    => $request->teacher_id
+        ]);
 
         return redirect()->route('admin.lesson.index');
     }
@@ -56,34 +67,52 @@ class LessonsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Lesson $lesson
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Lesson $lesson)
     {
-        //
+        $lessons = Lesson::whereDate('lesson_date', '=', Carbon::createFromFormat('Y-m-d', $lesson->lesson_date)->format('Y-m-d'))
+            ->where('lesson_time', $lesson->lesson_time)
+            ->get();
+
+        $rooms = Dict::rooms();
+
+        foreach ($lessons as $row)
+            if ($lesson->id != $row->id)
+                unset($rooms[$row->room]);
+
+        return view('admin.lesson.edit', compact('lesson', 'rooms'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  UpdateLessonRequest $request
+     * @param  Lesson $lesson
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateLessonRequest $request, Lesson $lesson)
     {
-        //
+        $update_arr = $request->only([
+            'name', 'teacher_id', 'lesson_time', 'room'
+        ]);
+        $update_arr['lesson_date'] = Carbon::createFromFormat('d/m/Y', $request->lesson_date);
+
+        $lesson->update($update_arr);
+
+        return redirect()->route('admin.lesson.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Lesson $lesson
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Lesson $lesson)
     {
-        //
+        $lesson->delete();
+        return redirect()->route('admin.lesson.index');
     }
 }

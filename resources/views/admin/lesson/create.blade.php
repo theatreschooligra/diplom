@@ -13,7 +13,7 @@
                     <div class="col-lg-5 col-md-12 col-sm-12 col-12">
                         <ul class="list-inline breadcrumb float-right">
                             <li class="list-inline-item"><a href="/">Главная</a></li>
-                            <li class="list-inline-item"><a href="{{ route('admin.group.index') }}">Группы</a></li>
+                            <li class="list-inline-item"><a href="{{ route('admin.lesson.index') }}">Занятие</a></li>
                             <li class="list-inline-item">Добавить занятие</li>
                         </ul>
                     </div>
@@ -22,9 +22,8 @@
             <div class="page-content">
                 <div class="row">
                     <div class="col-md-12">
-                        <form action="{{ route('admin.group.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.lesson.store') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <input type="hidden" id="students_id" name="students_id">
                             <div class="card-box">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -40,55 +39,67 @@
                                                 @endif
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Группа:</label>
                                             <div class="col-lg-9 custom-mt-form-group">
-                                                <select name="group">
-                                                    <option value="">Список групп</option>
+                                                <select name="group_id" id="group">
+                                                    <option value="0">Выбрать ...</option>
                                                     @foreach(Dict::groups() as $group)
                                                         <option value="{{ $group->id }}">{{ $group->name }}</option>
                                                     @endforeach
                                                 </select>
-                                                @if ($errors->has('group'))
+                                                @if ($errors->has('group_id'))
                                                     <span class="help-block">
-                                                        <strong>{{ $errors->first('group') }}</strong>
+                                                        <strong>{{ $errors->first('group_id') }}</strong>
                                                     </span>
                                                 @endif
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Преподаватель:</label>
                                             <div class="col-lg-9 custom-mt-form-group">
-                                                <select name="teacher">
-                                                    <option value="">Список препадавателей</option>
-                                                    @foreach(Dict::teachers() as $teacher)
-                                                        <option value="{{ $teacher->id }}">{{ $teacher->teacher->surname .' '. $teacher->teacher->name }}</option>
-                                                    @endforeach
+                                                <select name="teacher_id" id="teacher">
+                                                    <option value="0">Выбрать ...</option>
                                                 </select>
-                                                @if ($errors->has('teacher'))
+                                                @if ($errors->has('teacher_id'))
                                                     <span class="help-block">
-                                                        <strong>{{ $errors->first('teacher') }}</strong>
+                                                        <strong>{{ $errors->first('teacher_id') }}</strong>
                                                     </span>
                                                 @endif
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">День провидения:</label>
+                                            <div class="col-lg-9">
+                                                <input type="text" class="form-control lesson_date_time" id="lesson_date" name="lesson_date" required>
+                                                @if ($errors->has('lesson_date'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('lesson_date') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Время проведения:</label>
+                                            <div class="col-lg-9 custom-mt-form-group">
+                                                <select name="lesson_time" id="lesson_time" class="lesson_date_time">
+                                                    <option value="0">Выбрать ...</option>
+                                                    @foreach(Dict::lesson_times() as $key => $value)
+                                                        <option value="{{ $key }}">{{ $value }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if ($errors->has('lesson_name'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('lesson_time') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Зал:</label>
                                             <div class="col-lg-9 custom-mt-form-group">
-                                                <select name="room">
-                                                    <option value="">Список залов</option>
+                                                <select name="room" id="room">
+                                                    <option value="0">Выбрать ...</option>
                                                     @foreach(Dict::rooms() as $key => $value)
                                                         <option value="{{ $key }}">{{ $value }}</option>
                                                     @endforeach
@@ -98,16 +109,6 @@
                                                         <strong>{{ $errors->first('room') }}</strong>
                                                     </span>
                                                 @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group row">
-                                            <label class="col-lg-3 col-form-label">Дата и время:</label>
-                                            <div class="col-lg-9 custom-mt-form-group">
-                                                <input type="text" id="time" class="form-control" name="time">
                                             </div>
                                         </div>
                                     </div>
@@ -126,6 +127,48 @@
 
 @section('footer-content')
     <script>
+        $(document).ready( function () {
+
+            $('#group').on('change', function () {
+                var id = $(this).val();
+                if (id != 0)
+                $.ajax({
+                    url: "/api/group-user?group_id="+ id,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#teacher').html('<option value="0">Выбрать ...</option>');
+                        for (var i = 0; i < data.data.length; i++) {
+                            $('#teacher').append('<option value="'+ data.data[i].id +'">'+ data.data[i].surname +' '+ data.data[i].name +'</option>');
+                        }
+                    }
+                });
+            });
+
+            $('.lesson_date_time').on('change', function () {
+                var lesson_date = $('#lesson_date').val();
+                var lesson_time = $('#lesson_time').val();
+                if (lesson_date != null && lesson_date != '' && lesson_time != null && lesson_time != 0) {
+                    $.ajax({
+                        url: "/admin/api/get-rooms",
+                        method: "POST",
+                        dataType: 'json',
+                        data: {
+                            '_token'      : $('input[name="_token"]').val(),
+                            'lesson_date' : lesson_date,
+                            'lesson_time' : lesson_time
+                        },
+                        success: function (data) {
+                            $('#room').html('<option value="0">Выбрать ...</option>');
+                            for (const [key, value] of Object.entries(data)) {
+                                $('#room').append('<option value="'+ key +'">'+ value +'</option>');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
         $(function () {
             $('#time').datetimepicker({locale: 'ru'});
             $("#setMinDate").click(function () {

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Dict;
 use App\Http\Resources\UserResource;
+use App\Lesson;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -54,5 +56,23 @@ class HomeController extends Controller
                     $query->fields->surname;
                 })
         );
+    }
+
+    public function lesson_room(Request $request)
+    {
+        if ($request->has('lesson_date') && Carbon::createFromFormat('d/m/Y', $request->lesson_date) !== false) {
+            $lesson_date = Carbon::createFromFormat('d/m/Y', $request->lesson_date);
+
+            $rooms = Dict::rooms();
+
+            $lessons = Lesson::whereDate('lesson_date', '=', $lesson_date->format('Y-m-d'))
+                ->where('lesson_time', $request->lesson_time)
+                ->get()->pluck('room');
+
+            foreach ($lessons as $lesson)
+                unset($rooms[$lesson]);
+
+            return response()->json($rooms);
+        }
     }
 }

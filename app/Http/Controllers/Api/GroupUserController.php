@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Group;
+use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,9 +15,12 @@ class GroupUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->has('group_id')) {
+            $group = Group::find($request->group_id);
+            return UserResource::collection($group->users);
+        }
     }
 
     /**

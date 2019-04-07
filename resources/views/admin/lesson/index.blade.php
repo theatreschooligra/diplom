@@ -41,6 +41,7 @@
                                     <th>Группа</th>
                                     <th>Преподаватель</th>
                                     <th>Зал</th>
+                                    <th>День</th>
                                     <th>Время</th>
                                     <th class="text-right" style="width:15%;">Action</th>
                                 </tr>
@@ -53,34 +54,21 @@
                                             </td>
                                             <td>{{ $lesson->group->name }}</td>
                                             <td>{{ $lesson->teacher->teacher->name }}</td>
-                                            <td>{{ $lesson->room }}</td>
-                                            <td>{{ \Carbon\Carbon::create($lesson->time)->format('Do MMMMM') }}</td>
+                                            <td>{{ (Dict::rooms())[$lesson->room] }}</td>
+                                            <td>{{ (\Carbon\Carbon::createFromFormat('Y-m-d', $lesson->lesson_date))->format('d/m/Y') }}</td>
+                                            <td>{{ (Dict::lesson_times())[$lesson->lesson_time]  }}</td>
                                             <td class="text-right">
-                                                <a href="{{ route('admin.lesson.edit', $lesson->id) }}" class="btn btn-primary btn-sm mb-1">
-                                                    Редактировать
-                                                </a>
-                                                <button type="submit" data-toggle="modal" data-target="#delete_employee-{{ $lesson->id }}" class="btn btn-danger btn-sm mb-1">
-                                                    Удалить
-                                                </button>
+                                                <form action="{{ route('admin.lesson.destroy', $lesson->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <a href="{{ route('admin.lesson.edit', $lesson->id) }}" class="btn btn-primary btn-sm mb-1">
+                                                        Редактировать
+                                                    </a>
+                                                    <button type="submit" class="btn btn-danger btn-sm mb-1">
+                                                        Удалить
+                                                    </button>
+                                                </form>
                                             </td>
-                                            <div id="delete_employee-{{ $lesson->id }}" class="modal" role="dialog">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content modal-md">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Удалить занятие</h4>
-                                                        </div>
-                                                        <form action="{{ route('admin.lesson.destroy', $lesson->id) }}" method="post">
-                                                            {{ method_field('DELETE') }}
-                                                            <div class="modal-body card-box">
-                                                                <p>Вы точно хотите удалить {{ $lesson->name  }}</p>
-                                                                <div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Закрыть</a>
-                                                                    <button type="submit" class="btn btn-danger">Удалить</button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </tr>
                                     @endforeach
                                 </tbody>

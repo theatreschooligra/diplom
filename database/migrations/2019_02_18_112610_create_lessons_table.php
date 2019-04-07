@@ -17,7 +17,8 @@ class CreateLessonsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->unsignedInteger('group_id');
-            $table->dateTime('time');
+            $table->date('lesson_date');
+            $table->unsignedInteger('lesson_time');
             $table->unsignedInteger('room');
             $table->unsignedInteger('teacher_id');
             $table->timestamps();
