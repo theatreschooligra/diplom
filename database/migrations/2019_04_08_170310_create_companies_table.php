@@ -21,6 +21,7 @@ class CreateCompaniesTable extends Migration
             $table->string('url_to_youtube');
             $table->string('url_to_facebook');
             $table->string('url_to_instagram');
+            $table->string('map');
             $table->timestamps();
         });
     }
