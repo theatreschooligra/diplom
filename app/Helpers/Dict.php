@@ -3,7 +3,6 @@
 namespace App\Helpers;
 
 use App\Group;
-use App\StudentsField;
 use App\User;
 
 class Dict

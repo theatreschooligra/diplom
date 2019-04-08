@@ -2,15 +2,15 @@
 <html>
 
     <head>
-        @include('layouts.head');
+        @include('admin.layouts.head');
     </head>
 
     <body>
         <div id="app" class="main-wrapper">
 
-            @include('layouts.header')
+            @include('admin.layouts.header')
 
-            @include('layouts.sidebar')
+            @include('admin.layouts.sidebar')
 
 
             @yield('content')
@@ -19,7 +19,7 @@
         </div>
     <div class="sidebar-overlay" data-reff=""></div>
 
-    @include('layouts.footer')
+    @include('admin.layouts.footer')
 
     </body>
 
