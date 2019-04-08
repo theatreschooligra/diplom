@@ -18,6 +18,7 @@ Route::group([
     'as'            => 'admin.'
 ], function () {
 
+    Route::resource('company', 'CompaniesController')->only('index', 'update');
     Route::resource('user',    'UsersController');
     Route::resource('group',   'GroupsController');
     Route::resource('lesson',  'LessonsController');
