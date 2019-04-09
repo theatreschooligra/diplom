@@ -12,6 +12,11 @@ use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
+    public function index()
+    {
+        return view('admin.home');
+    }
+
     public function user_search(Request $request)
     {
         $user = User::query()->where('role_id', $request->role_id);

@@ -18,6 +18,9 @@ Route::group([
     'as'            => 'admin.'
 ], function () {
 
+    Route::get('/', 'HomeController@index')->name('home');
+
+
     Route::resource('company', 'CompaniesController')->only('index', 'update');
     Route::resource('user',    'UsersController');
     Route::resource('group',   'GroupsController');
@@ -36,4 +39,4 @@ Route::group([
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
