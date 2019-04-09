@@ -29,7 +29,7 @@ class CompaniesController extends Controller
     public function update(UpdateCompanyRequest $request, Company $company)
     {
         $company->update($request->only([
-            'about', 'address', 'phone_number', 'map',
+            'email', 'about', 'address', 'phone_number', 'map',
             'url_to_youtube', 'url_to_facebook', 'url_to_instagram'
         ]));
 

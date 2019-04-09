@@ -13,6 +13,7 @@ class CompanyTableSeeder extends Seeder
     public function run()
     {
         Company::firstOrCreate([
+            'email'             => 'igra.acter@gmail.com',
             'about'             => '',
             'address'           => 'проспект Абая 10а, уг.пр. Назарбаева.',
             'phone_number'      => '+7 707 221 98 91',
@@ -20,8 +21,8 @@ class CompanyTableSeeder extends Seeder
             'url_to_facebook'   => 'https://web.facebook.com/tmigra/',
             'url_to_instagram'  => 'https://www.instagram.com/tm_igra/',
             'map'               => 'https://yandex.kz/maps/-/CCBCzAka',
-            'created_at'    => now(),
-            'updated_at'    => now()
+            'created_at'        => now(),
+            'updated_at'        => now()
         ]);
     }
 }
