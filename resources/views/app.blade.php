@@ -30,7 +30,7 @@
                 <li><a href="{{ route('home') }}">Главная</a></li>
                 <li><a href="{{ route('about') }}">О нас</a></li>
                 <li><a href="{{ route('courses') }}">Курсы</a></li>
-                <li><a href="{{ route('home') }}">Команда</a></li>
+                <li><a href="{{ route('team') }}">Команда</a></li>
                 <li><a href="{{ route('repertoire') }}">Репертуары</a></li>
                 <li><a href="{{ route('blogs') }}">Блог</a></li>
                 <li><a href="{{ route('contact') }}">Контакты</a></li>

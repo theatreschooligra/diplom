@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Company;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -18,15 +17,14 @@ class HomeController extends Controller
         return view('about', compact('company'));
     }
 
-    public function contact()
-    {
-        $company = Company::first();
-        return view('contact', compact('company'));
-    }
-
     public function courses()
     {
         return view('courses');
+    }
+
+    public function team()
+    {
+        return view('team');
     }
 
     public function repertoire()
@@ -42,5 +40,11 @@ class HomeController extends Controller
     public function blog($id)
     {
         return view('blog');
+    }
+
+    public function contact()
+    {
+        $company = Company::first();
+        return view('contact', compact('company'));
     }
 }
