@@ -11,6 +11,16 @@
 |
 */
 
+Route::get('/',             'HomeController@index')->name('home');
+Route::get('/about',        'HomeController@about')->name('about');
+Route::get('/contact',      'HomeController@contact')->name('contact');
+Route::get('/courses',      'HomeController@courses')->name('courses');
+Route::get('/repertoire',   'HomeController@repertoire')->name('repertoire');
+Route::get('/blogs',        'HomeController@blogs')->name('blogs');
+Route::get('/blogs/{id}',   'HomeController@blog')->name('blog');
+
+
+
 Route::group([
     'middleware'    => 'admin',
     'prefix'        => 'admin',
@@ -18,17 +28,17 @@ Route::group([
     'as'            => 'admin.'
 ], function () {
 
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/',             'HomeController@index')->name('home');
 
 
-    Route::resource('company', 'CompaniesController')->only('index', 'update');
-    Route::resource('user',    'UsersController');
-    Route::resource('group',   'GroupsController');
-    Route::resource('lesson',  'LessonsController');
+    Route::resource('company',  'CompaniesController')->only('index', 'update');
+    Route::resource('user',     'UsersController');
+    Route::resource('group',    'GroupsController');
+    Route::resource('lesson',   'LessonsController');
 
 
     Route::group(['prefix' => 'search', 'as' => 'search.'], function () {
-        Route::post('users', 'HomeController@user_search')->name('users');
+        Route::post('users',    'HomeController@user_search')->name('users');
     });
 
     Route::group(['prefix' => 'api', 'as' => 'api.'], function () {

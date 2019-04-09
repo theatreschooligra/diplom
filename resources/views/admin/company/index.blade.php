@@ -11,7 +11,7 @@
                     </div>
                     <div class="col-lg-5 col-md-12 col-sm-12 col-12">
                         <ul class="list-inline breadcrumb float-right">
-                            <li class="list-inline-item"><a href="/admin">Главная</a></li>
+                            <li class="list-inline-item"><a href="{{ route('home') }}">Главная</a></li>
                             <li class="list-inline-item">Информация школы</li>
                         </ul>
                     </div>
@@ -28,9 +28,20 @@
                                     <div class="col-md-12">
                                         <h4 class="card-title">Данные школы</h4><br>
                                         <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Почта:</label>
+                                            <div class="col-lg-9">
+                                                <input type="email" class="form-control" name="email" value="{{ $company->email }}" required {{ (count($errors) > 0) ? '' : 'readonly' }}>
+                                                @if ($errors->has('email'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('email') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Адрес:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" class="form-control" name="address" value="{{ $company->address }}" required readonly>
+                                                <input type="text" class="form-control" name="address" value="{{ $company->address }}" required {{ (count($errors) > 0) ? '' : 'readonly' }}>
                                                 @if ($errors->has('address'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('address') }}</strong>
@@ -41,7 +52,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Телефонный номер:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" class="form-control" name="phone_number" value="{{ $company->phone_number }}" required readonly>
+                                                <input type="text" class="form-control" name="phone_number" value="{{ $company->phone_number }}" required {{ (count($errors) > 0) ? '' : 'readonly' }}>
                                                 @if ($errors->has('phone_number'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('phone_number') }}</strong>
@@ -52,7 +63,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Ссылка на youtube:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" value="{{ $company->url_to_youtube }}" class="form-control" name="url_to_youtube" readonly>
+                                                <input type="text" value="{{ $company->url_to_youtube }}" class="form-control" name="url_to_youtube" required {{ (count($errors) > 0) ? '' : 'readonly' }}>
                                                 @if ($errors->has('url_to_youtube'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('url_to_youtube') }}</strong>
@@ -63,7 +74,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Ссылка на facebook:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" value="{{ $company->url_to_facebook }}" class="form-control" name="url_to_facebook" readonly>
+                                                <input type="text" value="{{ $company->url_to_facebook }}" class="form-control" name="url_to_facebook" required {{ (count($errors) > 0) ? '' : 'readonly' }}>
                                                 @if ($errors->has('url_to_facebook'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('url_to_facebook') }}</strong>
@@ -74,7 +85,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Ссылка на instagram:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" value="{{ $company->url_to_instagram }}" class="form-control" name="url_to_instagram" readonly>
+                                                <input type="text" value="{{ $company->url_to_instagram }}" class="form-control" name="url_to_instagram" required {{ (count($errors) > 0) ? '' : 'readonly' }}>
                                                 @if ($errors->has('url_to_instagram'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('url_to_instagram') }}</strong>
@@ -85,7 +96,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Ссылка на карту:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" value="{{ $company->map }}" class="form-control" name="map" readonly>
+                                                <input type="text" value="{{ $company->map }}" class="form-control" name="map" required {{ (count($errors) > 0) ? '' : 'readonly' }}>
                                                 @if ($errors->has('map'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('map') }}</strong>
@@ -95,10 +106,10 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">О нас:</label>
-                                            <div class="col-lg-9" id="about-paragraph-block">
+                                            <div class="col-lg-9" id="about-paragraph-block" style="display: {{ (count($errors) > 0) ? 'none' : '' }}">
                                                 {!! $company->about !!}
                                             </div>
-                                            <div class="col-lg-9" id="about-editor-block" style="display: none">
+                                            <div class="col-lg-9" id="about-editor-block" style="display: {{ (count($errors) > 0) ? '' : 'none' }}">
                                                 <textarea name="about" id="editor" style="height: 100px" readonly>{{ $company->about }}</textarea>
                                                 @if ($errors->has('about'))
                                                     <span class="help-block">
@@ -110,8 +121,8 @@
                                     </div>
                                 </div>
                                 <div class="text-right">
-                                    <button type="submit" id="submit-btn" class="btn btn-primary" style="display: none">Отправить</button>
-                                    <button type="button" id="edit-btn" class="btn btn-primary">Редактировать</button>
+                                    <button type="submit" id="submit-btn" class="btn btn-primary"  style="display: {{ (count($errors) > 0) ? '' : 'none' }}">Отправить</button>
+                                    <button type="button" id="edit-btn" class="btn btn-primary" style="display: {{ (count($errors) > 0) ? 'none' : '' }}">Редактировать</button>
                                 </div>
                             </div>
                         </form>
@@ -153,6 +164,7 @@
                 $('#edit-btn').hide();
                 $('#submit-btn').show();
 
+                $('input[name="email"]').prop('readonly', false);
                 $('input[name="address"]').prop('readonly', false);
                 $('input[name="phone_number"]').prop('readonly', false);
                 $('input[name="url_to_youtube"]').prop('readonly', false);

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Company;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,6 +16,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        view()->composer('app', function ($view) {
+            $view->with('company', Company::first());
+        });
     }
 
     /**
@@ -24,6 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
     }
 }
