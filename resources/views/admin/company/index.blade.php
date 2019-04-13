@@ -110,7 +110,7 @@
                                                 {!! $company->about !!}
                                             </div>
                                             <div class="col-lg-9" id="about-editor-block" style="display: {{ (count($errors) > 0) ? '' : 'none' }}">
-                                                <textarea name="about" id="editor" style="height: 100px" readonly>{{ $company->about }}</textarea>
+                                                <textarea name="about" style="height: 100px">{{ $company->about }}</textarea>
                                                 @if ($errors->has('about'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('about') }}</strong>
@@ -136,7 +136,9 @@
 @section('footer-content')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
+    <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+    <script src="/vendor/unisharp/laravel-ckeditor/adapters/jquery.js"></script>
+
     <script type="text/javascript">
         function onFileSelected(event) {
             var selectedFile = event.target.files[0];
@@ -154,12 +156,8 @@
         $(document).ready(function() {
             $('input[name="phone_number"]').mask('+7 000 000 00 00');
 
-            ClassicEditor
-                .create( document.querySelector( '#editor' ) )
-                .catch( error => {
-                    console.error( error );
-                } );
-            
+            $('textarea').ckeditor();
+
             $('#edit-btn').on('click', function () {
                 $('#edit-btn').hide();
                 $('#submit-btn').show();

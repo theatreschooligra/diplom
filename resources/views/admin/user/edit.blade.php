@@ -196,7 +196,7 @@
                                             <div class="form-group row">
                                                 <label class="col-lg-3 col-form-label">О себе:</label>
                                                 <div class="col-lg-9">
-                                                    <textarea name="about" id="editor">{{ $user->fields->about }}</textarea>
+                                                    <textarea name="about">{{ $user->fields->about }}</textarea>
                                                     @if ($errors->has('about'))
                                                         <span class="help-block">
                                                             <strong>{{ $errors->first('about') }}</strong>
@@ -223,7 +223,9 @@
 @section('footer-content')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
+    <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+    <script src="/vendor/unisharp/laravel-ckeditor/adapters/jquery.js"></script>
+
     <script type="text/javascript">
         function onFileSelected(event) {
             var selectedFile = event.target.files[0];
@@ -243,11 +245,7 @@
         });
 
         @if ($user->role_id == 2)
-        ClassicEditor
-            .create( document.querySelector( '#editor' ) )
-            .catch( error => {
-                console.error( error );
-            } );
+            $('textarea').ckeditor();
         @endif
     </script>
 @endsection
