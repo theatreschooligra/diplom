@@ -23,6 +23,9 @@
                 <li>
                     <a href="{{ route('admin.lesson.index') }}" style="width: 80%; display: inline-block;"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Занятия</a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.repertoire.index') }}" style="width: 80%; display: inline-block;"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Репертуары</a>
+                </li>
                 {{--<li>
                     <a href="calendar.html" style="width: 80%; display: inline-block;"><i class="fa fa-calendar" aria-hidden="true"></i> Calendar</a>
                 </li>

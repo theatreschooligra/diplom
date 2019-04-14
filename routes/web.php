@@ -32,10 +32,11 @@ Route::group([
     Route::get('/',             'HomeController@index')->name('home');
 
 
-    Route::resource('company',  'CompaniesController')->only('index', 'update');
-    Route::resource('user',     'UsersController');
-    Route::resource('group',    'GroupsController');
-    Route::resource('lesson',   'LessonsController');
+    Route::resource('company',      'CompaniesController')->only('index', 'update');
+    Route::resource('user',         'UsersController')->except('show');
+    Route::resource('group',        'GroupsController')->except('show');
+    Route::resource('lesson',       'LessonsController')->except('show');
+    Route::resource('repertoire',   'RepertoireController')->except('show');
 
 
     Route::group(['prefix' => 'search', 'as' => 'search.'], function () {
