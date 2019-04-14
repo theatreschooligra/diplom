@@ -37,6 +37,7 @@ Route::group([
     Route::resource('group',        'GroupsController')->except('show');
     Route::resource('lesson',       'LessonsController')->except('show');
     Route::resource('repertoire',   'RepertoireController')->except('show');
+    Route::resource('course',       'CourseController')->only('index', 'edit', 'update');
 
 
     Route::group(['prefix' => 'search', 'as' => 'search.'], function () {
