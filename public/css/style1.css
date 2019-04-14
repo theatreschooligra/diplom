@@ -237,26 +237,20 @@ h1{
   /* ******************************HEADER */
 
   header{
-      position: absolute;
       top: 0;
       left: 0;
-      bottom: 0;
       right: 0;
       width: 100%;
       display: flex;
       justify-content: center;
       height: 80px;
       align-items: center;
-      z-index: 1;
       border-bottom: 1px solid rgba(193,193,193,0.08);
-      /* background-color: #4D1594; */
-      background-color: rgba(77, 21, 148, 0.6);
-  }
-  .fixed{
       background-color: #4D1594;
       position: fixed;
       z-index: 9;
   }
+
   header .container{
       display: flex;
   }
@@ -367,7 +361,6 @@ h1{
 .slider .slick-slide .slider--text .btn:hover{
     background-color: #f7d518;
     cursor: pointer;
-    margin: 0 auto;
 }
 .slider .slider-bottom{
     display: flex;
@@ -813,6 +806,14 @@ footer .footer-top{
      width: 25%;
      margin: 0 25px;
 }
+.footer-top .footer-top-col.courses {
+    padding: 0;
+}
+.footer-top .footer-top-col .logo{
+    width: 125px;
+    height: 65px;
+}
+
 .footer-top .footer-top-col p{
     color: #f0f0f3;
 }
