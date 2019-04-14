@@ -303,9 +303,7 @@ h1{
   }
 
   /* *********************************SLIDER */
-.slider{
-    top: -80px;
-}
+
 .slider .slick-slide {
     height: 600px;
     position: relative;
