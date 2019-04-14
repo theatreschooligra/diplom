@@ -51,13 +51,7 @@
                                             <td>
                                                 <h2><a href="#">{{ $group->name }}<span></span></a></h2>
                                             </td>
-                                            @if ($group->course_type == 1)
-                                                <td>Коммуникативный курс</td>
-                                            @elseif ($group->course_type == 2)
-                                                <td>Актерский курс</td>
-                                            @else
-                                                <td>Спец. курс</td>
-                                            @endif
+                                            <td>{{ $group->course->name }}</td>
                                             <td>{{ $group->studentsFields->count() }}</td>
                                             <td class="text-right">
                                                 <form action="{{ route('admin.group.destroy', $group->id) }}" method="POST">

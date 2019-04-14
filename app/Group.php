@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Group extends Model
 {
     protected $fillable = [
-        'name', 'course_type'
+        'name', 'course_id'
     ];
 
     public function studentsFields()
@@ -26,5 +26,10 @@ class Group extends Model
     public function teachers()
     {
         return $this->belongsToMany(User::class, 'group_teacher')->withTimestamps();
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
     }
 }
