@@ -22,62 +22,16 @@
             <h1>Репертуары</h1>
             <div class="repertory_block">
                 <ul>
-                    <li><a href="#" data-toggle="modal" data-target="#repertoryModal">
-                            <div class="repertory-left">
-                                <div class="date">12 МРТ</div>
-                                <h5>Богемская Рапсодия <br><span class="room">возрастная ограничения</span><span class="time">18:00</span></h5>
-                            </div>
-                            <button class="btn">Купить</button>
-                        </a>
-                    </li>
-                    <li><a href="#">
-                            <div class="repertory-left">
-                                <div class="date">12 МРТ</div>
-                                <h5>Богемская Рапсодия <br><span class="room">возрастная ограничения</span><span class="time">18:00</span></h5>
-                            </div>
-                            <button class="btn">Купить</button>
-                        </a>
-                    </li>
-                    <li><a href="#">
-                            <div class="repertory-left">
-                                <div class="date">12 МРТ</div>
-                                <h5>Богемская Рапсодия <br><span class="room">возрастная ограничения</span><span class="time">18:00</span></h5>
-                            </div>
-                            <button class="btn">Купить</button>
-                        </a>
-                    </li>
-                    <li><a href="#">
-                            <div class="repertory-left">
-                                <div class="date">12 МРТ</div>
-                                <h5>Богемская Рапсодия <br><span class="room">возрастная ограничения</span><span class="time">18:00</span></h5>
-                            </div>
-                            <button class="btn">Купить</button>
-                        </a>
-                    </li>
-                    <li><a href="#">
-                            <div class="repertory-left">
-                                <div class="date">12 МРТ</div>
-                                <h5>Богемская Рапсодия <br><span class="room">возрастная ограничения</span><span class="time">18:00</span></h5>
-                            </div>
-                            <button class="btn">Купить</button>
-                        </a>
-                    </li>
-                    <li><a href="#">
-                            <div class="repertory-left">
-                                <div class="date">12 МРТ</div>
-                                <h5>Богемская Рапсодия <br><span class="room">возрастная ограничения</span><span class="time">18:00</span></h5>
-                            </div>
-                            <button class="btn">Купить</button>
-                        </a>
-                    </li>
-                    <li><a href="#">
-                            <div class="repertory-left">
-                                <div class="date">12 МРТ</div>
-                                <h5>Богемская Рапсодия <br><span class="room">возрастная ограничения</span><span class="time">18:00</span></h5>
-                            </div>
-                            <button class="btn">Купить</button>
-                        </a>
-                    </li>
+                    @foreach($repertoire as $row)
+                        <li><a href="#" data-toggle="modal" data-target="#repertoryModal">
+                                <div class="repertory-left">
+                                    <div class="date">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $row->time)->format('d') .' '. config('month.'. \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $row->time)->format('m')) }}</div>
+                                    <h5>{{ $row->name }} <br><span class="room">возрастная ограничения ({{ $row->age_limit }})</span><span class="time">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $row->time)->format('H:i') }}</span></h5>
+                                </div>
+                                <button class="btn">Купить</button>
+                            </a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </div>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGroupsTable extends Migration
+class CreateRepertoiresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('groups', function (Blueprint $table) {
+        Schema::create('repertoires', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
-            $table->integer('course_id')->unsigned()->default(1);
+            $table->string('name');
+            $table->string('image');
+            $table->dateTime('time');
+            $table->string('age_limit');
+            $table->integer('price')->unsigned();
             $table->timestamps();
-
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -30,6 +31,6 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('groups');
+        Schema::dropIfExists('repertoires');
     }
 }

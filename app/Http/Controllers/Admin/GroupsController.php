@@ -45,11 +45,12 @@ class GroupsController extends Controller
             'name'      => $request->name
         ]);
 
-        foreach ($student_id as $key => $value)
-            User::find($value)->fields->update([
-                'group_id' => $group->id
-            ]);
-
+        if ($student_id[0] != null) {
+            foreach ($student_id as $key => $value)
+                User::find($value)->fields->update([
+                    'group_id' => $group->id
+                ]);
+        }
         $group->teachers()->sync($request->teachers);
 
         return redirect()->route('admin.group.index');

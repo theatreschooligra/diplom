@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Course;
+use App\Repertoire;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('home');
+        $repertoire = Repertoire::where('time', '>', (string)now())->get()->sortBy('time');
+        return view('home', compact('repertoire'));
     }
 
     public function about()
@@ -19,7 +23,8 @@ class HomeController extends Controller
 
     public function courses()
     {
-        return view('courses');
+        $courses = Course::all();
+        return view('courses', compact('courses'));
     }
 
     public function team()
@@ -29,7 +34,8 @@ class HomeController extends Controller
 
     public function repertoire()
     {
-        return view('repertoire');
+        $repertoire = Repertoire::where('time', '>', (string)now())->get()->sortBy('time');
+        return view('repertoire', compact('repertoire'));
     }
 
     public function blogs()

@@ -72,78 +72,37 @@
         </div>
 
     </div>
-    </div>
 
-    <!-- spectacles -->
-    <div class="spectacles">
-        <div class="container">
-            <h2>Ближайшие спектакли</h2>
-            <div class="spectacles-slider">
-                <div>
-                    <a href="#" class="spectacles-block">
-                        <div class="spectacles-img"><img src="{{ asset('imgs/spectacle-1.jpg') }}">
-                            <div class="spectacles-date">
-                                <span> 02 </span>
-                                Май
-                            </div>
-                        </div>
+    @if (count($repertoire) > 0)
+        <!-- spectacles -->
+        <div class="spectacles">
+            <div class="container">
+                <h2>Ближайшие спектакли</h2>
+                <div class="spectacles-slider">
+                    @foreach($repertoire as $row)
+                        <div>
+                            <a href="#" class="spectacles-block">
+                                <div class="spectacles-img"><img src="{{ asset('img/'. $row->image) }}">
+                                    <div class="spectacles-date">
+                                        <span>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $row->time)->format('d') }}</span>
+                                        {{ config('month.'. \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $row->time)->format('m')) }}
+                                    </div>
+                                </div>
 
-                        <div class="spectacles-text">
-                            <h4>Горе от ума</h4>
-                            <p><span>Режиссер:</span> Джанатон Смит</p>
-                            <button class="btn">Посмотреть</button>
+                                <div class="spectacles-text">
+                                    <h4>{{ $row->name }}</h4>
+                                    <p><span>Время:</span> {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $row->time)->format('H:i') }}</p>
+                                    <button class="btn">Посмотреть</button>
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
-                <div>
-                    <a href="#" class="spectacles-block">
-                        <div class="spectacles-img"><img src="{{ asset('imgs/spectacle-2.jpg') }}">
-                            <div class="spectacles-date">
-                                <span>02 </span>Май
-                            </div>
-                        </div>
-                        <div class="spectacles-text">
-                            <h4>Горе от ума</h4>
-                            <p><span>Режиссер:</span> Джанатон Смит</p>
-                            <button class="btn">Посмотреть</button>
-                        </div>
-                    </a>
-                </div>
-                <div>
-                    <a href="#" class="spectacles-block">
-                        <div class="spectacles-img"><img src="{{ asset('imgs/spectacle-3.jpg') }}">
-                            <div class="spectacles-date">
-                                <span>02 </span>Май
-                            </div>
-                        </div>
-                        <div class="spectacles-text">
-                            <h4>Горе от ума</h4>
-                            <p><span>Режиссер:</span> Джанатон Смит</p>
-                            <button class="btn">Посмотреть</button>
-                        </div>
-                    </a>
-                </div>
-                <div>
-                    <a href="#" class="spectacles-block">
-                        <div class="spectacles-img"><img src="{{ asset('imgs/spectacle-3.jpg') }}">
-                            <div class="spectacles-date">
-                                <span>02 </span>Май
-                            </div>
-                        </div>
-                        <div class="spectacles-text">
-                            <h4>Горе от ума</h4>
-                            <p><span>Режиссер:</span> Джанатон Смит</p>
-                            <button class="btn">Посмотреть</button>
-                        </div>
-                    </a>
+                    @endforeach
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 
     <!-- courses -->
-
-
     <div class="courses">
         <div class="container">
             <h2>Наши курсы</h2>
