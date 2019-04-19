@@ -8,11 +8,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
-<!--[if lt IE 9]>
-<script src="{{ asset('js/html5shiv.min.js') }}"></script>
-<script src="{{ asset('js/respond.min.js') }}"></script>
-<![endif]-->
 
 @yield('head-content')

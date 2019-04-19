@@ -1,8 +1,8 @@
 @extends('admin.layouts.app')
 
 @section('head-content')
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
     <style>
         table td, th {
             min-width: 110px;
@@ -92,8 +92,8 @@
                                             <input id="address_search" class="form-control column-search">
                                         </td>
                                         <td>
-                                            <input id="birthday_from_search" class="form-control column-search datetimepicker" placeholder="с">
-                                            <input id="birthday_to_search" class="form-control column-search datetimepicker" placeholder="по">
+                                            <input id="birthday_from_search" class="form-control column-search date_picker" placeholder="с" readonly>
+                                            <input id="birthday_to_search" class="form-control column-search date_picker" placeholder="по" readonly>
                                         </td>
                                         <td>
                                             <input id="phone_number_search" class="form-control column-search">
@@ -156,6 +156,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="{{ asset('bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bootstrap-datepicker/dist/locales/bootstrap-datepicker.ru.min.js') }}"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -170,6 +172,15 @@
 
             $('.column-search').on('change', function () {
                 search();
+            });
+
+            $('.date_picker').datepicker({
+                format: 'dd.mm.yyyy',
+                language: 'ru',
+                autoclose: true,
+                todayBtn: 'linked',
+                position: "bottom-left",
+                todayHighlight: true
             });
         });
 

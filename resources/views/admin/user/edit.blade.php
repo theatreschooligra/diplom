@@ -80,7 +80,7 @@
                                             <label class="col-lg-3 col-form-label">День рождения:</label>
                                             <div class="col-lg-9">
                                                 <input type="text" value="{{ ($user->fields->birthday == null) ? '' : (\Carbon\Carbon::createFromFormat('Y-m-d', $user->fields->birthday))->format('d/m/Y') }}"
-                                                       class="datetimepicker form-control" class="form-control" name="birthday">
+                                                       class="form-control" class="form-control"  name="birthday">
                                                 @if ($errors->has('birthday'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('birthday') }}</strong>

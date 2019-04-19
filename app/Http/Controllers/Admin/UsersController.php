@@ -81,7 +81,7 @@ class UsersController extends Controller
             'user_id'       => $user->id,
             'surname'       => $request->surname,
             'name'          => $request->name,
-            'birthday'      => ($request->birthday == null) ? null : Carbon::createFromFormat('d/m/Y', $request->birthday),
+            'birthday'      => ($request->birthday == null) ? null : Carbon::createFromFormat('d.m.Y', $request->birthday),
             'gender'        => $request->gender,
             'phone_number'  => $request->phone_number,
             'address'       => $request->address,

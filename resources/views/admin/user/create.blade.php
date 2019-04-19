@@ -1,5 +1,9 @@
 @extends('admin.layouts.app')
 
+@section('head-content')
+    <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+@endsection
+
 @section('content')
 
     <div class="page-wrapper"> <!-- content -->
@@ -79,7 +83,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">День рождения:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" class="datetimepicker form-control" name="birthday">
+                                                <input type="text" id="birthday" class="form-control" name="birthday" readonly>
                                                 @if ($errors->has('birthday'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('birthday') }}</strong>
@@ -221,10 +225,11 @@
 @endsection
 
 @section('footer-content')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
     <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
     <script src="/vendor/unisharp/laravel-ckeditor/adapters/jquery.js"></script>
+    <script type="text/javascript" src="{{ asset('bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bootstrap-datepicker/dist/locales/bootstrap-datepicker.ru.min.js') }}"></script>
 
     <script>
         function onFileSelected(event) {
@@ -242,6 +247,16 @@
         }
         $(document).ready(function() {
             $('input[name="phone_number"]').mask('0 (000) 000 00-00');
+
+        });
+        $('#birthday').datepicker({
+            format: 'dd.mm.yyyy',
+            language: 'ru',
+            autoclose: true,
+            todayBtn: 'linked',
+            pickerPosition: "bottom-left",
+            startView: 2,
+            todayHighlight: true
         });
 
         @if ($role->id == 2)

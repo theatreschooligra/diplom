@@ -27,7 +27,7 @@ class CreateUserRequest extends FormRequest
             'email'         => 'required|string|email|unique:users,email',
             'name'          => 'required|string',
             'surname'       => 'required|string',
-            'birthday'      => 'nullable|date_format:d/m/Y',
+            'birthday'      => 'nullable|date_format:d.m.Y',
             'gender'        => 'required|boolean',
             'phone_number'  => 'nullable|string|size:17',
             'address'       => 'nullable|string',
