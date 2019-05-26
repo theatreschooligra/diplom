@@ -16,17 +16,23 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         $arr = [
-            'id'            => $this->id,
-            'role'          => $this->role,
-            'email'         => $this->email,
-            'surname'       => $this->fields->surname,
-            'name'          => $this->fields->name,
-            'gender'        => $this->fields->gender,
-            'address'       => $this->fields->address,
-            'image'         => ($this->fields->image == null) ? $this->fields->name[0] : asset('img/'. $this->fields->image),
-            'birthday'      => (new Carbon($this->date))->format('d/m/Y'),
-            'phone_number'  => $this->phone_number,
+            'id'    => $this->id,
+            'role'  => $this->role,
+            'email' => $this->email
         ];
+
+        if ($this->role_id != 1)
+        {
+            $arr += [
+                'surname'       => $this->fields->surname,
+                'name'          => $this->fields->name,
+                'gender'        => $this->fields->gender,
+                'address'       => $this->fields->address,
+                'image'         => ($this->fields->image == null) ? $this->fields->name[0] : asset('img/'. $this->fields->image),
+                'birthday'      => (new Carbon($this->fields->date))->format('d/m/Y'),
+                'phone_number'  => $this->fields->phone_number
+            ];
+        }
 
         if ($this->role_id == 3) {
             if ($this->fields->group_id != null && $this->fields->group_id != 0)

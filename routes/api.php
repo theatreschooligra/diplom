@@ -17,6 +17,20 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 
+
+Route::group(['namespace' => 'Api'], function () {
+
+    Route::post('auth/login', 'AuthController@login');
+
+    Route::group(['middleware' => 'auth.jwt'], function () {
+
+        Route::group(['prefix' => 'auth'], function () {
+            Route::get('me',        'AuthController@me');
+            Route::get('logout',    'AuthController@logout');
+        });
+    });
+});
+
 Route::apiResource('users',         'Api\UsersController')->except('store', 'index', 'update');
 Route::apiResource('groups',        'Api\GroupsController');
 Route::apiResource('group-user',    'Api\GroupUserController')->only('index', 'update');

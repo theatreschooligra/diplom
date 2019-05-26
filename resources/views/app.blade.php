@@ -56,7 +56,7 @@
                 <br>
                 <p>Актерская школа</p>
                 <ul class="social">
-                    <li><a href="{{ $company->url_to_youtube }}" target="_blank"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+                    <li><a href="{{ $company->url_to_youtube }}" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
                     <li><a href="{{ $company->url_to_facebook }}" target="_blank"><i class="fa fa-facebook-f"></i></a></li>
                     <li><a href="{{ $company->url_to_instagram }}" target="_blank"><i class="fa fa-instagram"></i></a></li>
                 </ul>
