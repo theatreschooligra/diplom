@@ -28,10 +28,14 @@ Route::group(['namespace' => 'Api'], function () {
             Route::get('me',        'AuthController@me');
             Route::get('logout',    'AuthController@logout');
         });
+
+        Route::group(['prefix' => 'igra'], function () {
+            Route::apiResource('groups',        'GroupsController');
+        });
     });
+
 });
 
 Route::apiResource('users',         'Api\UsersController')->except('store', 'index', 'update');
-Route::apiResource('groups',        'Api\GroupsController');
 Route::apiResource('group-user',    'Api\GroupUserController')->only('index', 'update');
 

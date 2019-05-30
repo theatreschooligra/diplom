@@ -10,6 +10,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
+        "spatie/laravel-query-builder": "^1.17",
         "tymon/jwt-auth": "dev-develop",
         "unisharp/laravel-ckeditor": "^4.7"
     },
