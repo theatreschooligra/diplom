@@ -30,12 +30,13 @@ Route::group(['namespace' => 'Api'], function () {
         });
 
         Route::group(['prefix' => 'igra'], function () {
-            Route::apiResource('groups',        'GroupsController');
+            Route::apiResource('user',         'UsersController');
+            Route::apiResource('group',        'GroupsController');
+            Route::apiResource('lesson',       'LessonController');
         });
     });
 
 });
 
-Route::apiResource('users',         'Api\UsersController')->except('store', 'index', 'update');
 Route::apiResource('group-user',    'Api\GroupUserController')->only('index', 'update');
 

@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Group;
-use App\Http\Controllers\Controller;
-use App\Http\Filters\GroupNameFilter;
-use App\Http\Resources\GroupResource;
-use Illuminate\Http\Response;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\Filter;
+use App\Http\Resources\LessonResource;
+use App\Lesson;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use Spatie\QueryBuilder\Filter;
+use Spatie\QueryBuilder\QueryBuilder;
 
-class GroupsController extends Controller
+class LessonController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,28 +18,22 @@ class GroupsController extends Controller
      */
     public function index()
     {
-        $group = QueryBuilder::for(Group::class)
+        $lessons = QueryBuilder::for(Lesson::class)
             ->allowedFilters([
-                Filter::custom('name', GroupNameFilter::class),
-            ]);
+                Filter::exact('lesson_date')
+            ])
+            ->orderBy('lesson_date')
+            ->orderBy('lesson_time')
+        ;
 
-        $user = Auth::user();
-
-        if ($user->role_id == 2)
-        {
-            $group = $group->whereHas('teachers', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            });
-        }
-
-        return GroupResource::collection($group->get());
+        return LessonResource::collection($lessons->get());
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -52,12 +43,12 @@ class GroupsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Group $group
-     * @return GroupResource
+     * @param Lesson $lesson
+     * @return LessonResource
      */
-    public function show(Group $group)
+    public function show(Lesson $lesson)
     {
-        return new GroupResource($group);
+        return new LessonResource($lesson);
     }
 
     /**
@@ -65,7 +56,7 @@ class GroupsController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -76,7 +67,7 @@ class GroupsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {

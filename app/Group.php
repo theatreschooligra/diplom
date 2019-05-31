@@ -12,9 +12,13 @@ class Group extends Model
 
     public function studentsFields()
     {
-        return $this->hasMany(StudentsField::class);
+        return $this->hasMany(StudentsField::class)->with('user');
     }
 
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'students_fields')->orderBy('students_fields.surname');
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

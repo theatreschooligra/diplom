@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Admin\Api;
 
-use App\Http\Filters\UserGroupFilter;
 use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Spatie\QueryBuilder\Filter;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class UsersController extends Controller
 {
@@ -18,19 +15,22 @@ class UsersController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = QueryBuilder::for(User::class)
-            ->allowedFilters(
-                Filter::custom('group_id', UserGroupFilter::class)
-            )
-            ->get()
-            ->sortBy(function ($query) {
-                return $query->student->surname;
-            })
-            ;
+        if ($request->has('group_id')) {
+            $group_id = ($request->group_id == 0) ? null : $request->group_id;
 
-        return UserResource::collection($users);
+            return UserResource::collection(User::query()
+                ->where('role_id', 3)
+                ->whereHas('student', function ($query) use ($group_id) {
+                    $query->where('group_id', $group_id);
+                })->get()
+                ->sortBy(function ($query) {
+                    return $query->student->surname;
+                }));
+        }
+
+        return UserResource::collection(User::paginate(10));
     }
 
     /**

@@ -19,7 +19,8 @@ class GroupResource extends JsonResource
             'name'            => $this->name,
             'course'          => $this->course,
             'teachers'        => $this->teachers,
-            'students_amount' => $this->studentsFields->count()
+            'students_amount' => $this->studentsFields->count(),
+            'students'        => UserResource::collection($this->students)
         ];
     }
 }

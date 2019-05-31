@@ -29,7 +29,7 @@ Route::group([
     'as'            => 'admin.'
 ], function () {
 
-    Route::get('/',             'HomeController@index')->name('home');
+    Route::get('/', 'HomeController@index')->name('home');
 
 
     Route::resource('company',      'CompaniesController')->only('index', 'update');
@@ -45,11 +45,10 @@ Route::group([
     });
 
     Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
-        Route::post('get-rooms', 'HomeController@lesson_room')->name('lesson_date');
+        Route::post('get-rooms',     'HomeController@lesson_room')->name('lesson_date');
+        Route::apiResource('users',  'Api\UsersController')->except('store', 'index', 'update');
     });
 });
 
 
 Auth::routes();
-
-

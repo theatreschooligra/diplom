@@ -10,6 +10,10 @@ class Lesson extends Model
         'name', 'group_id', 'teacher_id', 'lesson_date', 'lesson_time', 'room'
     ];
 
+    protected $dates = [
+        'lesson_date'
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

@@ -136,7 +136,7 @@
         function listOfStudentsInSelection() {
             $('#selectStudent').html('<option id="student-in-selection" value="0">Список учеников</option>');
             $.ajax({
-                url: '/api/users?group_id='+ null,
+                url: '/admin/api/users?group_id='+ null,
                 method: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -153,7 +153,7 @@
         function listOfStudentsInTable() {
             $('#list-of-students').html('');
             $.ajax({
-                url: "/api/users?group_id={{ $group->id }}",
+                url: "/admin/api/users?group_id={{ $group->id }}",
                 method: 'GET',
                 dataType: 'json',
                 success: function (data) {

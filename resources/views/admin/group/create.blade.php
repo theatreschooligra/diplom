@@ -126,7 +126,7 @@
                 arrayOfSelectedStudents.push(parseInt(id, 10));
 
                 $.ajax({
-                    url: "/api/users/"+ id,
+                    url: "/admin/api/users/"+ id,
                     method: 'GET',
                     dataType: 'json',
                     success: function (data) {
