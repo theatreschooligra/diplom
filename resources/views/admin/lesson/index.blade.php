@@ -53,9 +53,9 @@
                                                 <h2>{{ $lesson->name }}</h2>
                                             </td>
                                             <td>{{ $lesson->group->name }}</td>
-                                            <td>{{ $lesson->teacher->teacher->name }}</td>
+                                            <td>{{ $lesson->teacher->teacher->surname .' '. $lesson->teacher->teacher->name }}</td>
                                             <td>{{ (Dict::rooms())[$lesson->room] }}</td>
-                                            <td>{{ (\Carbon\Carbon::createFromFormat('Y-m-d', $lesson->lesson_date))->format('d/m/Y') }}</td>
+                                            <td>{{ (new \Carbon\Carbon($lesson->lesson_date))->format('d/m/Y') }}</td>
                                             <td>{{ (Dict::lesson_times())[$lesson->lesson_time]  }}</td>
                                             <td class="text-right">
                                                 <form action="{{ route('admin.lesson.destroy', $lesson->id) }}" method="POST">
