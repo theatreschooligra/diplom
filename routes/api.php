@@ -33,6 +33,8 @@ Route::group(['namespace' => 'Api'], function () {
             Route::apiResource('user',         'UsersController');
             Route::apiResource('group',        'GroupsController');
             Route::apiResource('lesson',       'LessonController');
+
+            Route::get('lesson_time', 'HomeController@lesson_time');
         });
     });
 

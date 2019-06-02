@@ -16,13 +16,14 @@ class LessonResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'          => $this->id,
-            'name'        => $this->name,
-            'group'       => $this->group,
-            'lesson_date' => (string) $this->lesson_date,
-            'lesson_time' => Dict::lesson_times()[$this->lesson_time],
-            'room'        => Dict::rooms()[$this->room],
-            'teacher'     => new UserResource($this->teacher),
+            'id'                => $this->id,
+            'name'              => $this->name,
+            'group'             => $this->group,
+            'lesson_date'       => (string) $this->lesson_date,
+            'lesson_time_index' => $this->lesson_time,
+            'lesson_time'       => Dict::lesson_times()[$this->lesson_time],
+            'room'              => Dict::rooms()[$this->room],
+            'teacher'           => new UserResource($this->teacher),
         ];
     }
 }
