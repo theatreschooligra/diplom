@@ -36,12 +36,12 @@ class LessonsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateLessonRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(CreateLessonRequest $request)
     {
-        Lesson::create([
+        $lesson = Lesson::create([
             'name'          => $request->name,
             'group_id'      => $request->group_id,
             'lesson_date'   => Carbon::createFromFormat('d/m/Y', $request->lesson_date),
@@ -49,6 +49,8 @@ class LessonsController extends Controller
             'room'          => $request->room,
             'teacher_id'    => $request->teacher_id
         ]);
+
+        $lesson->students()->sync($lesson->group->students->pluck('id')->toArray());
 
         return redirect()->route('admin.lesson.index');
     }

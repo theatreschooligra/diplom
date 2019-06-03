@@ -47,14 +47,12 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @param  User $user
-     * @return \Illuminate\Http\Response
+     * @return UserResource
      */
     public function update(Request $request, User $user)
     {
-
-
         return new UserResource($user);
     }
 

@@ -17,7 +17,7 @@ class CreateAttendancesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('lesson_id');
             $table->unsignedInteger('student_id');
-            $table->boolean('is_exist')->defauld(0);
+            $table->boolean('is_exist')->default(0);
             $table->timestamps();
 
             $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade')->onUpdate('cascade');

@@ -26,11 +26,17 @@ class Lesson extends Model
     {
         return $this->belongsTo(User::class, 'teacher_id');
     }
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function attendance()
     {
-        return $this->hasOne(Attendance::class);
+        return $this->hasMany(Attendance::class);
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'attendances', 'lesson_id', 'student_id')->withTimestamps();
     }
 }

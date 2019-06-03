@@ -30,14 +30,28 @@ Route::group(['namespace' => 'Api'], function () {
         });
 
         Route::group(['prefix' => 'igra'], function () {
-            Route::apiResource('user',         'UsersController');
-            Route::apiResource('group',        'GroupsController');
-            Route::apiResource('lesson',       'LessonController');
+
+            Route::apiResource('user',         'UsersController')->except(['store', 'destroy']);
+            Route::apiResource('group',        'GroupsController')->only(['index', 'show']);
+            Route::apiResource('lesson',       'LessonController')->only(['index', 'show']);
+
+            Route::apiResource('attendance',   'AttendanceController')->only(['show', 'update'])
+                ->parameters([
+                    'attendance' => 'lesson'
+                ]);
 
             Route::get('lesson_time', 'HomeController@lesson_time');
         });
     });
 
+});
+
+Route::get('runtest', function () {
+    $lesson = \App\Lesson::find(1);
+    $lesson->students()->sync($lesson->group->students->pluck('id')->toArray());
+    dd(
+        $lesson->group->students->pluck('id')
+    );
 });
 
 Route::apiResource('group-user',    'Api\GroupUserController')->only('index', 'update');
