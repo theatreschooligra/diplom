@@ -22,11 +22,12 @@ class UsersController extends Controller
     {
         $users = QueryBuilder::for(User::class)
             ->allowedFilters(
+                Filter::exact('role_id'),
                 Filter::custom('group_id', UserGroupFilter::class)
             )
             ->get()
             ->sortBy(function ($query) {
-                return $query->student->surname;
+                return $query->fields->surname;
             })
             ;
 
