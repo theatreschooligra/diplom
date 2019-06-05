@@ -62,9 +62,14 @@ class User extends Authenticatable implements JWTSubject
      */
     public function group()
     {
-        return $this->student->belongsTo(Group::class);
+        if ($this->role_id == 3)
+            return $this->student->belongsTo(Group::class);
     }
 
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_teacher');
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

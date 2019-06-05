@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\LessonResource;
 use App\Lesson;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\Filter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -24,6 +25,15 @@ class LessonController extends Controller
             ->orderBy('lesson_date')
             ->orderBy('lesson_time')
         ;
+        if (Auth::user()->role_id == 2) {
+            $lessons->where('teacher_id', Auth::id());
+        } else if (Auth::user()->role_id == 3) {
+            $lessons->whereHas('group', function ($query) {
+                $query->whereHas('students', function ($query) {
+                    $query->where('users.id', Auth::id());
+                });
+            });
+        }
 
         return LessonResource::collection($lessons->get());
     }

@@ -6,11 +6,9 @@ use App\Group;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\GroupNameFilter;
 use App\Http\Resources\GroupResource;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\Filter;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class GroupsController extends Controller
 {
@@ -27,7 +25,6 @@ class GroupsController extends Controller
             ]);
 
         $user = Auth::user();
-
         if ($user->role_id == 2)
         {
             $group = $group->whereHas('teachers', function ($query) use ($user) {

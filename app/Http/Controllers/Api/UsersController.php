@@ -7,6 +7,7 @@ use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\Filter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -25,12 +26,23 @@ class UsersController extends Controller
                 Filter::exact('role_id'),
                 Filter::custom('group_id', UserGroupFilter::class)
             )
-            ->get()
-            ->sortBy(function ($query) {
-                return $query->fields->surname;
-            })
             ;
-
+        if (isset(request()->get('filter')['role_id'])) {
+            $role_id = request()->get('filter')['role_id'];
+            $user = Auth::user();
+            if ($role_id == 2 && $user->role_id == 3) {
+                $users->whereHas('groups', function ($query) use ($user) {
+                    $query->whereHas('students', function ($query) use ($user) {
+                        $query->where('users.id', $user->id);
+                    });
+                });
+            }
+            $users = $users->get();
+            if ($role_id != 1)
+                $users = $users->sortBy(function ($query) {
+                    return $query->fields->surname;
+                });
+        }
         return UserResource::collection($users);
     }
 

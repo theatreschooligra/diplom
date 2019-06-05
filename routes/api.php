@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,11 +46,7 @@ Route::group(['namespace' => 'Api'], function () {
 });
 
 Route::get('runtest', function () {
-    $lesson = \App\Lesson::find(1);
-    $lesson->students()->sync($lesson->group->students->pluck('id')->toArray());
-    dd(
-        $lesson->group->students->pluck('id')
-    );
+    return 'good mood';
 });
 
 Route::apiResource('group-user',    'Api\GroupUserController')->only('index', 'update');
