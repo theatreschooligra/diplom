@@ -13,7 +13,7 @@
                 <h3>Актерская школа "Игра"</h3>
                 <p>Познакомьтесь с преподавателями и методикой школы "Игра"</p>
                 <div class="slider-bottom">
-                    <button class="btn">Записаться</button>
+                    <button class="btn" data-toggle="modal" data-target="#coursesModal">Записаться</button>
                     <button class="btn">Написать whatsapp</button>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                 <h3>Актерская школа "Игра"</h3>
                 <p>Познакомьтесь с преподавателями и методикой школы "Игра"</p>
                 <div class="slider-bottom">
-                    <button class="btn">Записаться</button>
+                    <button class="btn" data-toggle="modal" data-target="#coursesModal">Записаться</button>
                     <button class="btn">Написать whatsapp</button>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 <h3>Актерская школа "Игра"</h3>
                 <p>Познакомьтесь с преподавателями и методикой школы "Игра"</p>
                 <div class="slider-bottom">
-                    <button class="btn">Записаться</button>
+                    <button class="btn" data-toggle="modal" data-target="#coursesModal">Записаться</button>
                     <button class="btn">Написать whatsapp</button>
                 </div>
             </div>

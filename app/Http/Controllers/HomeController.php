@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Course;
 use App\Repertoire;
+use App\User;
 use Carbon\Carbon;
 
 class HomeController extends Controller
@@ -29,7 +30,12 @@ class HomeController extends Controller
 
     public function team()
     {
-        return view('team');
+        $teachers = User::where('role_id', 2)
+            ->get()
+            ->sortBy(function ($query) {
+                return $query->teacher->surname;
+            });;
+        return view('team', compact('teachers'));
     }
 
     public function repertoire()
