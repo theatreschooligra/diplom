@@ -88,7 +88,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getGender()
     {
-        return ($this->fields->gender) ? "Male" : "Female";
+        return ($this->fields->gender) ? "Парень" : "Девушка";
     }
 
     /**

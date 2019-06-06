@@ -23,7 +23,7 @@
             <div class="repertory_block">
                 <ul>
                     @foreach($repertoire as $row)
-                        <li><a href="#" data-toggle="modal" data-target="#repertoryModal">
+                        <li><a href="#" data-toggle="modal" id="repertoire-{{ $row->id }}" data-target="#repertoryModal">
                                 <div class="repertory-left">
                                     <div class="date">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $row->time)->format('d') .' '. config('month.'. \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $row->time)->format('m')) }}</div>
                                     <h5>{{ $row->name }} <br><span class="room">возрастная ограничения ({{ $row->age_limit }})</span><span class="time">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $row->time)->format('H:i') }}</span></h5>

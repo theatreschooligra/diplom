@@ -1,5 +1,10 @@
 @extends('app')
 
+@section('head-content')
+    <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap-theme.min.css') }}"/>
+@endsection
+
 @section('content')
     <div class="bread">
         <div class="container">
@@ -9,6 +14,8 @@
             </ul>
         </div>
     </div>
+
+    @include('includes.modal-form')
 
     <div class="courses-page">
         <div class="container">
@@ -21,10 +28,14 @@
                     <div class="courses_block-right">
                         <h3>{{ $course->name }}</h3>
                         {!! $course->description !!}
-                        <button type="submit" class="btn">Записаться</button>
+                        <button type="submit" data-toggle="modal" data-target="#coursesModal" class="btn">Записаться</button>
                     </div>
                 </div>
             @endforeach
         </div>
     </div>
+@endsection
+
+@section('footer-content')
+    <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 @endsection

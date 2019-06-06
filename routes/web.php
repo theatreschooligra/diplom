@@ -11,16 +11,17 @@
 |
 */
 
-Route::get('/',             'HomeController@index')->name('home');
-Route::get('/about',        'HomeController@about')->name('about');
-Route::get('/courses',      'HomeController@courses')->name('courses');
-Route::get('/team',         'HomeController@team')->name('team');
-Route::get('/repertoire',   'HomeController@repertoire')->name('repertoire');
-Route::get('/blogs',        'HomeController@blogs')->name('blogs');
-Route::get('/blogs/{id}',   'HomeController@blog')->name('blog');
-Route::get('/contact',      'HomeController@contact')->name('contact');
+use Illuminate\Support\Facades\Mail;
 
-
+Route::get('/',            'HomeController@index')->name('home');
+Route::get('about',        'HomeController@about')->name('about');
+Route::get('courses',      'HomeController@courses')->name('courses');
+Route::get('team',         'HomeController@team')->name('team');
+Route::get('repertoire',   'HomeController@repertoire')->name('repertoire');
+Route::get('blogs',        'HomeController@blogs')->name('blogs');
+Route::get('blogs/{id}',   'HomeController@blog')->name('blog');
+Route::get('contact',      'HomeController@contact')->name('contact');
+Route::post('send-mail',   'HomeController@sendMail')->name('send-mail');
 
 Route::group([
     'middleware'    => 'admin',
@@ -50,5 +51,8 @@ Route::group([
     });
 });
 
+Route::get('runtest', function () {
+    return 'good mood';
+});
 
 Auth::routes();

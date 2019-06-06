@@ -44,7 +44,7 @@ class LessonsController extends Controller
         $lesson = Lesson::create([
             'name'          => $request->name,
             'group_id'      => $request->group_id,
-            'lesson_date'   => Carbon::createFromFormat('d/m/Y', $request->lesson_date),
+            'lesson_date'   => Carbon::createFromFormat('d.m.Y', $request->lesson_date),
             'lesson_time'   => $request->lesson_time,
             'room'          => $request->room,
             'teacher_id'    => $request->teacher_id
@@ -99,7 +99,7 @@ class LessonsController extends Controller
         $update_arr = $request->only([
             'name', 'teacher_id', 'lesson_time', 'room'
         ]);
-        $update_arr['lesson_date'] = Carbon::createFromFormat('d/m/Y', $request->lesson_date);
+        $update_arr['lesson_date'] = Carbon::createFromFormat('d.m.Y', $request->lesson_date);
 
         $lesson->update($update_arr);
 

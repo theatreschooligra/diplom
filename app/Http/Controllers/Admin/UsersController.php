@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Group;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Mail\SendMail;
 use App\Role;
 use App\StudentsField;
 use App\TeachersField;
@@ -42,6 +40,7 @@ class UsersController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
@@ -103,20 +102,13 @@ class UsersController extends Controller
             TeachersField::create($user_fields);
         }
 
-//        Mail::send(new SendMail($user, $password));
+        Mail::send('email.to_client', ['user' => $user, 'password' => $password], function($message) use ($user) {
+            $message->to($user->email, $user->fields->surname .' '. $user->fields->name)->subject
+            ('Регистрация пользователя');
+            $message->from('NRGruslan@gmail.com','Театральный школы "Игра"');
+        });
 
         return redirect()->route('admin.user.index', ['role' => $request->role_id, 'view' => $request->view]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
     }
 
     /**

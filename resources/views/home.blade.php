@@ -49,14 +49,14 @@
             <div class="advantages-row">
                 <div class="advantages_block">
                     <div class="advantages_block-top">
-                        <img src="{{ asset('imgs/rising.png') }}">
+                        <img src="{{ asset('imgs/masks.png') }}">
                     </div>
                     <h3>Преподаватели</h3>
                     <p>Все преподаватели действующие актеры театра.</p>
                 </div>
                 <div class="advantages_block">
                     <div class="advantages_block-top">
-                        <img src="{{ asset('imgs/adv-2.png') }}">
+                        <img src="{{ asset('imgs/location.png') }}">
                     </div>
                     <h3>Удобное расположение</h3>
                     <p>Мы находимся по адресу проспект Абая 10а, уг.пр. Назарбаева.</p>
@@ -81,7 +81,7 @@
                 <div class="spectacles-slider">
                     @foreach($repertoire as $row)
                         <div>
-                            <a href="#" class="spectacles-block">
+                            <a href="/repertoire#repertoire-{{ $row->id }}" class="spectacles-block">
                                 <div class="spectacles-img"><img src="{{ asset('img/'. $row->image) }}">
                                     <div class="spectacles-date">
                                         <span>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $row->time)->format('d') }}</span>
@@ -167,32 +167,11 @@
     </div>
 
     <!-- courses modal -->
-    <div class="modal fade" id="coursesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                    <h3>Запишитесь на бесплатное занятие</h3>
-                    <p>Познакомьтесь с преподавателями и методикой школы "Игра"</p>
-                </div>
-                <div class="modal-body">
-                    <div class="request">
-                        <form>
-                            <input type="text" placeholder="Имя">
-                            <input type="text" name="tel" placeholder="+7 (999) 999-99-99">
-                            <input type="text" placeholder="E-mail">
-                            <input type="number" placeholder="Возраст ребенка">
-                            <input type="submit" value="Отправить" class="btn">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('includes.modal-form')
 
     <!-- teachers block -->
-
-    <div class="modal fade teachers" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    @foreach($teachers as $teacher)
+        <div class="modal fade teachers" id="myModal-{{ $teacher->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -200,77 +179,42 @@
                 </div>
                 <div class="modal-body">
                     <div class="modal-left">
-                        <img src="{{ asset('imgs/teacher-1.png') }}">
+                        <img src="{{ ($teacher->teacher->image) ? asset('img/'. $teacher->teacher->image) : asset('img/user.jpg') }}">
                         <button class="btn">Подписаться</button>
                     </div>
                     <div class="modal-right">
-                        <h3>Айнур Асанова</h3>
-                        <p>Илья Соболев, Народный артист РК, Лауреат государственной премии, Кавалер орденов «Парасат», «Отан», Ордена «Красного знамени», обладатель нагрудного знака «Заслуженный деятель искусств»
-
-                            Родился в 1936 году в Южно Казахстанской области, в районе Арыс.
-
-                            1955 – 1959 гг. oкончил театральный факультет Казахской Государственной консерватории им.Курмангазы, по специальности актер.
-
-                            С 1960 г. по настоящее время – актер театра им. М. Ауэзова.
-
-                            Начал свой творческий путь с комедийного жанра, блистал в спектаклях «Волчонок под шапкой»,
-                            «Сватья приехала» К. Мухамеджнаова, «Ох, уж эти девушки!» К. Шангытбаева и К. Байсейтова.
-                            За полвека работы на сцене театра актер создал более 100 ролей из казахской и мировой классики,
-                            современной драматургии. Самые яркие образы это Жантык в «Козы Корпеш – Баян сулу» Г. Мусрепова,
-                            Дурбит в «Майре»А. Тажибаева, Жаяу Муса в «Жаяу Муса» З. Шашкина, Муров в пьесе «Без вины виноватые»
-                            А. Осторвского, Исабек в « Восхождении на Фудзияму» К. Мухамеджанова и Ч. Айтматова, Достоевский в спек.
-                            «Узник степей» О. Бодыкова, Хан Абулхаир в «Клятве» Т. Ахтанова, Правитель округа в «Ревизоре» Н. Гоголя,
-                            Суйеу в спектакле «Кровь и пот» А. Нурпейсова, Асан в «Везучем парне» А. Тарази, Демесин в спектакле
-                            «Стражник тишины» Д. Исабекова, Серебряков в «дяде Ваня» Чехова, и другие не похожие друг на друга
-                            значительные персонажи.</p>
+                        <h3>{{ $teacher->teacher->surname .' '. $teacher->teacher->name}}</h3>
+                        {!! $teacher->teacher->about !!}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    @endforeach
     <!-- teachers -->
+    @if (count($teachers) > 0)
+        <div class="teachers">
+            <div class="container">
+                <h2>Наши преподаватели</h2>
+                <div class="teachers-row">
+                    @foreach($teachers as $teacher)
+                        <a href="#" class="teachers_block" data-toggle="modal" data-target="#myModal-{{ $teacher->id }}">
+                            <img src="{{ ($teacher->teacher->image) ? asset('img/'. $teacher->teacher->image) : asset('img/user.jpg') }}">
+                            <div class="teachers-info">
+                                <h4>{{ $teacher->teacher->surname .' '. $teacher->teacher->name }}</h4>
+                                <p>{{ $teacher->teacher->profession }}<br>
+                                    Стаж {{ $teacher->teacher->experience }}
+                                </p>
 
-    <div class="teachers">
-        <div class="container">
-            <h2>Наши преподаватели</h2>
-            <div class="teachers-row">
-                <a href="#" class="teachers_block" data-toggle="modal" data-target="#myModal">
-                    <img src="{{ asset('imgs/teacher-1.png') }}">
-                    <div class="teachers-info">
-                        <h4>Сабина Нурмагановна</h4>
-                        <p>Актерское мастерство<br>
-                            Стаж 5лет
-                        </p>
-
-                    </div>
-                </a>
-                <a href="#" class="teachers_block" data-toggle="modal" data-target="#myModal">
-                    <img src="{{ asset('imgs/teacher-2.png') }}">
-                    <div class="teachers-info">
-                        <h4>Сабина Нурмагановна</h4>
-                        <p>Актерское мастерство<br>
-                            Стаж 5лет
-                        </p>
-
-                    </div>
-                </a>
-                <a href="#" class="teachers_block" data-toggle="modal" data-target="#myModal">
-                    <img src="{{ asset('imgs/teacher-3.png') }}">
-                    <div class="teachers-info">
-                        <h4>Сабина Нурмагановна</h4>
-                        <p>Актерское мастерство<br>
-                            Стаж 5лет
-                        </p>
-
-                    </div>
-                </a>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 
     <!-- reviews -->
-
     <div class="reviews">
         <img src="{{ asset('imgs/background2.jpg') }}">
         <div class="container">

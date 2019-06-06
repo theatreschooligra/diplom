@@ -1,6 +1,6 @@
 <div class="header"> <!-- Header start -->
     <div class="header-left">
-        <a href="index.html" class="logo">
+        <a href="/admin" class="logo">
             <img src="{{ asset('img/logo.png') }}" width="40" height="40" alt="">
             <span class="text-uppercase">Preschool</span>
         </a>

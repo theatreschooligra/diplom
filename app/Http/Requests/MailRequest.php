@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class UpdateLessonRequest extends FormRequest
+class MailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class UpdateLessonRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check();
+        return true;
     }
 
     /**
@@ -25,11 +24,11 @@ class UpdateLessonRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => 'required|string',
-            'teacher_id'    => 'required|integer|min:1',
-            'lesson_date'   => 'required|date_format:d.m.Y|after:now',
-            'lesson_time'   => 'required|integer|min:1',
-            'room'          => 'required|integer|min:1',
+            'email'        => 'required|email|unique:users,email',
+            'surname'      => 'required|string|max:191',
+            'name'         => 'required|string|max:191',
+            'birthday'     => 'nullable|date_format:d.m.Y',
+            'phone_number' => 'nullable|string|size:17',
         ];
     }
 }

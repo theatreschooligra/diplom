@@ -1,5 +1,8 @@
 @extends('admin.layouts.app')
 
+@section('head-content')
+    <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+@endsection
 
 @section('content')
 
@@ -71,7 +74,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">День провидения:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" class="form-control lesson_date_time" id="lesson_date" name="lesson_date" required>
+                                                <input type="text" class="form-control lesson_date_time" id="lesson_date" name="lesson_date" readonly required>
                                                 @if ($errors->has('lesson_date'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('lesson_date') }}</strong>
@@ -126,6 +129,8 @@
 @endsection
 
 @section('footer-content')
+    <script type="text/javascript" src="{{ asset('bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bootstrap-datepicker/dist/locales/bootstrap-datepicker.ru.min.js') }}"></script>
     <script>
         $(document).ready( function () {
 
@@ -169,33 +174,13 @@
             });
         });
 
-        $(function () {
-            $('#time').datetimepicker({locale: 'ru'});
-            $("#setMinDate").click(function () {
-                $('#datetimepicker3').data("DateTimePicker").minDate(moment('05.11.2017','DD.MM.YYYY'));
-            });
-            $("#setMaxDate").click(function () {
-                $('#datetimepicker3').data("DateTimePicker").maxDate(moment('25.11.2017','DD.MM.YYYY'));
-                $('#datetimepicker3').data("DateTimePicker").date(null);
-            });
-            $("#show").click(function () {
-                $('#datetimepicker3').data("DateTimePicker").show();
-            });
-            $("#hide").click(function () {
-                $('#datetimepicker3').data("DateTimePicker").hide();
-            });
-            $("#disable").click(function () {
-                $('#datetimepicker3').data("DateTimePicker").disable();
-            });
-            $("#enable").click(function () {
-                $('#datetimepicker3').data("DateTimePicker").enable();
-            });
-            $("#setDate").click(function () {
-                $('#datetimepicker3').data("DateTimePicker").date(moment('15.11.2017','DD.MM.YYYY'));
-            });
-            $("#getDate").click(function () {
-                alert($('#datetimepicker3').data("DateTimePicker").date());
-            });
+        $('#lesson_date').datepicker({
+            format: 'dd.mm.yyyy',
+            language: 'ru',
+            autoclose: true,
+            todayBtn: 'linked',
+            pickerPosition: "bottom-left",
+            todayHighlight: true
         });
     </script>
 @endsection

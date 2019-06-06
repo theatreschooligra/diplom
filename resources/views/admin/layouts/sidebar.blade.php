@@ -12,7 +12,7 @@
                 <li class="submenu">
                     <a href="#"><i class="fa fa-user" aria-hidden="true"></i> <span>Пользователи</span> <span class="menu-arrow"></span></a>
                     <ul class="list-unstyled" style="display: none;">
-                        <li><a href="{{ route('admin.user.index', ['role' => '1']) }}">Админ</a></li>
+{{--                        <li><a href="{{ route('admin.user.index', ['role' => '1']) }}">Админ</a></li>--}}
                         <li><a href="{{ route('admin.user.index', ['role' => '2']) }}">Преподаватели</a></li>
                         <li><a href="{{ route('admin.user.index', ['role' => '3']) }}">Ученики</a></li>
                     </ul>

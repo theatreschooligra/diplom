@@ -28,7 +28,7 @@ class CreateLessonRequest extends FormRequest
             'name'          => 'required|string',
             'group_id'      => 'required|integer|min:1',
             'teacher_id'    => 'required|integer|min:1',
-            'lesson_date'   => 'required|date_format:d/m/Y|after:now',
+            'lesson_date'   => 'required|date_format:d.m.Y|after:now',
             'lesson_time'   => 'required|integer|min:1',
             'room'          => 'required|integer|min:1',
         ];
