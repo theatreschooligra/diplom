@@ -24,8 +24,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['middleware' => 'auth.jwt'], function () {
 
         Route::group(['prefix' => 'auth'], function () {
-            Route::get('me',        'AuthController@me');
-            Route::get('logout',    'AuthController@logout');
+            Route::get('me',                 'AuthController@me');
+            Route::post('change-password/{user}', 'AuthController@changePassword');
+            Route::get('logout',             'AuthController@logout');
         });
 
         Route::group(['prefix' => 'igra'], function () {

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -37,6 +40,15 @@ class AuthController extends Controller
                 'user' => auth()->check() ? new UserResource(auth()->user()) : null
             ]
         ]);
+    }
+
+    public function changePassword(ChangePasswordRequest $request, User $user)
+    {
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        return new UserResource($user);
     }
 
     public function logout(Request $request)
