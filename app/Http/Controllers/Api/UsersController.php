@@ -66,6 +66,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $user->fields->update($request->all());
         return new UserResource($user);
     }
 

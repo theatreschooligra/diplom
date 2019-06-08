@@ -17,8 +17,6 @@
 //});
 
 
-use Illuminate\Support\Facades\Mail;
-
 Route::group(['namespace' => 'Api'], function () {
 
     Route::post('auth/login', 'AuthController@login');

@@ -29,7 +29,7 @@ class UserResource extends JsonResource
                 'gender'        => $this->fields->gender,
                 'address'       => $this->fields->address,
                 'image'         => ($this->fields->image == null) ? null : asset('img/'. $this->fields->image),
-                'birthday'      => (new Carbon($this->fields->date))->format('d/m/Y'),
+                'birthday'      => (string) $this->fields->birthday,
                 'phone_number'  => $this->fields->phone_number
             ];
         }
