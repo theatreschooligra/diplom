@@ -11,7 +11,7 @@
                     </div>
                     <div class="col-lg-5 col-md-12 col-sm-12 col-12">
                         <ul class="list-inline breadcrumb float-right">
-                            <li class="list-inline-item"><a href="/">Главная</a></li>
+                            <li class="list-inline-item"><a href="{{ route('admin.home') }}">Главная</a></li>
                             <li class="list-inline-item"><a href="{{ route('admin.user.index', ['role' => $user->role_id]) }}">{{ ($user->role_id == 3) ? 'Ученики' : 'Преподаватель'}}</a></li>
                             <li class="list-inline-item">Редактировать пользователя</li>
                         </ul>

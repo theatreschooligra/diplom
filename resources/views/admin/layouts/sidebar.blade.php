@@ -21,6 +21,9 @@
                     <a href="{{ route('admin.group.index') }}" style="width: 80%; display: inline-block;"><i class="fa fa-users" aria-hidden="true"></i>Группа</a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.homework.index') }}" style="width: 80%; display: inline-block;"><i class="fa fa-graduation-cap" aria-hidden="true"></i>Домашное задание</a>
+                </li>
+                <li>
                     <a href="{{ route('admin.lesson.index') }}" style="width: 80%; display: inline-block;"><i class="fa fa-graduation-cap" aria-hidden="true"></i>Занятия</a>
                 </li>
                 <li>

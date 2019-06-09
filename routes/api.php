@@ -34,6 +34,7 @@ Route::group(['namespace' => 'Api'], function () {
             Route::apiResource('user',         'UsersController')->except(['store', 'destroy']);
             Route::apiResource('group',        'GroupsController')->only(['index', 'show']);
             Route::apiResource('lesson',       'LessonController')->only(['index', 'show']);
+            Route::apiResource('homework',     'HomeworkController')->only(['index']);
 
             Route::apiResource('attendance',   'AttendanceController')->only(['show', 'update'])
                 ->parameters([

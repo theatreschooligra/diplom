@@ -10,7 +10,7 @@
     <div class="bread">
         <div class="container">
             <ul>
-                <li><a href="{{ route('home') }}">Главная</a></li>
+                <li><a href="{{ route('admin.home') }}">Главная</a></li>
                 <li>Репертуары</li>
             </ul>
         </div>

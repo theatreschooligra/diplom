@@ -35,6 +35,9 @@ class AttendanceController extends Controller
             $data[$key] = ['is_exist' => $value];
         }
         $lesson->students()->sync($data);
+        if ($lesson->homework_id != null && $lesson->homeword_send_time == null)
+            $lesson->update(['homeword_send_time' => now()]);
+
         return AttendanceResource::collection($lesson->attendance);
     }
 }

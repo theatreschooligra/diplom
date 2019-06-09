@@ -21,10 +21,19 @@ class CreateLessonsTable extends Migration
             $table->unsignedInteger('lesson_time');
             $table->unsignedInteger('room');
             $table->unsignedInteger('teacher_id');
+            $table->integer('homework_id')->unsigned()->nullable();
+            $table->dateTime('homework_send_time')->nullable();
             $table->timestamps();
 
-            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('group_id')
+                ->references('id')->on('groups')
+                ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('teacher_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('homework_id')
+                ->references('id')->on('homeworks')
+                ->onDelete('set null')->onUpdate('set null');
         });
     }
 

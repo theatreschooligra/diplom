@@ -1,5 +1,9 @@
 @extends('admin.layouts.app')
 
+@section('head-content')
+    <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+@endsection
+
 @section('content')
 
     <div class="page-wrapper"> <!-- content -->
@@ -11,7 +15,7 @@
                     </div>
                     <div class="col-lg-5 col-md-12 col-sm-12 col-12">
                         <ul class="list-inline breadcrumb float-right">
-                            <li class="list-inline-item"><a href="/">Главная</a></li>
+                            <li class="list-inline-item"><a href="{{ route('admin.home') }}">Главная</a></li>
                             <li class="list-inline-item"><a href="{{ route('admin.lesson.index') }}">Занятие</a></li>
                             <li class="list-inline-item">Редактировать занятие</li>
                         </ul>
@@ -69,7 +73,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">День провидения:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" class="form-control lesson_date_time" id="lesson_date" name="lesson_date" value="{{ (\Carbon\Carbon::createFromFormat('Y-m-d', $lesson->lesson_date))->format('d/m/Y') }}" required>
+                                                <input type="text" class="form-control lesson_date_time" id="lesson_date" name="lesson_date" value="{{ $lesson->lesson_date->format('d/m/Y') }}" readonly required>
                                                 @if ($errors->has('lesson_date'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('lesson_date') }}</strong>
@@ -109,6 +113,22 @@
                                                 @endif
                                             </div>
                                         </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Домашное задание:</label>
+                                            <div class="col-lg-9 custom-mt-form-group">
+                                                <select name="homework_id">
+                                                    <option value="">Выбрать ...</option>
+                                                    @foreach($homework as $row)
+                                                        <option {{ $row->id == $lesson->homework_id ? 'selected' : '' }} value="{{ $row->id }}">{{ $row->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if ($errors->has('homework_id'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('homework_id') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="text-right">
@@ -124,8 +144,10 @@
 @endsection
 
 @section('footer-content')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>--}}
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>--}}
+    <script type="text/javascript" src="{{ asset('bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bootstrap-datepicker/dist/locales/bootstrap-datepicker.ru.min.js') }}"></script>
     <script>
         $(document).ready( function () {
 
@@ -151,6 +173,15 @@
                     });
                 }
             });
+        });
+
+        $('#lesson_date').datepicker({
+            format: 'dd.mm.yyyy',
+            language: 'ru',
+            autoclose: true,
+            todayBtn: 'linked',
+            pickerPosition: "bottom-left",
+            todayHighlight: true
         });
     </script>
 @endsection

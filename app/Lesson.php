@@ -7,11 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Lesson extends Model
 {
     protected $fillable = [
-        'name', 'group_id', 'teacher_id', 'lesson_date', 'lesson_time', 'room'
+        'name', 'group_id', 'teacher_id',
+        'lesson_date', 'lesson_time', 'room',
+        'homework_id', 'homework_send_time'
     ];
 
     protected $dates = [
-        'lesson_date'
+        'lesson_date',
+        'homework_send_time'
     ];
 
     /**
@@ -38,5 +41,10 @@ class Lesson extends Model
     public function students()
     {
         return $this->belongsToMany(User::class, 'attendances', 'lesson_id', 'student_id')->withTimestamps();
+    }
+
+    public function homework()
+    {
+        return $this->belongsTo(Homework::class);
     }
 }

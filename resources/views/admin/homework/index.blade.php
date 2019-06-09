@@ -12,12 +12,12 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-lg-7 col-md-12 col-sm-12 col-12">
-                        <h5 class="text-uppercase">Репертуары</h5>
+                        <h5 class="text-uppercase">Домашное задание</h5>
                     </div>
                     <div class="col-lg-5 col-md-12 col-sm-12 col-12">
                         <ul class="list-inline breadcrumb float-right">
-                            <li class="list-inline-item"><a href="{{ route('admin.home') }}">Главная</a></li>
-                            <li class="list-inline-item">Репертуары</li>
+                            <li class="list-inline-item"><a href="/admin">Главная</a></li>
+                            <li class="list-inline-item">Домашное задание</li>
                         </ul>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
 
                 </div>
                 <div class="col-sm-8 col-9 text-right m-b-20">
-                    <a href="{{ route('admin.repertoire.create') }}" class="btn btn-primary float-right btn-rounded"><i class="fa fa-plus">Добавить репертуар</i></a>
+                    <a href="{{ route('admin.homework.create') }}" class="btn btn-primary float-right btn-rounded"><i class="fa fa-plus">Добавить домашное задание</i></a>
                 </div>
             </div>
             <div class="content-page">
@@ -38,24 +38,18 @@
                                 <thead>
                                 <tr>
                                     <th>Имя </th>
-                                    <th>Время</th>
-                                    <th>Возрастное ограничение</th>
-                                    <th>Цена</th>
-                                    <th class="text-right" style="width:15%;">Action</th>
+                                    <th class="text-right" style="width:30%;">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($repertoire as $row)
+                                    @foreach($homework as $row)
                                         <tr>
                                             <td>{{ $row->name }}</td>
-                                            <td>{{ $row->time }}</td>
-                                            <td>{{ $row->age_limit }}</td>
-                                            <td>{{ $row->price }}</td>
                                             <td class="text-right">
-                                                <form action="{{ route('admin.repertoire.destroy', $row->id) }}" method="POST">
+                                                <form action="{{ route('admin.homework.destroy', $row->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <a href="{{ route('admin.repertoire.edit', $row->id) }}" class="btn btn-primary btn-sm mb-1">
+                                                    <a href="{{ route('admin.homework.edit', $row->id) }}" class="btn btn-primary btn-sm mb-1">
                                                         Редактировать
                                                     </a>
                                                     <button type="submit" class="btn btn-danger btn-sm mb-1">
@@ -86,7 +80,7 @@
         $(document).ready(function() {
             $('#example').DataTable({
                 "pagingType"    : "first_last_numbers",
-                "searching"     : false,
+                "searching"     : true,
                 "stateSave"     : true,
             });
         });

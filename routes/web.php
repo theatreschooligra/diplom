@@ -11,7 +11,6 @@
 |
 */
 
-use Illuminate\Support\Facades\Mail;
 
 Route::get('/',            'HomeController@index')->name('home');
 Route::get('about',        'HomeController@about')->name('about');
@@ -34,6 +33,7 @@ Route::group([
 
 
     Route::resource('company',      'CompaniesController')->only('index', 'update');
+    Route::resource('homework',     'HomeworkController');
     Route::resource('user',         'UsersController')->except('show');
     Route::resource('group',        'GroupsController')->except('show');
     Route::resource('lesson',       'LessonsController')->except('show');

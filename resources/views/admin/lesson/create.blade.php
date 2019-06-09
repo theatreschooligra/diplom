@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-lg-5 col-md-12 col-sm-12 col-12">
                         <ul class="list-inline breadcrumb float-right">
-                            <li class="list-inline-item"><a href="/">Главная</a></li>
+                            <li class="list-inline-item"><a href="{{ route('admin.home') }}">Главная</a></li>
                             <li class="list-inline-item"><a href="{{ route('admin.lesson.index') }}">Занятие</a></li>
                             <li class="list-inline-item">Добавить занятие</li>
                         </ul>
@@ -110,6 +110,22 @@
                                                 @if ($errors->has('room'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('room') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Домашное задание:</label>
+                                            <div class="col-lg-9 custom-mt-form-group">
+                                                <select name="homework_id" id="homework_id">
+                                                    <option value="">Выбрать ...</option>
+                                                    @foreach($homework as $row)
+                                                        <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if ($errors->has('homework_id'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('homework_id') }}</strong>
                                                     </span>
                                                 @endif
                                             </div>

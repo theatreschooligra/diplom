@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Helpers\Dict;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LessonResource extends JsonResource
@@ -15,6 +16,15 @@ class LessonResource extends JsonResource
      */
     public function toArray($request)
     {
+        $date = '';
+        $diff = -1;
+        if ($this->homework_send_time) {
+            $date = $this->homework_send_time->format('d/m/Y');
+
+            $diff = Carbon::now()->diffInDays($this->homework_send_time);
+            if ($diff == 0) $date = 'сегодня';
+            else if ($diff < 7) $date = Carbon::now()->diffInDays($this->homework_send_time) . ($diff == 1 ? ' день' : 'дней') . ' назад';
+        }
         return [
             'id'                => $this->id,
             'name'              => $this->name,
@@ -24,6 +34,9 @@ class LessonResource extends JsonResource
             'lesson_time'       => Dict::lesson_times()[$this->lesson_time],
             'room'              => Dict::rooms()[$this->room],
             'teacher'           => new UserResource($this->teacher),
+            'homework'          => $this->homework_id ? (new HomeworkResource($this->homework)) : null,
+            'date'              => $date,
+            'active'            => $diff == 0 ? true : false
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Dict;
+use App\Homework;
 use App\Http\Requests\CreateLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
 use App\Lesson;
@@ -30,7 +31,8 @@ class LessonsController extends Controller
      */
     public function create()
     {
-        return view('admin.lesson.create');
+        $homework = Homework::all();
+        return view('admin.lesson.create', compact('homework'));
     }
 
     /**
@@ -47,23 +49,13 @@ class LessonsController extends Controller
             'lesson_date'   => Carbon::createFromFormat('d.m.Y', $request->lesson_date),
             'lesson_time'   => $request->lesson_time,
             'room'          => $request->room,
-            'teacher_id'    => $request->teacher_id
+            'teacher_id'    => $request->teacher_id,
+            'homework_id'   => $request->homework_id
         ]);
 
         $lesson->students()->sync($lesson->group->students->pluck('id')->toArray());
 
         return redirect()->route('admin.lesson.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -74,17 +66,18 @@ class LessonsController extends Controller
      */
     public function edit(Lesson $lesson)
     {
-        $lessons = Lesson::whereDate('lesson_date', '=', Carbon::createFromFormat('Y-m-d', $lesson->lesson_date)->format('Y-m-d'))
+        $lessons = Lesson::whereDate('lesson_date', '=', $lesson->lesson_date->format('Y-m-d'))
             ->where('lesson_time', $lesson->lesson_time)
             ->get();
 
         $rooms = Dict::rooms();
+        $homework = Homework::all();
 
         foreach ($lessons as $row)
             if ($lesson->id != $row->id)
                 unset($rooms[$row->room]);
 
-        return view('admin.lesson.edit', compact('lesson', 'rooms'));
+        return view('admin.lesson.edit', compact('lesson', 'rooms', 'homework'));
     }
 
     /**
@@ -97,7 +90,7 @@ class LessonsController extends Controller
     public function update(UpdateLessonRequest $request, Lesson $lesson)
     {
         $update_arr = $request->only([
-            'name', 'teacher_id', 'lesson_time', 'room'
+            'name', 'teacher_id', 'lesson_time', 'room', 'homework_id'
         ]);
         $update_arr['lesson_date'] = Carbon::createFromFormat('d.m.Y', $request->lesson_date);
 
@@ -109,8 +102,9 @@ class LessonsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Lesson $lesson
+     * @param Lesson $lesson
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Lesson $lesson)
     {
