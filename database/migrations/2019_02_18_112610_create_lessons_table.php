@@ -23,6 +23,10 @@ class CreateLessonsTable extends Migration
             $table->unsignedInteger('teacher_id');
             $table->integer('homework_id')->unsigned()->nullable();
             $table->dateTime('homework_send_time')->nullable();
+            $table->boolean('bonus1')->default(0);
+            $table->boolean('bonus2')->default(0);
+            $table->boolean('fine1')->default(0);
+            $table->boolean('fine2')->default(0);
             $table->timestamps();
 
             $table->foreign('group_id')

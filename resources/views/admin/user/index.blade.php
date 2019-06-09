@@ -223,7 +223,7 @@
                         var img = data.data[i].image;
                         var group = '';
 
-                        if (data.data[i].image.length > 1)
+                        if (data.data[i].image != null)
                             img = '<img src="'+ data.data[i].image +'">';
 
                         if (data.data[i].role.id == 3 && data.data[i].group != null) {
@@ -243,7 +243,7 @@
                             str += '<td>'+ ((data.data[i].parent_surname == null) ? '' : data.data[i].parent_surname) +' '+
                                 ((data.data[i].parent_name == null) ? '' : data.data[i].parent_name) +'</td><td>'+ group +'</td>';
 
-                        str += '<td>'+ ((data.data[i].gender) ? 'Парент' : 'Девушка') +'</td>' +
+                        str += '<td>'+ ((data.data[i].gender) ? 'Парень' : 'Девушка') +'</td>' +
                             '<td>'+ ((data.data[i].address == null) ? "" : data.data[i].address) +'</td>' +
                             '<td>'+ ((data.data[i].birthday == null) ? "" : data.data[i].birthday) +'</td>' +
                             '<td>'+ ((data.data[i].phone_number == null) ? "" : data.data[i].phone_number) +'</td>' +

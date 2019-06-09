@@ -9,7 +9,8 @@ class Lesson extends Model
     protected $fillable = [
         'name', 'group_id', 'teacher_id',
         'lesson_date', 'lesson_time', 'room',
-        'homework_id', 'homework_send_time'
+        'homework_id', 'homework_send_time',
+        'bonus1', 'bonus2', 'fine1', 'fine2'
     ];
 
     protected $dates = [

@@ -36,7 +36,11 @@ class LessonResource extends JsonResource
             'teacher'           => new UserResource($this->teacher),
             'homework'          => $this->homework_id ? (new HomeworkResource($this->homework)) : null,
             'date'              => $date,
-            'active'            => $diff == 0 ? true : false
+            'active'            => $diff == 0 ? true : false,
+            'bonus1'            => (boolean) $this->bonus1,
+            'bonus2'            => (boolean) $this->bonus2,
+            'fine1'             => (boolean) $this->fine1,
+            'fine2'             => (boolean) $this->fine2,
         ];
     }
 }

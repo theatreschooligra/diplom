@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Filters\UserGroupFilter;
+use App\Http\Filters\UserNameFilter;
 use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
@@ -24,7 +25,8 @@ class UsersController extends Controller
         $users = QueryBuilder::for(User::class)
             ->allowedFilters(
                 Filter::exact('role_id'),
-                Filter::custom('group_id', UserGroupFilter::class)
+                Filter::custom('group_id', UserGroupFilter::class),
+                Filter::custom('name',     UserNameFilter::class)
             )
             ;
         if (isset(request()->get('filter')['role_id'])) {
@@ -66,7 +68,8 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user->fields->update($request->all());
+        $user->update($request->only(['name', 'surname', 'birthday', 'phone_number', 'address']));
+        if ($user->role_id == 3)  $user->fields->update($request->only(['parent_name', 'parent_surname']));
         return new UserResource($user);
     }
 

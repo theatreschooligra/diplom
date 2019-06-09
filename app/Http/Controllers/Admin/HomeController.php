@@ -41,17 +41,17 @@ class HomeController extends Controller
         if ($request->phone_number != null && $request->phone_number != '')
             $user = $user->where('phone_number', 'LIKE', $request->phone_number .'%');
 
+        if ($role != '') {
+            $user = $user->whereHas($role,
+                function ($query) use ($request) {
 
-        $user = $user->whereHas($role,
-            function ($query) use ($request) {
+                    if ($request->parent_name != null && $request->parent_name != '')
+                        $query->WhereRaw("concat(parent_surname, ' ', parent_name) like '%" . $request->parent_name . "%'");
 
-            if ($request->parent_name != null && $request->parent_name != '')
-                $query->WhereRaw("concat(parent_surname, ' ', parent_name) like '%". $request->parent_name ."%'");
-
-            if ($request->group_id != null && $request->group_id != 0)
-                $query->where('group_id', $request->group_id);
-        });
-
+                    if ($request->group_id != null && $request->group_id != 0)
+                        $query->where('group_id', $request->group_id);
+                });
+        }
         return UserResource::collection(
             $user->orderBy('surname')->get()
         );

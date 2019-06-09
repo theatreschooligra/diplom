@@ -31,12 +31,14 @@ class AttendanceController extends Controller
     public function update(Request $request, Lesson $lesson)
     {
         $data = [];
-        foreach ($request->all() as $key => $value) {
+        foreach ($request->except(['bonus1', 'bonus2', 'fine1', 'fine2']) as $key => $value) {
             $data[$key] = ['is_exist' => $value];
         }
         $lesson->students()->sync($data);
         if ($lesson->homework_id != null && $lesson->homeword_send_time == null)
-            $lesson->update(['homeword_send_time' => now()]);
+            $lesson->update(['homework_send_time' => now()]);
+
+        $lesson->update($request->only(['bonus1', 'bonus2', 'fine1', 'fine2']));
 
         return AttendanceResource::collection($lesson->attendance);
     }
