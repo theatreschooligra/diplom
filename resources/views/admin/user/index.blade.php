@@ -109,7 +109,7 @@
                                         <tr>
                                             <td>
                                                 <a href="#" class="avatar">
-                                                    {!! ($user->image == null) ? $user->name[0] : '<img src="'. asset('img/'. $user->image) .'">' !!}
+                                                    {!! ($user->image == null) ? $user->surname[0] : '<img src="'. asset('img/'. $user->image) .'">' !!}
                                                 </a>
                                                 <h2><a href="#">{{ $user->surname .' '. $user->name }}<span></span></a></h2>
                                             </td>
