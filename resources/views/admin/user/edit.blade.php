@@ -29,7 +29,7 @@
                                     <div class="col-md-5">
                                         <h4 class="card-title">Фотография акаунта</h4><br>
                                         <div class="form-group row offset-md-3" style="margin-top: 20px">
-                                            <img src="{{ ($user->fields->image == null) ? asset('img/user.jpg') : asset('img/'. $user->fields->image) }}" class="avatar-big" id="myimage">
+                                            <img src="{{ ($user->image == null) ? asset('img/user.jpg') : asset('img/'. $user->image) }}" class="avatar-big" id="myimage">
                                             <div class="col-lg-9">
                                                 <input type="file" onchange="onFileSelected(event)" name="image" style="margin-top: 20px">
                                                 @if ($errors->has('image'))
@@ -58,7 +58,7 @@
                                             <div class="col-lg-9">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <input type="text" placeholder="Фамилия" class="form-control" name="surname"  value="{{ $user->fields->surname }}" required>
+                                                        <input type="text" placeholder="Фамилия" class="form-control" name="surname"  value="{{ $user->surname }}" required>
                                                         @if ($errors->has('surname'))
                                                             <span class="help-block">
                                                                 <strong>{{ $errors->first('surname') }}</strong>
@@ -66,7 +66,7 @@
                                                         @endif
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="text" placeholder="Имя" class="form-control"  value="{{ $user->fields->name }}" name="name" required>
+                                                        <input type="text" placeholder="Имя" class="form-control"  value="{{ $user->name }}" name="name" required>
                                                         @if ($errors->has('name'))
                                                             <span class="help-block">
                                                                 <strong>{{ $errors->first('name') }}</strong>
@@ -79,7 +79,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">День рождения:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" value="{{ ($user->fields->birthday == null) ? '' : (\Carbon\Carbon::createFromFormat('Y-m-d', $user->fields->birthday))->format('d/m/Y') }}"
+                                                <input type="text" value="{{ ($user->birthday == null) ? '' : (\Carbon\Carbon::createFromFormat('Y-m-d', $user->birthday))->format('d/m/Y') }}"
                                                        class="form-control" class="form-control"  name="birthday">
                                                 @if ($errors->has('birthday'))
                                                     <span class="help-block">
@@ -117,13 +117,13 @@
                                             <label class="col-md-3 col-form-label">Пол</label>
                                             <div class="col-md-9">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="gender" value="1" {{ ($user->fields->gender) ? 'checked' : '' }}>
+                                                    <input class="form-check-input" type="radio" name="gender" value="1" {{ ($user->gender) ? 'checked' : '' }}>
                                                     <label class="form-check-label" for="gender">
                                                         Парень
                                                     </label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="gender" value="0" {{ ($user->fields->gender) ? '' : 'checked' }}>
+                                                    <input class="form-check-input" type="radio" name="gender" value="0" {{ ($user->gender) ? '' : 'checked' }}>
                                                     <label class="form-check-label" for="gender">
                                                         Девушка
                                                     </label>
@@ -138,7 +138,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Телефонный номер:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" class="form-control" name="phone_number" value="{{ $user->fields->phone_number }}">
+                                                <input type="text" class="form-control" name="phone_number" value="{{ $user->phone_number }}">
                                                 @if ($errors->has('phone_number'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('phone_number') }}</strong>
@@ -149,7 +149,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Адрес:</label>
                                             <div class="col-lg-9">
-                                                <input type="text" class="form-control m-b-20" name="address" value="{{ $user->fields->address }}">
+                                                <input type="text" class="form-control m-b-20" name="address" value="{{ $user->address }}">
                                                 @if ($errors->has('address'))
                                                     <span class="help-block">
                                                         <strong>{{ $errors->first('address') }}</strong>

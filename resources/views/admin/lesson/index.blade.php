@@ -53,7 +53,7 @@
                                                 <h2>{{ $lesson->name }}</h2>
                                             </td>
                                             <td>{{ $lesson->group->name }}</td>
-                                            <td>{{ $lesson->teacher->teacher->surname .' '. $lesson->teacher->teacher->name }}</td>
+                                            <td>{{ $lesson->surname .' '. $lesson->name }}</td>
                                             <td>{{ (Dict::rooms())[$lesson->room] }}</td>
                                             <td>{{ (new \Carbon\Carbon($lesson->lesson_date))->format('d/m/Y') }}</td>
                                             <td>{{ (Dict::lesson_times())[$lesson->lesson_time]  }}</td>

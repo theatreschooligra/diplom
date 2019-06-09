@@ -3,7 +3,7 @@
 
 @section('head-content')
     <link rel="stylesheet" type="text/css" href="{{ asset('css/fullcalendar.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/morris/morris.css') }}">
+{{--    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/morris/morris.css') }}">--}}
 @endsection
 
 @section('content')
@@ -609,8 +609,8 @@
 
 
 @section('footer-content')
-    <script type="text/javascript" src="{{ asset('plugins/morris/morris.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('plugins/raphael/raphael.min.js') }}"></script>
+{{--    <script type="text/javascript" src="{{ asset('plugins/morris/morris.min.js') }}"></script>--}}
+{{--    <script type="text/javascript" src="{{ asset('plugins/raphael/raphael.min.js') }}"></script>--}}
     <script type="text/javascript" src="{{ asset('js/fullcalendar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery.fullcalendar.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/chart.js') }}"></script>

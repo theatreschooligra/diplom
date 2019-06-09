@@ -24,10 +24,7 @@ class UsersController extends Controller
     {
         $role_id = ($request->role == null) ? 3 : $request->role;
 
-        $users = User::where('role_id', $role_id)->get()
-            ->sortBy(function ($query) {
-                $query->fields->surname;
-            });
+        $users = User::where('role_id', $role_id)->orderBy('surname')->get();
 
         $role = Role::find($role_id);
 
@@ -73,11 +70,7 @@ class UsersController extends Controller
             'role_id'       => $request->role_id,
             'email'         => $request->email,
             'password'      => bcrypt($password),
-            'image'         => $img
-        ]);
-
-        $user_fields = [
-            'user_id'       => $user->id,
+            'image'         => $img,
             'surname'       => $request->surname,
             'name'          => $request->name,
             'birthday'      => ($request->birthday == null) ? null : Carbon::createFromFormat('d.m.Y', $request->birthday),
@@ -85,25 +78,29 @@ class UsersController extends Controller
             'phone_number'  => $request->phone_number,
             'address'       => $request->address,
             'image'         => $img
-        ];
+        ]);
+
 
         if ($request->role_id == 3) {
-            $user_fields['parent_surname'] = $request->parent_surname;
-            $user_fields['parent_name']    = $request->parent_name;
-            $user_fields['group_id']       = $request->group;
+            StudentsField::create([
+                'user_id'        => $user->id,
+                'parent_surname' => $request->parent_surname,
+                'parent_name'    => $request->parent_name,
+                'group_id'       => $request->group
 
-            StudentsField::create($user_fields);
+            ]);
 
         } else if ($request->role_id == 2){
-            $user_fields['experience'] = $request->experience;
-            $user_fields['profession'] = $request->profession;
-            $user_fields['about']      = $request->about;
-
-            TeachersField::create($user_fields);
+            TeachersField::create([
+                'user_id'    => $user->id,
+                'experience' => $request->experience,
+                'profession' => $request->profession,
+                'about'      => $request->about
+            ]);
         }
 
         Mail::send('email.to_client', ['user' => $user, 'password' => $password], function($message) use ($user) {
-            $message->to($user->email, $user->fields->surname .' '. $user->fields->name)->subject
+            $message->to($user->email, $user->surname .' '. $user->name)->subject
             ('Регистрация пользователя');
             $message->from('NRGruslan@gmail.com','Театральный школы "Игра"');
         });
@@ -147,24 +144,21 @@ class UsersController extends Controller
             $img = time() . '.' . $image->getClientOriginalExtension();
             $destinationPath = public_path('/img');
             $image->move($destinationPath, $img);
-            if (File::exists('img/' . $user->fields->image)) {
-                File::delete('img/'. $user->fields->image);
+            if (File::exists('img/' . $user->image)) {
+                File::delete('img/'. $user->image);
             }
             $user_fields['image'] = $img;
         }
 
         if ($user->role_id == 3) {
-
             $user_fields['parent_surname'] = $request->parent_surname;
             $user_fields['parent_name']    = $request->parent_name;
             $user_fields['group_id']       = $request->group;
 
         } else if ($user->role_id == 2){
-
             $user_fields['experience'] = $request->experience;
             $user_fields['profession'] = $request->profession;
             $user_fields['about']      = $request->about;
-
         }
 
         $user->fields->update($user_fields);

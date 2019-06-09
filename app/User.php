@@ -17,7 +17,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'role_id', 'email', 'password', 'device_token'
+        'role_id', 'email', 'password', 'device_token',
+        'surname', 'name', 'gender', 'address', 'phone_number', 'image', 'birthday',
     ];
 
     /**
@@ -88,7 +89,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getGender()
     {
-        return ($this->fields->gender) ? "Парень" : "Девушка";
+        return ($this->gender) ? "Парень" : "Девушка";
     }
 
     /**

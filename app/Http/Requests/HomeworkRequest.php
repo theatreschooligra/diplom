@@ -26,7 +26,7 @@ class HomeworkRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:191',
-            'file' => 'required|file|mimes:doc,pdf,docx'
+            'file' => 'file|mimes:doc,pdf,docx'
         ];
     }
 }

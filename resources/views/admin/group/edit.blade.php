@@ -46,7 +46,7 @@
                                                 <select id="selectTeacher" name="teachers[]" multiple="multiple">
                                                     @foreach(Dict::teachers() as $row)
                                                         <option {{ (in_array($row->id, $group->teachers->pluck('id')->toArray())) ? 'selected' : '' }}
-                                                                id="student-in-selection-{{ $row->id }}" value="{{ $row->id }}">{{ $row->fields->surname .' '. $row->fields->name }}</option>
+                                                                id="student-in-selection-{{ $row->id }}" value="{{ $row->id }}">{{ $row->surname .' '. $row->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 @if ($errors->has('teachers'))
@@ -66,7 +66,7 @@
                                                 <select id="selectStudent">
                                                     <option id="student-in-selection" value="0">Список учеников</option>
                                                     @foreach(Dict::listOfStudentsToGroup() as $row)
-                                                        <option id="student-in-selection-{{ $row->id }}" value="{{ $row->id }}">{{ $row->fields->surname .' '. $row->fields->name }}</option>
+                                                        <option id="student-in-selection-{{ $row->id }}" value="{{ $row->id }}">{{ $row->surname .' '. $row->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -94,8 +94,8 @@
                                                     @foreach(Dict::listOfStudentsToGroup($group->id) as $row)
                                                         <tr class="student-{{ $row->id }}">
                                                             <td>{{ $loop->index+1 }}</td>
-                                                            <td>{{ $row->fields->surname }}</td>
-                                                            <td>{{ $row->fields->name }}</td>
+                                                            <td>{{ $row->surname }}</td>
+                                                            <td>{{ $row->name }}</td>
                                                             <td>{{ $row->email }}</td>
                                                             <td><input type="checkbox" {{ ($row->fields->is_trial) ? 'checked' : 'disable' }}></td>
                                                             <td><button type="button" class="delete-modal btn btn-danger btn-sm" onclick="groupUser({{ $row->id }}, 0)">Удалить</button></td>

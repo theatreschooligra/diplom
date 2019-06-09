@@ -62,7 +62,7 @@
                             <div class="profile-widget">
                                 <div class="profile-img">
                                     <a href="#" class="avatar">
-                                        {!! ($user->fields->image == null) ? $user->fields->name[0] : '<img src="'. asset('img/'. $user->fields->image) .'">' !!}
+                                        {!! ($user->image == null) ? $user->name[0] : '<img src="'. asset('img/'. $user->image) .'">' !!}
                                     </a>
                                 </div>
                                 <div class="dropdown profile-action">
@@ -79,7 +79,7 @@
 
                                     </div>
                                 </div>
-                                <h4 class="user-name m-t-10 m-b-0 text-ellipsis"><a href="#">{{ $user->fields->surname .' '. $user->fields->name }}</a></h4>
+                                <h4 class="user-name m-t-10 m-b-0 text-ellipsis"><a href="#">{{ $user->surname .' '. $user->name }}</a></h4>
                                 @if ($role->id == 3)
                                     <div class="small text-muted">{{ ($user->fields->group_id != null) ? $user->group->name : '' }}</div>
                                 @endif

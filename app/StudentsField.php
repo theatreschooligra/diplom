@@ -10,8 +10,7 @@ class StudentsField extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'user_id', 'surname', 'name', 'gender', 'address', 'phone_number', 'image', 'birthday',
-        'group_id', 'parent_surname', 'parent_name', 'is_trial', 'payment_date'
+        'user_id', 'group_id', 'parent_surname', 'parent_name', 'is_trial', 'payment_date'
     ];
 
     public function user()

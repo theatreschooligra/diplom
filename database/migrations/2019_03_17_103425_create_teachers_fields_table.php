@@ -16,13 +16,6 @@ class CreateTeachersFieldsTable extends Migration
         Schema::create('teachers_fields', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->string('surname');
-            $table->string('name');
-            $table->boolean('gender');                  // 1 => male, 0 => female
-            $table->string('address')->nullable();
-            $table->string('image')->nullable();
-            $table->date('birthday')->nullable();
-            $table->string('phone_number')->nullable();
 
             $table->string('experience')->nullable();
             $table->string('profession')->nullable();

@@ -13,7 +13,6 @@
     </style>
 @endsection
 
-
 @section('content')
     <div class="page-wrapper"> <!-- content -->
         <div class="content container-fluid">
@@ -110,9 +109,9 @@
                                         <tr>
                                             <td>
                                                 <a href="#" class="avatar">
-                                                    {!! ($user->fields->image == null) ? $user->fields->name[0] : '<img src="'. asset('img/'. $user->fields->image) .'">' !!}
+                                                    {!! ($user->image == null) ? $user->name[0] : '<img src="'. asset('img/'. $user->image) .'">' !!}
                                                 </a>
-                                                <h2><a href="#">{{ $user->fields->surname .' '. $user->fields->name }}<span></span></a></h2>
+                                                <h2><a href="#">{{ $user->surname .' '. $user->name }}<span></span></a></h2>
                                             </td>
                                             <td>{{ $user->email }}</td>
                                             @if ($role->id == 3)
@@ -122,9 +121,9 @@
                                                 <td>{{ ($user->fields->group_id != null) ? $user->group->name : ''}}</td>
                                             @endif
                                             <td>{{ $user->getGender() }}</td>
-                                            <td>{{ ($user->fields->address == null) ? '' : $user->fields->address }}</td>
-                                            <td>{{ ($user->fields->birthday == null) ? '' : (\Carbon\Carbon::createFromFormat('Y-m-d', $user->fields->birthday))->format('d/m/Y') }}</td>
-                                            <td>{{ ($user->fields->phone_number == null) ? '' : $user->fields->phone_number }}</td>
+                                            <td>{{ ($user->address == null) ? '' : $user->address }}</td>
+                                            <td>{{ ($user->birthday == null) ? '' : (\Carbon\Carbon::createFromFormat('Y-m-d', $user->birthday))->format('d/m/Y') }}</td>
+                                            <td>{{ ($user->phone_number == null) ? '' : $user->phone_number }}</td>
                                             <td class="text-right">
                                                 <form action="{{ route('admin.user.destroy', ['id' => $user->id, 'view' => 1]) }}" method="POST">
                                                     @csrf
@@ -244,7 +243,7 @@
                             str += '<td>'+ ((data.data[i].parent_surname == null) ? '' : data.data[i].parent_surname) +' '+
                                 ((data.data[i].parent_name == null) ? '' : data.data[i].parent_name) +'</td><td>'+ group +'</td>';
 
-                        str += '<td>'+ ((data.data[i].gender) ? 'Male' : 'Female') +'</td>' +
+                        str += '<td>'+ ((data.data[i].gender) ? 'Парент' : 'Девушка') +'</td>' +
                             '<td>'+ ((data.data[i].address == null) ? "" : data.data[i].address) +'</td>' +
                             '<td>'+ ((data.data[i].birthday == null) ? "" : data.data[i].birthday) +'</td>' +
                             '<td>'+ ((data.data[i].phone_number == null) ? "" : data.data[i].phone_number) +'</td>' +

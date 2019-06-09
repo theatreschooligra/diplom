@@ -34,10 +34,8 @@ class HomeController extends Controller
     public function team()
     {
         $teachers = User::where('role_id', 2)
-            ->get()
-            ->sortBy(function ($query) {
-                return $query->teacher->surname;
-            });;
+            ->orderBy('surname')
+            ->get();
         return view('team', compact('teachers'));
     }
 

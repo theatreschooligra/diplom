@@ -17,7 +17,7 @@ class Group extends Model
 
     public function students()
     {
-        return $this->belongsToMany(User::class, 'students_fields')->orderBy('students_fields.surname');
+        return $this->belongsToMany(User::class, 'students_fields')->orderBy('surname');
     }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

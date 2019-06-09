@@ -24,13 +24,13 @@ class UsersController extends Controller
                 ->where('role_id', 3)
                 ->whereHas('student', function ($query) use ($group_id) {
                     $query->where('group_id', $group_id);
-                })->get()
-                ->sortBy(function ($query) {
-                    return $query->student->surname;
-                }));
+                })
+                ->orderBy('surname')
+                ->get()
+            );
         }
 
-        return UserResource::collection(User::paginate(10));
+        return UserResource::collection(User::all());
     }
 
     /**

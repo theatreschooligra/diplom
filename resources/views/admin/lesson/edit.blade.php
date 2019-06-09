@@ -60,7 +60,7 @@
                                                 <select name="teacher_id" id="teacher">
                                                     <option value="0">Выбрать ...</option>
                                                     @foreach($lesson->group->teachers as $row)
-                                                        <option {{ ($lesson->teacher_id == $row->id) ? 'selected' : '' }} value="{{ $row->id }}">{{ $row->teacher->surname .' '. $row->teacher->name }}</option>
+                                                        <option {{ ($lesson->teacher_id == $row->id) ? 'selected' : '' }} value="{{ $row->id }}">{{ $row->surname .' '. $row->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 @if ($errors->has('teacher'))

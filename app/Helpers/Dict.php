@@ -14,10 +14,7 @@ class Dict
 
     public static function teachers()
     {
-        return User::where('role_id', 2)->get()
-            ->sortBy(function ($query) {
-                return $query->teacher->surname;
-            });
+        return User::where('role_id', 2)->orderBy('surname')->get();
     }
 
     public static function rooms()
@@ -48,9 +45,6 @@ class Dict
     {
         return User::query()->where('role_id', 3)->whereHas('student', function ($query) use ($id) {
             $query->where('group_id', $id);
-        })->get()
-            ->sortBy(function ($query) {
-                return $query->student->surname;
-            });
+        })->orderBy('surname')->get();
     }
 }

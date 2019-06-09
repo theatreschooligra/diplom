@@ -27,39 +27,33 @@ class HomeController extends Controller
 
         if ($request->email != null && $request->email != '')
             $user = $user->where('email', 'LIKE', '%'. $request->email .'%');
+        if ($request->name != null && $request->name != '')
+            $user = $user->WhereRaw("concat(surname, ' ', name) like '%". $request->name ."%'");
+        if ($request->gender != null && $request->gender != '')
+            $user = $user->where('gender', $request->gender);
+
+        if ($request->birthday_from != null && $request->birthday_from != '')
+            $user = $user->whereDate('birthday', '>=', Carbon::createFromFormat('d/m/Y', $request->birthday_from));
+
+        if ($request->birthday_to != null && $request->birthday_to != '')
+            $user = $user->whereDate('birthday', '<=', Carbon::createFromFormat('d/m/Y', $request->birthday_to));
+
+        if ($request->phone_number != null && $request->phone_number != '')
+            $user = $user->where('phone_number', 'LIKE', $request->phone_number .'%');
 
 
         $user = $user->whereHas($role,
             function ($query) use ($request) {
-
-            if ($request->name != null && $request->name != '')
-                $query->WhereRaw("concat(surname, ' ', name) like '%". $request->name ."%'");
 
             if ($request->parent_name != null && $request->parent_name != '')
                 $query->WhereRaw("concat(parent_surname, ' ', parent_name) like '%". $request->parent_name ."%'");
 
             if ($request->group_id != null && $request->group_id != 0)
                 $query->where('group_id', $request->group_id);
-
-            if ($request->gender != null && $request->gender != '')
-                $query->where('gender', $request->gender);
-
-            if ($request->birthday_from != null && $request->birthday_from != '')
-                $query->whereDate('birthday', '>=', Carbon::createFromFormat('d/m/Y', $request->birthday_from));
-
-            if ($request->birthday_to != null && $request->birthday_to != '')
-                $query->whereDate('birthday', '<=', Carbon::createFromFormat('d/m/Y', $request->birthday_to));
-
-            if ($request->phone_number != null && $request->phone_number != '')
-                $query->where('phone_number', 'LIKE', $request->phone_number .'%');
-
         });
 
         return UserResource::collection(
-            $user->get()
-                ->sortBy(function ($query) {
-                    $query->fields->surname;
-                })
+            $user->orderBy('surname')->get()
         );
     }
 

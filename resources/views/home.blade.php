@@ -179,11 +179,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="modal-left">
-                        <img src="{{ ($teacher->teacher->image) ? asset('img/'. $teacher->teacher->image) : asset('img/user.jpg') }}">
+                        <img src="{{ ($teacher->image) ? asset('img/'. $teacher->image) : asset('img/user.jpg') }}">
                         <button class="btn">Подписаться</button>
                     </div>
                     <div class="modal-right">
-                        <h3>{{ $teacher->teacher->surname .' '. $teacher->teacher->name}}</h3>
+                        <h3>{{ $teacher->surname .' '. $teacher->name}}</h3>
                         {!! $teacher->teacher->about !!}
                     </div>
                 </div>
@@ -199,9 +199,9 @@
                 <div class="teachers-row">
                     @foreach($teachers as $teacher)
                         <a href="#" class="teachers_block" data-toggle="modal" data-target="#myModal-{{ $teacher->id }}">
-                            <img src="{{ ($teacher->teacher->image) ? asset('img/'. $teacher->teacher->image) : asset('img/user.jpg') }}">
+                            <img src="{{ ($teacher->image) ? asset('img/'. $teacher->image) : asset('img/user.jpg') }}">
                             <div class="teachers-info">
-                                <h4>{{ $teacher->teacher->surname .' '. $teacher->teacher->name }}</h4>
+                                <h4>{{ $teacher->surname .' '. $teacher->name }}</h4>
                                 <p>{{ $teacher->teacher->profession }}<br>
                                     Стаж {{ $teacher->teacher->experience }}
                                 </p>

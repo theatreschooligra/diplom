@@ -48,7 +48,7 @@
                                             <div class="col-lg-9 custom-mt-form-group">
                                                 <select id="selectTeacher" name="teachers[]" multiple="multiple">
                                                     @foreach(Dict::teachers() as $row)
-                                                        <option id="student-in-selection-{{ $row->id }}" value="{{ $row->id }}">{{ $row->fields->surname .' '. $row->fields->name }}</option>
+                                                        <option id="student-in-selection-{{ $row->id }}" value="{{ $row->id }}">{{ $row->surname .' '. $row->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 @if ($errors->has('teachers'))
@@ -68,7 +68,7 @@
                                                 <select id="selectStudent">
                                                     <option id="student-in-selection" value="0">Список учеников</option>
                                                     @foreach(Dict::listOfStudentsToGroup() as $row)
-                                                        <option id="student-in-selection-{{ $row->id }}" value="{{ $row->id }}">{{ $row->fields->surname .' '. $row->fields->name }}</option>
+                                                        <option id="student-in-selection-{{ $row->id }}" value="{{ $row->id }}">{{ $row->surname .' '. $row->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
