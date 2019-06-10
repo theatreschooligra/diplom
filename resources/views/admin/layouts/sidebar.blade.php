@@ -2,7 +2,7 @@
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
-                <li class="menu-title">Main</li>
+                <li class="menu-title"></li>
                 <li>
                     <a href="/admin"><i class="fa fa-tachometer" aria-hidden="true"></i>Dashboard</a>
                 </li>
