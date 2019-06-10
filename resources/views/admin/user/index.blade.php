@@ -59,6 +59,7 @@
                                         @if ($role->id == 3)
                                             <th style="width:15%;">Имя родителя</th>
                                             <th>Группа</th>
+                                            <th>Пробный</th>
                                         @endif
                                         <th>Пол</th>
                                         <th>Адрес</th>
@@ -77,6 +78,13 @@
                                                     @foreach(Dict::groups() as $group)
                                                         <option value="{{ $group->id }}">{{ $group->name }}</option>
                                                     @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select id="trial_search" class="form-control column-search">
+                                                    <option value="" selected="selected">Выбрать...</option>
+                                                    <option value="1">Пробный</option>
+                                                    <option value="0">Активный</option>
                                                 </select>
                                             </td>
                                         @endif
@@ -119,6 +127,7 @@
                                                                     .' '.
                                                          ($user->fields->parent_name == null) ? '' : $user->fields->parent_name }}</td>
                                                 <td>{{ ($user->fields->group_id != null) ? $user->group->name : ''}}</td>
+                                                <td><input type="checkbox" data-id="{{ $user->id }}" {{ $user->student->is_trial ? 'checked' : 'disabled' }}></td>
                                             @endif
                                             <td>{{ $user->getGender() }}</td>
                                             <td>{{ ($user->address == null) ? '' : $user->address }}</td>
@@ -181,6 +190,25 @@
                 position: "bottom-left",
                 todayHighlight: true
             });
+
+            $('input[type="checkbox"]').on('change', function () {
+                id = $(this).data('id');
+                $(this).attr("disabled", true);
+                $.ajax({
+                    url: "/admin/api/kpi",
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        '_token'        : $('input[name="_token"]').val(),
+                        'user_id'       : id,
+                    },
+                    success: function (data) {
+
+                    }, error: function (data) {
+                        console.log(data.toString());
+                    }
+                });
+            });
         });
 
         function ResetSearchFields() {
@@ -193,6 +221,7 @@
             $('#birthday_from_search').val('');
             $('#birthday_to_search').val('');
             $('#phone_number_search').val('');
+            $('#trial_search').val('');
 
             search();
         }
@@ -207,6 +236,7 @@
                     'name'          : $('#name_search').val(),
                     'email'         : $('#email_search').val(),
                     'parent_name'   : $('#parent_name_search').val(),
+                    'is_trial'      : $('#trial_search').val(),
                     'group_id'      : $('#group_search').val(),
                     'gender'        : $('#gender_search').val(),
                     'birthday_from' : $('#birthday_from_search').val(),
@@ -220,7 +250,7 @@
 
                     for (var i = 0; i < data.data.length; i++) {
 
-                        var img = data.data[i].image;
+                        var img = data.data[i].surname[0];
                         var group = '';
 
                         if (data.data[i].image != null)
@@ -241,7 +271,8 @@
 
                         if (data.data[i].role.id == 3)
                             str += '<td>'+ ((data.data[i].parent_surname == null) ? '' : data.data[i].parent_surname) +' '+
-                                ((data.data[i].parent_name == null) ? '' : data.data[i].parent_name) +'</td><td>'+ group +'</td>';
+                                ((data.data[i].parent_name == null) ? '' : data.data[i].parent_name) +'</td><td>'+ group +'</td>' +
+                                '<td><input type="checkbox" data-id="'+ data.data[i].id +'" '+ (data.data[i].is_trial ? 'checked' : 'disabled') + '></td>';
 
                         str += '<td>'+ ((data.data[i].gender) ? 'Парень' : 'Девушка') +'</td>' +
                             '<td>'+ ((data.data[i].address == null) ? "" : data.data[i].address) +'</td>' +

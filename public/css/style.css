@@ -354,7 +354,7 @@ textarea.form-control {height: auto;}
 */
 
 .page-wrapper {left: 0;margin-left: 220px;padding-top: 60px;position: relative;-webkit-transition: all 0.4s ease;-moz-transition: all 0.4s ease;transition: all 0.4s ease;}
-.page-wrapper > .content{padding:30px;}
+.page-wrapper > .content{padding:30px 30px 30px 60px;}
 .content-page {background: #fff;border: 1px solid #e0d6d6; box-shadow: 0 6px 15px rgba(36, 37, 38, 0.08);padding:20px;}
 #calendar {height:450px;}
 /*------------------------------------------------------------------

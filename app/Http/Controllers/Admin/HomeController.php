@@ -44,6 +44,8 @@ class HomeController extends Controller
         if ($role != '') {
             $user = $user->whereHas($role,
                 function ($query) use ($request) {
+                    if ($request->is_trial != null && $request->is_trial != '')
+                        $query->where('is_trial', $request->is_trial);
 
                     if ($request->parent_name != null && $request->parent_name != '')
                         $query->WhereRaw("concat(parent_surname, ' ', parent_name) like '%" . $request->parent_name . "%'");
@@ -73,5 +75,15 @@ class HomeController extends Controller
 
             return response()->json($rooms);
         }
+    }
+
+    public function kpi(Request $request)
+    {
+        $user = User::findOrFail($request->user_id);
+        $user->student->update(['is_trial' => false]);
+        $kpi = $user->group->getCurrentKPI->first();
+        $kpi->increment('bought_amount');
+
+        return new UserResource($user);
     }
 }

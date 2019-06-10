@@ -19,6 +19,11 @@ class Group extends Model
     {
         return $this->belongsToMany(User::class, 'students_fields')->orderBy('surname');
     }
+
+    public function trialStudents()
+    {
+        return $this->belongsToMany(User::class, 'students_fields')->wherePivot('is_trial', 1)->orderBy('surname');
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -35,5 +40,15 @@ class Group extends Model
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function kpi()
+    {
+        return $this->hasMany(GroupMonthKPI::class);
+    }
+
+    public function getCurrentKPI()
+    {
+        return $this->hasMany(GroupMonthKPI::class)->whereMonth('month', now()->format('m'));
     }
 }

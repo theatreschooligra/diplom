@@ -24,28 +24,6 @@ class GroupUserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Group $group)
-    {
-
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -57,20 +35,11 @@ class GroupUserController extends Controller
         $user = User::findOrFail($id);
         $group_id = ($request->group_id == 0) ? null : $request->group_id;
 
-        if ($user->role_id == 3)
+        if ($user->role_id == 3) {
+            $kpi = $user->group->getCurrentKPI->first();
+            $kpi->increment('left_amount');
             $user->student->update(['group_id' => $group_id]);
-
+        }
         return response()->json('', 200);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

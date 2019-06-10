@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Group;
+use App\GroupMonthKPI;
 use App\Http\Requests\GroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\User;
@@ -52,6 +53,13 @@ class GroupsController extends Controller
                 ]);
         }
         $group->teachers()->sync($request->teachers);
+
+        GroupMonthKPI::create([
+            'group_id' => $group->id,
+            'month'    => now(),
+            'start_amount' => $group->students->count(),
+            'trial_amount' => $group->trialStudents->count()
+        ]);
 
         return redirect()->route('admin.group.index');
     }

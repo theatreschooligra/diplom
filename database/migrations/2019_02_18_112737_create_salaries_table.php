@@ -17,14 +17,12 @@ class CreateSalariesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->date('month');
-            $table->unsignedInteger('KPI1')->default(0);
-            $table->unsignedInteger('KPI2')->default(0);
-            $table->unsignedInteger('KPI3')->default(0);
-            $table->unsignedInteger('bonus1')->default(0);
-            $table->unsignedInteger('bonus2')->default(0);
-            $table->unsignedInteger('bonus3')->default(0);
-            $table->unsignedInteger('total')->default(0);
+            $table->unsignedInteger('salary')->default(0);
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

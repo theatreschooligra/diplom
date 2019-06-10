@@ -86,7 +86,6 @@
                                                     <th scope="col">Фамилия</th>
                                                     <th scope="col">Имя</th>
                                                     <th scope="col">Email</th>
-                                                    <th scope="col">Пробный</th>
                                                     <th scope="col">Действия</th>
                                                 </tr>
                                                 </thead>
@@ -97,7 +96,6 @@
                                                             <td>{{ $row->surname }}</td>
                                                             <td>{{ $row->name }}</td>
                                                             <td>{{ $row->email }}</td>
-                                                            <td><input type="checkbox" {{ ($row->fields->is_trial) ? 'checked' : 'disable' }}></td>
                                                             <td><button type="button" class="delete-modal btn btn-danger btn-sm" onclick="groupUser({{ $row->id }}, 0)">Удалить</button></td>
                                                         </tr>
                                                     @endforeach

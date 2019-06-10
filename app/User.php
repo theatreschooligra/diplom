@@ -79,6 +79,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Attendance::class);
     }
 
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class, 'teacher_id');
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

@@ -31,6 +31,8 @@ Route::group(['namespace' => 'Api'], function () {
 
         Route::group(['prefix' => 'igra'], function () {
 
+            Route::get('get-salary', 'HomeController@getSalary');
+
             Route::apiResource('user',         'UsersController')->except(['store', 'destroy']);
             Route::apiResource('group',        'GroupsController')->only(['index', 'show']);
             Route::apiResource('lesson',       'LessonController')->only(['index', 'show']);

@@ -35,6 +35,7 @@ class UserResource extends JsonResource
                 $arr['group']       = null;
             $arr['parent_surname']  = $this->fields->parent_surname;
             $arr['parent_name']     = $this->fields->parent_name;
+            $arr['is_trial']        = (boolean) $this->fields->is_trial;
         } else if ($this->role_id == 2) {
             $arr['experience']      = $this->fields->experience;
             $arr['profession']      = $this->fields->profession;
