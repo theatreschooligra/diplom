@@ -34,6 +34,7 @@ Route::group(['namespace' => 'Api'], function () {
             Route::get('get-salary', 'HomeController@getSalary');
 
             Route::apiResource('user',         'UsersController')->except(['store', 'destroy']);
+            Route::apiResource('chat',         'ChatController')->only(['index', 'store', 'show'])->parameters(['chat' => 'user']);
             Route::apiResource('group',        'GroupsController')->only(['index', 'show']);
             Route::apiResource('lesson',       'LessonController')->only(['index', 'show']);
             Route::apiResource('homework',     'HomeworkController')->only(['index']);
